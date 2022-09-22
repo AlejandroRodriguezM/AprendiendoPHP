@@ -12,7 +12,6 @@
             <td>Ruta:</td>
             <td>
             <?php 
-            
             print $_SERVER['PHP_SELF'];
             ?>
             </td>
