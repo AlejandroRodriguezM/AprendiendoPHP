@@ -16,7 +16,7 @@
         $anio = date("Y");
 
         switch($mes) {
-            case 1: $elMes = "Enero";
+            case 1: $elMes = "Enero.";
             break;
             case 2: $elMes = "Febrero";
             break;
