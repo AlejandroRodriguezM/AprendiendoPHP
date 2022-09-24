@@ -1,0 +1,15 @@
+div {
+    margin: 0 auto;
+    background-color: rgb(199, 199, 253);
+    width: 70%;
+    padding: 10px;
+}
+
+h1 {
+    margin: 0 auto;
+    text-align: center;
+    background-color: darkcyan;
+    color: white;
+    width: 70%;
+    padding: 10px;
+}

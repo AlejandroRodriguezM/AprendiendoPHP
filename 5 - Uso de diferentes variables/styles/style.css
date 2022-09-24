@@ -1,0 +1,63 @@
+h1 {
+    color: gray;
+    text-align: center;
+    border: 3px solid black;
+    width: 70%;
+    padding: 10px;
+    margin: 0 auto;
+    background-color: pink;
+    border-radius: 10px;
+
+}
+
+p {
+    background-color: aqua;
+    width: 70%;
+    text-align: center;
+    margin: 10px auto;
+    font-size: 2.5em;
+    padding: 10px;
+}
+
+li {
+    display: inline-block;
+    list-style: none;
+    width: 150px;
+    padding: 30px;
+    border: 2px solid gray;
+    margin: 20px;
+    border-radius: 6px;
+}
+
+li:hover {
+    background-color: greenyellow;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color: blue;
+    font-weight: 100;
+}
+
+table,
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+table {
+    margin: 0 auto;
+    font-size: 1.5em;
+}
+
+td {
+    padding: 10px;
+}
+
+td:nth-child(1) {
+    font-weight: bold;
+    background-color: green;
+}
