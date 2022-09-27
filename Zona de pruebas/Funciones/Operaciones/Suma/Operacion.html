@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>
+    <form method="POST" action="Resultado.php">
+        <label for="num1">Numero 1:</label>
+        <input type="text" name="num1">
+        <br>
+        <label for="num2">Numero 2:</label>
+        <input type="text" name="num2">
+        <br>
+       
+        <input type="radio" name="operacion" value="sumar">
+        <label for="op1">Suma</label>
+        <br>
+        
+        <input type="radio" name="operacion" value="restar">
+        <label for="op2">Resta</label>
+        <br>
+        <label for="factorial">Factorial del primero:</label>
+        <input type="checkbox" name="factorial" value="factorial">
+        <br>
+        <label for="tabla">Tabla de multiplicar del 2º</label>
+        <input type="checkbox" name="tabla" value="tabla"><br>
+
+        <select name="mayormenor">
+            <option value="Mayor">Mayor</option>
+            <option value="Menor">Menor</option>
+        </select>
+        <br>
+        <input type="submit" name="confirmar" value="Confirmar">
+    </form>
+    </p>
+</body>
+
+</html>
