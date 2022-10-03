@@ -43,7 +43,7 @@
             }
         }
 
-        function checkNumer()
+        function arrayNumeros()
         {
             $num1 = $_REQUEST['primero'];
             $num2 = $_REQUEST['segundo'];
@@ -51,78 +51,106 @@
             $num4 = $_REQUEST['cuarto'];
             $num5 = $_REQUEST['quinto'];
             $numerosIntroducidos = array($num1, $num2, $num3, $num4, $num5);
+            return $numerosIntroducidos;
+        }
 
-            for ($i = 0; $i < count($numerosIntroducidos); $i++) {
-                if (is_numeric($numerosIntroducidos[$i])) {
-                    return true;
-                } else {
-                    echo "ERROR. $numerosIntroducidos[$i] no es un numero";
-                    return false;
+        function checkNumer($ArrayNumeros)
+        {
+            $resultado = "";
+            for ($i = 0; $i < 5; $i++) {
+                if (!is_numeric($ArrayNumeros[$i])) {
+                    $resultado .= "ERROR. En la fila " . ($i + 1) . ". $ArrayNumeros[$i] no es un numero<br>";
                 }
             }
+            echo $resultado;
         }
 
-        function sumaNumeros()
+        function sumaNumeros($ArrayNumeros)
         {
             $total = 0;
+
+            for ($i = 0; $i < 5; $i++) {
+                if (is_numeric($ArrayNumeros[$i])) {
+                    $total += $ArrayNumeros[$i];
+                } else {
+                    $total = 0;
+                }
+            }
             return $total;
         }
 
-        function multiNumeros()
+        function multiNumeros($arrayNumeros)
         {
-            $total = 0;
+            $total = 1;
+            for ($i = 0; $i < 5; $i++) {
+                if (is_numeric($arrayNumeros[$i])) {
+                    $total *= $arrayNumeros[$i];
+                } else {
+                    $total = 0;
+                }
+            }
             return $total;
         }
 
-        function numMayor()
+        function numMayor($arrayNumeros)
         {
-            $total = 0;
-            return $total;
+            $mayor = 0;
+            for ($i = 0; $i < 5; $i++) {
+                if (is_numeric($arrayNumeros[$i]) and $arrayNumeros[$i] > $mayor) {
+                    $mayor = $arrayNumeros[$i];
+                } else {
+                    return $total = 0;
+                }
+            }
+            return $mayor;
         }
 
-        function numMenor()
+        function numMenor($arrayNumeros)
         {
-            $total = 0;
-            return $total;
+            $menor = numMayor($arrayNumeros);
+
+            for ($i = 0; $i < 5; $i++) {
+                if (is_numeric($arrayNumeros[$i]) and $arrayNumeros[$i] < $menor) {
+                    $menor = $arrayNumeros[$i];
+                } else {
+                    return $total = 0;
+                }
+            }
+            return $menor;
         }
 
         function resultado()
         {
-            if(is_bool(confirmar())){
+            if (is_bool(confirmar())) {
 
-                if(is_bool(checkNumer())){
-                    $table = "<table class=\"table table-striped\">
+                $arrayNumeros = arrayNumeros();
+                checkNumer($arrayNumeros);
+                $table = "<table class=\"table table-striped\">
                     <tr>
                     <th>Operacion</th>
                     <th>Resultado</th>
                     </tr>";
-        
-                    $table .= "<tr>
-                        <th>Suma</th>
-                        <th>".sumaNumeros()."</th>
-                        </tr>
-                        <tr>
-                        <th>Multiplicacion</th>
-                        <th>".multiNumeros()."</th>
-                        </tr>
-                        <tr>
-                        <th>Mayor</th>
-                        <th>".numMayor()."</th>
-                        </tr>
-                        <tr>
-                        <th>Menor</th>
-                        <th>".numMenor()."</th>
-                        </tr>";
-                    echo $table;
-                }
+
+                $table .= "<tr></tr>
+                    <th>Suma</th>
+                    <th>" . sumaNumeros($arrayNumeros) . "</th>
+                    </tr>
+                    <tr>
+                    <th>Multiplicacion</th>
+                    <th>" . multiNumeros($arrayNumeros) . "</th>
+                    </tr>
+                    <th>Mayor</th>
+                    <th>" . numMayor($arrayNumeros) . "</th>
+                    </tr>
+                    <tr>
+                    <th>Menor</th>
+                    <th>" . numMenor($arrayNumeros) . "</th>
+                    </tr>";
+
+                echo $table;
             }
         }
-
         resultado();
-
-
-
-
         ?>
 
 
