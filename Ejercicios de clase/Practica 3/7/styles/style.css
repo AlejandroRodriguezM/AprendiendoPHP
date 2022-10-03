@@ -1,0 +1,57 @@
+h1 {
+    color: blue;
+    position: relative;
+    padding: 10px;
+    background-color: pink;
+    padding-right: 20px;
+    text-align: center;
+    margin: 10px auto;
+    border-radius: 30px;
+    width: 350px;
+    height: 75px;
+    border: 2px solid red;
+}
+
+h2{
+    color: brown;
+    background-color: aqua;
+    text-align: center;
+    margin: 10px auto;
+    width: 450px;
+}
+
+button{
+    background-color: rgb(206, 193, 193);
+    border: 1px solid blue;
+    text-align: center;
+    font-size: 25px;
+    border-radius: 5px;
+}
+
+button:hover{
+    background-color: red;
+    color: white;
+}
+
+li {
+    color: red;
+    margin: 10px auto;
+}
+
+label {
+    font-size: 25px;
+    background-color: rgb(98, 224, 98);
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+label:hover{
+    background-color: aqua;
+    color: black;
+}
+
+input:hover{
+    background-color: red;
+    color: black;
+
+}

@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="styles/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="styles/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="styles/style.css">
     <title>Ejercicio 7</title>
 </head>
 
@@ -45,18 +46,17 @@
             if (strlen($frase) > 0) {
                 return true;
             } else {
-                echo "ERROR. No ha escrito ninguna frase<br>";
+                echo "<ul><li>ERROR. No ha escrito ninguna frase<br></li></ul>";
                 return false;
             }
         }
 
         function checkCaracter($caracter)
         {
-
             if (strlen($caracter) > 0) {
                 return true;
             } else {
-                echo "ERROR. No ha escrito ninguna caracter<br>";
+                echo "<ul><li>ERROR. No ha escrito ninguna caracter<br></li></ul>";
                 return false;
             }
         }
@@ -66,9 +66,17 @@
             if (strlen($repeticiones) > 0 and is_numeric($repeticiones)) {
                 return true;
             } else {
-                echo "ERROR. No ha escrito ningun numero";
+                echo "<ul><li>ERROR. No ha escrito ningun numero</li></ul>";
                 return false;
             }
+        }
+
+        function numCaracteres($caracter,$repeticiones){
+            $incluir = "";
+            for ($i = 0; $i < $repeticiones; $i++) {
+                $incluir .= $caracter;
+            }
+            return $incluir;
         }
 
         function modificarFrase()
@@ -76,22 +84,20 @@
             $frase = $_REQUEST['frase'];
             $caracter = $_REQUEST['caracter'];
             $repeticiones = $_REQUEST['repeticiones'];
-            $incluir = "";
-            $fraseFinal = "";
+
+            $fraseFinal = "<h2>";
             if (is_bool(checkFrase($frase)) and is_bool(checkCaracter($caracter)) and is_bool(checkRepeticiones($repeticiones))) {
 
-                for ($i = 0; $i < $repeticiones; $i++) {
-                    $incluir .= $caracter;
-                }
+                $numCaracteres = numCaracteres($caracter,$repeticiones);
 
                 for ($i = 0; $i < strlen($frase); $i++) {
                     if ($frase[$i] != $caracter) {
                         $fraseFinal .= $frase[$i];
                     } else {
-                        $fraseFinal .= $frase[$i].$incluir;
+                        $fraseFinal .= $frase[$i].$numCaracteres;
                     }
                 }
-                echo $fraseFinal;
+                echo $fraseFinal."</h2>";
             }
         }
 
