@@ -40,19 +40,21 @@
             $lastName = $_REQUEST['apellido'];
             $city = $_REQUEST['ciudad'];
 
-            if(strlen($name) != 0 and strlen($lastName) != 0 and strlen($city) != 0){
+            if (strlen($name) != 0 and strlen($lastName) != 0 and strlen($city) != 0) {
                 echo "$name $lastName vive en $city";
             }
         }
 
-        function checkConfirmar(){
-            if(isset($_REQUEST['confirmar']) == 'confirmar'){
+        function checkConfirmar()
+        {
+            if (isset($_REQUEST['confirmar']) == 'confirmar') {
                 return true;
             }
         }
 
-        function verFrase(){
-            if(is_bool(checkConfirmar())){
+        function verFrase()
+        {
+            if (is_bool(checkConfirmar())) {
                 checkText();
             }
         }
