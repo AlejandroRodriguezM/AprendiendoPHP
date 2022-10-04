@@ -59,7 +59,7 @@
             if (strlen($repeticiones) > 0 and is_numeric($repeticiones)) {
                 return true;
             } else {
-                echo "<ul><li>ERROR. No ha escrito ningun numero</li></ul>";
+                echo "<ul><li>ERROR. No ha escrito ningun numero.</li></ul>";
                 return false;
             }
         }
