@@ -21,52 +21,59 @@
             <br>
             <button type="submit" name="confirmar">Ingresar</button>
 
-            <?php
-
-            //Funcion para comprobar que el numero introducido es un numero
-            function checkNumer($num)
-            {
-                if (is_numeric($num)) {
-                    return $num;
-                } else {
-                    echo "<br>ERROR. Debes de introducir un numero";
-                }
-            }
-
-            //Funcion que devuelve true cuando se pulsa el boton Ingresar
-            function confirmarButton()
-            {
-                if (isset($_REQUEST['confirmar']) == 'confirmar') {
-                    return true;
-                }
-            }
-
-            //Devuelve en pantalla una tabla con los datos matematicos
-            function resultado()
-            {
-                if (is_bool(confirmarButton())) {
-
-                    $table = "<table class=\"table table-striped\">
-                        <tr>
-                        <th> Numero</th>
-                        <th> Cuadrado</th>
-                        <th> Cubo</th>
-                        </tr>";
-                    $num = $_REQUEST['numero'];
-                    if (checkNumer($num)) {
-                        for ($i = $num; $i <= $num + 11; $i++) {
-
-                            $table .= "<tr><td>" . $i . "</td><td>" . pow($i, 2) . "</td><td>" . pow($i, 3) . "</td></tr>";
-                        }
-                        echo $table;
-                    }
-                }
-            }
-
-            resultado();
-            ?>
-            </table>
         </form>
+
+        <?php
+
+        //Funcion para comprobar que el numero introducido es un numero
+        function checkNumer($num)
+        {
+            if (is_numeric($num)) {
+                return $num;
+            } else {
+                return 0;
+            }
+        }
+
+        //Funcion que devuelve true cuando se pulsa el boton Ingresar
+        function confirmarButton()
+        {
+            if (isset($_REQUEST['confirmar']) == 'confirmar') {
+                return true;
+            }
+        }
+
+        //Devuelve en pantalla una tabla con los datos matematicos
+        function resultado()
+        {
+            if (is_bool(confirmarButton())) {
+
+                $table = "<table class=\"table table-striped\">
+            <tr>
+            <th> Numero</th>
+            <th> Cuadrado</th>
+            <th> Cubo</th>
+            </tr>";
+                $num = $_REQUEST['numero'];
+                if (checkNumer($num)) {
+                    for ($i = 1; $i <= $num; $i++) {
+
+                        $table .= "<tr><td>" . $i . "</td><td>" . pow($i, 2) . "</td><td>" . pow($i, 3) . "</td></tr>";
+                    }
+                } else if(checkNumer($num) == 0) {
+                    $table .= "<tr><td>No puedes introducir 0</td></tr>";
+                }
+                else{
+                    $table .= "<tr><td>ERROR. Debes de introducir un numero</td></tr>";
+                }
+                $table .= "</table>";
+                echo $table;
+            }
+        }
+
+        resultado();
+        ?>
+
     </div>
 
 </body>

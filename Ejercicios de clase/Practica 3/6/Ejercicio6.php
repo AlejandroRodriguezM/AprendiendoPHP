@@ -99,7 +99,7 @@
                 if (is_numeric($arrayNumeros[$i]) and $arrayNumeros[$i] > $mayor) {
                     $mayor = $arrayNumeros[$i];
                 } else {
-                    return $total = 0;
+                    return 0;
                 }
             }
             return $mayor;
@@ -113,7 +113,7 @@
                 if (is_numeric($arrayNumeros[$i]) and $arrayNumeros[$i] < $menor) {
                     $menor = $arrayNumeros[$i];
                 } else {
-                    return $total = 0;
+                    return 0;
                 }
             }
             return $menor;

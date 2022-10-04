@@ -34,13 +34,6 @@
 
         <?php
 
-        function confirmar()
-        {
-            if (isset($_REQUEST['confirmar']) == 'confirmar') {
-                return true;
-            }
-        }
-
         function checkFrase($frase)
         {
             if (strlen($frase) > 0) {
@@ -103,7 +96,7 @@
 
         function resultado()
         {
-            if (is_bool(confirmar())) {
+            if (isset($_REQUEST['confirmar']) == 'confirmar') {
                 modificarFrase();
             }
         }
