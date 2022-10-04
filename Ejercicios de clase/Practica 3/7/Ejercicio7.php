@@ -90,7 +90,8 @@
                         $fraseFinal .= $frase[$i].$numCaracteres;
                     }
                 }
-                echo $fraseFinal."</h2>";
+                $fraseFinal .= "</h2>";
+                echo $fraseFinal;
             }
         }
 
