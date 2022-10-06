@@ -28,7 +28,6 @@
 
         function mostrarBolas($lista)
         {
-
             if (!empty($lista)) {
                 echo "<table><tr><td>Lista de bolas actuales</td>";
                 foreach ($lista as $numero) {
@@ -46,9 +45,6 @@
                 $resultado = $_REQUEST['numBola'];
                 if (is_numeric($resultado) and !in_array($resultado, $bolas)) {
                     $bolas[] = $resultado;
-                }
-                else{
-                    
                 }
             }
             return $bolas;
