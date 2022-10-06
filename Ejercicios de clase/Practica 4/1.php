@@ -20,7 +20,7 @@
                 <tr>
                     <td>Introduce el numero de bolas:</td>
                     <td><input type="text" class="form-group" name="numBola" placeholder="Introduce un numero"></td>
-                    <td><input type="submit" name="enviar" value="Sacar bola"> </td>
+                    <td><button type="submit" name="enviar" value="Sacar bola">Enviar</td>
                 </tr>
             </table>
         <?php
@@ -40,9 +40,12 @@
         function gurdarBolas()
         {
             $bolas = array();
-            if (isset($_REQUEST['enviar']) and isset($_REQUEST['bolasIntroducidas'])) {
+            if(isset($_REQUEST['bolasIntroducidas'])){
                 $bolas = $_REQUEST['bolasIntroducidas'];
+            }
+            if (isset($_REQUEST['enviar'])) {
                 $resultado = $_REQUEST['numBola'];
+
                 if (is_numeric($resultado) and !in_array($resultado, $bolas)) {
                     $bolas[] = $resultado;
                 }
@@ -52,9 +55,9 @@
 
         function resultado()
         {
+            formulario();
             $bolas = gurdarBolas();
             mostrarBolas($bolas);
-            formulario();
             foreach ($bolas as $clave => $numero) {
                 echo '<input type="hidden" name="bolasIntroducidas[' . $clave . ']" value="' . $numero . '">';
             }
