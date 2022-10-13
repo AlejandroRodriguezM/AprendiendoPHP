@@ -1,0 +1,10 @@
+.menuPrincipal {
+    border: 0;
+    background-color: white;
+    padding-top: 3px;
+}
+
+.menuPrincipal:hover{
+    background-color: red;
+    color: white;
+}

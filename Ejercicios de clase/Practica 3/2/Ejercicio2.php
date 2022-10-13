@@ -68,11 +68,13 @@
         function asteriscos($num)
         {
             $asteriscos = "";
-            for ($i = 1; $i <= $num; $i++) {
+            for ($i = 0; $i < $num; $i++) {
 
                 $asteriscos .= "*";
                 echo  $asteriscos . "<br>";
+                
             }
+            
         }
         
         //Funcion que pinta X numeros segun el numero escrito
