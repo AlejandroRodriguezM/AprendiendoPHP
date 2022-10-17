@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles/style.css">
     <title>Document</title>
 </head>
 
@@ -122,30 +123,34 @@
     }
 
     ?>
-    <h1>Introducir datos</h1>
-    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-        <table>
-            <tr>
-                <td><label for="nombre">Nombre</label></td>
-                <td><input type="text" name="nombre" id="nombre"></td>
-            </tr>
-            <tr>
-                <td> <label for="cantidad">Cantidad</label></td>
-                <td><input type="number" name="cantidad" id="cantidad"></td>
-            </tr>
-            <tr>
-                <td><label for="precio">Precio</label></td>
-                <td><input type="number" name="precio" id="precio"></td>
-            </tr>
-        </table>
-        <br>
-        <input type="hidden" name="lista" value="<?php echo implode(",", $array); ?>">
-        <input type="submit" name="insertar" value="Insertar">
-        <input type="submit" name="borrar" value="Borrar">
-        <input type="submit" name="modificar" value="Modificar">
-        <input type="submit" name="mostrar" value="Mostrar">
-
-    </form>
+    
+        
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+        <div class="menu">
+        <h1>Introducir datos</h1>
+            <table>
+                <tr>
+                    <td><label for="nombre">Nombre</label></td>
+                    <td><input type="text" name="nombre" id="nombre"></td>
+                </tr>
+                <tr>
+                    <td> <label for="cantidad">Cantidad</label></td>
+                    <td><input type="number" name="cantidad" id="cantidad"></td>
+                </tr>
+                <tr>
+                    <td><label for="precio">Precio</label></td>
+                    <td><input type="number" name="precio" id="precio"></td>
+                </tr>
+            </table>
+            <br>
+            <input type="hidden" name="lista" value="<?php echo implode(",", $array); ?>">
+            <input type="submit" name="insertar" value="Insertar">
+            <input type="submit" name="borrar" value="Borrar">
+            <input type="submit" name="modificar" value="Modificar">
+            <input type="submit" name="mostrar" value="Mostrar">
+            </div>
+        </form>
+   
 
 </body>
 

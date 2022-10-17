@@ -1,23 +1,25 @@
-.menuPrincipal {
-    border: 0;
-    background-color: white;
-    padding-top: 3px;
-}
-
-.menuPrincipal:hover{
-    background-color: red;
-    color: white;
-}
-
 button{
     margin: 10px;
-    
 }
 
-table{
+.tabla_final,.encabezado,.contenido{
+    border: 1px solid black;
     border-collapse: collapse;
 }
 
-.menuEntrada{
-    width: 20px;
+div{
+    margin: auto;
+    width: 250px;
+    padding: 10px;
 }
+
+
+
+.encabezado{
+    background-color: #4CAF50;
+}
+
+.contenido{
+    background-color: #cceed4;
+}
+

@@ -1,20 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
-<body>
-    <?php
-
-
+<?php
 
     // Funcion que calcula el precio total de la compra
-    function Calcular_Precio_Total_Compra($lista)
+    function calcular_Precio_Total_Compra($lista)
     {
         $precio_total = 0;
         for ($i = 0; $i < count($lista); $i += 3) {
@@ -24,8 +11,9 @@
     }
 
     // Funcion que calcula el precio total de un producto
-    function Calcular_Precio_Total_Producto($cantidad, $precio)
+    function calcular_Precio_Total_Producto($cantidad, $precio)
     {
+
         return $cantidad * $precio;
     }
 
@@ -38,35 +26,44 @@
     //funcion que nos mostrara el array en una tabla
     function mostrarTabla($array)
     {
+        // echo "<link rel='stylesheet' href='css/estilos.css'>";
         //si la array no esta vacia
         if (!empty($array)) {
+            echo "<div>";
             //creamos la tabla
-            echo "<table border=1>";
+            echo "<table class=\"tabla_final\">";
             //creamos la cabecera
-            echo "<tr><th>Nombre</th><th>Cantidad</th><th>Precio</th></tr>";
+            echo "<tr ><td class=\"encabezado\">Nombre</td><td class=\"encabezado\">Cantidad</td><td class=\"encabezado\">Precio</td></tr>";
             //recorremos el array
             for ($i = 0; $i < count($array); $i += 3) {
                 //mostramos los elementos del array
-                echo "<tr><td>" . $array[$i] . "</td><td>" . $array[$i + 1] . "</td><td>" . $array[$i + 2] . "</td></tr>";
+                echo "<tr class=\"encabezado\"><td class=\"contenido\">" . $array[$i] . "</td><td class=\"contenido\">" . $array[$i + 1] . "</td><td class=\"contenido\">" . $array[$i + 2] . "</td></tr>";
             }
 
             //cerramos la tabla
             echo "</table>";
+            echo "</div>";
             if (isset($_REQUEST['mostrar']) == "Mostrar") {
+                echo "<div>";
+                echo "<table class=\"tabla_final\">";
+                //creamos la cabecera
+                echo "<tr class=\"encabezado\"><td class=\"encabezado\">Nombre</td><td>Precio total del producto</td></tr>";
+                //recorremos el array
+                for ($i = 0; $i < count($array); $i += 3) {
+                    //mostramos los elementos del array
+                    echo "<tr><td class=\"contenido\">" . $array[$i] . "</td><td class=\"contenido\">" . calcular_Precio_Total_Producto($array[$i + 1], $array[$i + 2]) . "</td></tr>";
+                }
+                //cerramos la tabla
+                echo "</table>";
+               
                 //ahora calculamos el precio total de la compra
-                $total = Calcular_Precio_Total_Compra($array);
+                $total = calcular_Precio_Total_Compra($array);
                 //mostramos el precio total de la compra
                 echo "<p>El precio total de la compra es: " . $total . "</p>";
+                echo "</div>";
             }
         } else {
             //si la array esta vacia
             echo "La lista esta vacia";
         }
     }
-
-
-    ?>
-
-</body>
-
-</html>
