@@ -29,6 +29,8 @@
   if (!empty($_POST['nombre'])) {
     $nom = $_POST['nombre'];
     $si = existe($array, $nom);
+    
+    
     if (!empty($_POST['telefono'])) {
       $tel = $_POST['telefono'];
       if ($si || $si === 0) {

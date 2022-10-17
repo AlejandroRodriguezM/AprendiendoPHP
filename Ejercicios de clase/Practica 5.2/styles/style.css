@@ -8,3 +8,16 @@
     background-color: red;
     color: white;
 }
+
+button{
+    margin: 10px;
+    
+}
+
+table{
+    border-collapse: collapse;
+}
+
+.menuEntrada{
+    width: 20px;
+}
