@@ -1,0 +1,128 @@
+html {
+    background-color: #e6e9e9;
+    -webkit-font-smoothing: antialiased !important;
+}
+
+body {
+    background-color: #ffffff;
+    border-radius: 5px;
+    color: #545454;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5em;
+    margin: 2em auto;
+    max-width: 800px;
+    padding: 2em 2em 2em;
+}
+
+fieldset {
+    border: 1px solid #545454;
+    padding: 4px;
+}
+
+.scrollmenu {
+  background-color: #333;
+  overflow: auto;
+  white-space: nowrap;
+  text-align:center;
+}
+img{
+	max-width: 800px;
+}
+.scrollmenu a {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+}
+
+.scrollmenu a:hover {
+  background-color: #777;
+}
+
+.error {
+    color: indianred;
+}
+
+
+input[type=reset] {
+    background-color: #545454;
+    border: none;
+    color: white;
+    padding: 10px 26px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    width: 150px;
+}
+input[type=submit] {
+    background-color: #545454;
+    border: none;
+    color: white;
+    padding: 10px 26px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    width: 150px;
+}
+
+input[type=submit]:active {
+    background-color: #505050;
+}
+
+
+/* @@@@ ESTILOS PARA HACER MAS VISUALES LAS TABLAS @@@@ */
+.tabla {
+    border: double;
+    border-collapse: collapse;
+    margin: auto;
+	
+}
+.tabla thead {
+    background: khaki;
+}
+.tabla thead th,
+.tabla tbody td {
+    border-left: dashed 1px;
+    border-bottom: solid 1px;
+}
+.tabla td {
+    padding: 10px 15px;
+}
+.tabla th {
+    padding: 10px 5px;
+}
+.tabla tbody tr:nth-child(odd) {
+    background-color: aliceblue;
+}
+
+.tabla tbody tr:nth-child(even) {
+    background-color: beige;
+}
+.tabla tbody tr:hover {
+    background-color: gray;
+}
+.tabla tbody td:nth-child(n+3) {
+    text-align: right;
+}
+.tabla tfoot th:first-child {
+    font-size: 0.8em;
+    font-style: italic;
+}
+.tabla tfoot th:nth-child(2) {
+    text-align: right;
+}
+.tabla tfoot th:last-child {
+    text-align: left;
+}
+
+
