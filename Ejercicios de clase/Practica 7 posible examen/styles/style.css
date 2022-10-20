@@ -1,0 +1,42 @@
+button{
+    margin: 10px;
+}
+
+table,.encabezado,.contenido{
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+div,.menu{
+    margin: auto;
+    width: 350px;
+    padding: 10px;
+}
+
+.error{
+    margin: auto;
+    width: 350px;
+}
+
+.encabezado{
+    background-color: #4CAF50;
+}
+
+.contenido{
+    background-color: #cceed4;
+}
+
+.botones{
+    background-color: aqua;
+    color: black;
+}
+
+.botones:hover{
+    background-color: rgb(47, 165, 47);
+    color: white;
+}
+
+p{
+    font-weight: bold;
+}
+
