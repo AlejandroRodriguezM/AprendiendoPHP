@@ -17,9 +17,9 @@ function conectar($base)
 function listarAlumnos($base, $query)
 {
     $conexion = conectar($base);
-    $registros = mysqli_query($conexion, $query) or die("Problemas con el listado");
+    $registros = $conexion->query($query) or die($conexion -> error);
 
-    while ($reg = mysqli_fetch_array($registros)) { //el fetch apunta a la primera fila y luego pasa a la siguiente.Mientras que haya registro me va a mostrar los registros
+    while ($reg = $registros->fetch_array()) { //el fetch apunta a la primera fila y luego pasa a la siguiente.Mientras que haya registro me va a mostrar los registros
         echo "<tr>";
         echo "<td>" . $reg['Codigo'] . "</td>";
         echo "<td>" . $reg['Nombre'] . "</td>";
@@ -44,16 +44,16 @@ function listarAlumnos($base, $query)
 function insertar($query, $base)
 {
     $conexion = conectar($base);
-    mysqli_query($conexion, $query) or die("Problemas con la inserción: " . mysqli_error($conexion));
-    mysqli_close($conexion);
+    $conexion->query($query) or die($conexion -> error);
+    $conexion->close();
 }
 
 function borrar($query, $mail, $base)
 {
     $conexion = conectar($base);
-    $registro = mysqli_query($conexion, "select Codigo, Nombre from alumnos where Email='$mail'") or die("Problema en el select " . mysqli_error($conexion)); //buscar el codigo del email del alumno que quiero borrar, es para comprobar que el email está en la lista
-    if ($reg = mysqli_fetch_array($registro)) {
-        mysqli_query($conexion, $query) or die("Problemas con el borrado" . mysqli_error($conexion));
+    $registros = $conexion->query("select Codigo, Nombre from alumnos where Email='$mail'") or die("Problema en el select " . mysqli_error($conexion)); //buscar el codigo del email del alumno que quiero borrar, es para comprobar que el email está en la lista
+    if ($reg =  $registros->fetch_array()) {
+        $conexion->query($query) or die($conexion -> error);
         echo "Se ha efectuado el borrado del alumno " . $reg['Nombre'];
     } else {
         echo "No existe el alumno";
@@ -61,9 +61,15 @@ function borrar($query, $mail, $base)
     mysqli_close($conexion);
 }
 
-function modificar($query, $base)
+function modificar($query, $base,$mail)
 {
     $conexion = conectar($base);
-    mysqli_query($conexion, $query) or die("Problemas con la inserción: " . mysqli_error($conexion));
+    $registros = $conexion->query("select Codigo, Nombre from alumnos where Email='$mail'") or die("Problema en el select " . mysqli_error($conexion)); //buscar el codigo del email del alumno que quiero borrar, es para comprobar que el email está en la lista
+    if ($reg =  $registros->fetch_array()) {
+        $conexion->query($query) or die($conexion -> error);
+        echo "Se ha efectuado el modificado del alumno " . $reg['Nombre'];
+    } else {
+        echo "No existe el alumno";
+    }
     mysqli_close($conexion);
 }
