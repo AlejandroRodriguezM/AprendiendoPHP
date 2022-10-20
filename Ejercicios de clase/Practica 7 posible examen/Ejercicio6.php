@@ -16,17 +16,19 @@
     $intentos = 0;
 
     echo $numero;
+    
     if (isset($_POST['enviar'])) {
         $numeroIntroducido = $_POST['numeroUsuario'];
         $intentos++;
-
-        if ($numeroIntroducido == $numero) {
-            echo "Has acertado el número en $intentos intentos";
-        } else if ($numeroIntroducido > $numero) {
-            echo "<br>El número introducido es mayor que el número a adivinar<br>";
-        } else if ($numeroIntroducido < $numero) {
-            echo "El número introducido es menor que el número a adivinar";
-        }
+        do {
+            if ($numeroIntroducido == $numero) {
+                echo "Has acertado el número en $intentos intentos";
+            } else if ($numeroIntroducido > $numero) {
+                echo "<br>El número introducido es mayor que el número a adivinar<br>";
+            } else if ($numeroIntroducido < $numero) {
+                echo "El número introducido es menor que el número a adivinar";
+            }
+        } while ($numero != $numeroIntroducido);
     }
     ?>
 
