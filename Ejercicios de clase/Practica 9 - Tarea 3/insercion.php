@@ -67,79 +67,14 @@
         </nav>
     </div>
     <h1>Insertando datos<span class="subtitulo"></span></h1>
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-        <table width="50%" border="0" align="center">
-            <tr>
-                <td class="primera_fila">Codigo vendedor</td>
-                <td class="primera_fila">Referencia del producto</td>
-                <td class="primera_fila">Cantidad</td>
-                <td class="primera_fila">Fecha</td>
-                <td class="sin">&nbsp;</td>
-                <td class="sin">&nbsp;</td>
-                <td class="sin">&nbsp;</td>
-            </tr>
-            <?php
-            $row = $registros->fetch();
-            while ($row != null) {
-            ?>
-                <tr>
-                    <td><?php echo $row['codComercial']; ?></td>
-                    <td><?php echo $row['refProducto']; ?></td>
-                    <td><?php echo $row['cantidad']; ?></td>
-                    <td><?php echo $row['fecha']; ?></td>
-                </tr>
-            <?php
-                $row = $registros->fetch();
-            }
-            $conexion = null;
-            ?>
-            <tr>
+    <nav>
+        <div>
+            <input type="submit" value="Insertar venta" onclick="location.href='insertar/insertar_venta.php';">
+            <input type="submit" value="Insertar producto" onclick="location.href='insertar/insertar_producto.php';">
+            <input type="submit" value="Insertar comercial" onclick="location.href='insertar/insertar_comercial.php';">
 
-                <td>
-                    <select name='cod' id='cod'>
-                        <?php
-                        echo "<option name='ref' value=''>Codigo de vendedor</option>";
-                        $conexion = conectar("ventas_comerciales");
-                        $query = "select DISTINCT codComercial from ventas";
-                        $registros = $conexion->query($query) or die($conexion->error);
-                        $row = $registros->fetch();
-                        while ($row != null) {
-                        ?>
-                            <option value="<?php echo $row['codComercial']; ?>"><?php echo $row['codComercial']; ?></option>
-                        <?php
-
-                            $row = $registros->fetch();
-                        }
-                        $conexion = null;
-                        ?>
-                    </select>
-
-                </td>
-                <td><select name='ref' id='ref'>
-                        <?php
-                        echo "<option name='ref' value=''>Referencia del producto</option>";
-                        $conexion = conectar("ventas_comerciales");
-                        $query = "select DISTINCT refProducto from ventas";
-                        $registros = $conexion->query($query) or die($conexion->error);
-                        $row = $registros->fetch();
-                        while ($row != null) {
-                        ?>
-                            <option value="<?php echo $row['refProducto']; ?>"><?php echo $row['refProducto']; ?></option>
-                        <?php
-
-                            $row = $registros->fetch();
-                        }
-                        $conexion = null;
-                        ?>
-                    </select>
-                </td>
-                <td><input type='text' name='cant' size='10' class='centrado'></td>
-                <td><input type='date' name='fecha' size='10' class='centrado'></td>
-                <td class='bot'><input type='submit' name='cr' id='cr' value='Insertar'></td>
-            </tr>
-        </table>
-
-    </form>
+        </div>
+    </nav>
 
 </body>
 
