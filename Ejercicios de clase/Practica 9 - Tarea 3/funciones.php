@@ -29,6 +29,20 @@ function formularioInsertarVenta()
   echo "<label for='fecha'>Fecha</label>";
   echo "<input type='text' name='fecha' id='fecha'>";
   echo "<input type='submit' name='insertar' value='Insertar'>";
+
+  // formulario con select and option
+  echo "<label for='id_vendedor'>Id vendedor</label>";
+  echo "<select name='id_vendedor' id='id_vendedor'>";
+  echo "<option value=''>--Select--</option>";
+  $conexion = conectar("ventas");
+  $registros = $conexion->query("select id from vendedores") or die($conexion->error);
+  while ($reg = $registros->fetch_array()) {
+    echo "<option value='" . $reg['id'] . "'>" . $reg['id'] . "</option>";
+  }
+  $conexion->close();
+  echo "</select>";
+  
+
     // si se ha pulsado el boton insertar
     if (isset($_REQUEST['insertar']) == "Insertar") {
       $id = $_REQUEST['id'];

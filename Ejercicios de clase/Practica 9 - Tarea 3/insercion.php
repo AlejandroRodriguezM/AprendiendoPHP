@@ -32,15 +32,34 @@
     $registros = $conexion->query($query) or die($conexion->error);
     ?>
     <div class="contenedor">
-        <header>
+        <header onclick="location.href='index.php';" style="cursor: pointer;">
             <h1 id="inicio">Ventas comerciales</h1>
         </header>
         <nav>
             <div>
-                <input type="submit" value="consulta">
-                <input type="submit" value="insercion">
-                <input type="submit" value="modificacion">
-                <input type="submit" value="eliminacion">
+                <table class="botonesMenu">
+                    <tr>
+                        <td class="botonesMenu">
+                            <form action="consulta.php" method="post">
+                                <input class="menu" type="submit" value="consulta">
+                            </form>
+                        </td>
+                        <td class="botonesMenu">
+                            <form action="insercion.php" method="post">
+                                <input class="menu" type="submit" value="insercion">
+                            </form>
+                        </td>
+                        <td class="botonesMenu">
+                            <form action="modificacion.php" method="post">
+                                <input class="menu" type="submit" value="modificacion">
+                            </form>
+                        <td class="botonesMenu">
+                            <form action="eliminacion.php" method="post">
+                                <input class="menu" type="submit" value="eliminacion">
+                            </form>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </nav>
     </div>
@@ -70,14 +89,29 @@
             $conexion->close();
             ?>
             <tr>
-                <td><input type='text' name='cod' size='10' class='centrado'></td>
+
+                <!-- <td><input type='text' name='cod' size='10' class='centrado'></td> -->
+
+                <?php
+                echo "<td><select name='cod' id='cod'>";
+                echo "<option value=''>--Select--</option>";
+
+                $conexion = conectar("ventas_comerciales");
+                $registros = $conexion->query("select codComercial from vendedores") or die($conexion->error);
+                while ($reg = $registros->fetch_array()) {
+                    echo "<option value='" . $reg['codComercial'] . "'>" . $reg['codComercial'] . "</option>";
+                }
+                $conexion->close();
+                echo "</select></td>";
+
+                ?>
                 <td><input type='text' name='ref' size='10' class='centrado'></td>
                 <td><input type='text' name='cant' size='10' class='centrado'></td>
                 <td><input type='text' name='fecha' size='10' class='centrado'></td>
                 <td class='bot'><input type='submit' name='cr' id='cr' value='Insertar'></td>
             </tr>
         </table>
-        
+
     </form>
 
 </body>
