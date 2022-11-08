@@ -1,0 +1,72 @@
+.contenedor {
+  width: 1550px;
+  margin: auto;
+  background-color: #fbfcfd;
+}
+
+header {
+  border-radius: 2px;
+  padding: 10px;
+  font-family: "Times New Roman", Times, serif;
+  background-image: url(img/cabecera.jpg);
+  background-color: rgb(60, 145, 60);
+  background-repeat: no-repeat;
+  background-size: 200px;
+  background-position-x: 10px;
+  background-position-y: 10px;
+}
+
+header>h1 {
+  color: rgb(255, 255, 255);
+  font-size: 4em;
+  font-weight: bold;
+  letter-spacing: 10px;
+  text-align: center;
+  text-shadow: #5d5e62 6px 6px 6px;
+  text-transform: uppercase;
+}
+
+/* input {
+  width: 150px;
+  height: 45px;
+  padding: 10px;
+  margin: 10px;
+} */
+
+h1 {
+  text-align: center;
+}
+
+.subtitulo {
+  font-size: 12px;
+}
+
+body {
+  background-color: #FFC;
+}
+
+table td {
+  text-align: center;
+  border: 1px #000099 dotted;
+
+}
+
+table .sin {
+  border: 0;
+}
+
+table .bot {
+  padding: 0 5px;
+  display: inline;
+  border: 0;
+}
+
+table .primera_fila {
+  font-size: 1.5em;
+  text-decoration: underline;
+  background-color: #FC3;
+}
+
+.centrado {
+  text-align: center;
+}
