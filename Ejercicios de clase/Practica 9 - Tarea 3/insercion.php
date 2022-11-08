@@ -19,16 +19,13 @@
             $referencia = $_POST['ref'];
             $cantidad = $_POST['cant'];
             $fecha = $_POST['fecha'];
-            // $fecha = DateTime::createFromFormat('d-m-Y', $_POST['fecha']);
-            // $fecha_Configurada = $fecha->format('Y-m-d');
+            $fecha = date('Y-m-d', strtotime(str_replace('-', '/', $fecha)));
 
             $base = "ventas_comerciales";
-            // $query = "INSERT INTO ventas(codComercial,refProducto,cantidad,fecha) values('$codigo','$referencia','$cantidad','$fecha_Configurada')";
             $query = "INSERT INTO ventas(codComercial,refProducto,cantidad,fecha) values('$codigo','$referencia','$cantidad','$fecha')";
             operacionTransaccion($query, $base);
             header("Location:insercion.php");
-        }
-        else{
+        } else {
             echo "No se han introducido todos los datos";
         }
     }
@@ -82,51 +79,62 @@
                 <td class="sin">&nbsp;</td>
             </tr>
             <?php
-            while ($reg = $registros->fetch_array()) {
+            $row = $registros->fetch();
+            while ($row != null) {
             ?>
                 <tr>
-                    <td><?php echo $reg['codComercial']; ?></td>
-                    <td><?php echo $reg['refProducto']; ?></td>
-                    <td><?php echo $reg['cantidad']; ?></td>
-                    <td><?php echo $reg['fecha']; ?></td>
+                    <td><?php echo $row['codComercial']; ?></td>
+                    <td><?php echo $row['refProducto']; ?></td>
+                    <td><?php echo $row['cantidad']; ?></td>
+                    <td><?php echo $row['fecha']; ?></td>
                 </tr>
             <?php
+                $row = $registros->fetch();
             }
-            $conexion->close();
+            $conexion = null;
             ?>
             <tr>
 
-                <!-- <td><input type='text' name='cod' size='10' class='centrado'></td> -->
-                <td><?php
-                echo "<select name='cod' id='cod'>";
-                echo "<option name='cod' value=''>Codigo vendedor</option>";
+                <td>
+                    <select name='cod' id='cod'>
+                        <?php
+                        echo "<option name='ref' value=''>Codigo de vendedor</option>";
+                        $conexion = conectar("ventas_comerciales");
+                        $query = "select DISTINCT codComercial from ventas";
+                        $registros = $conexion->query($query) or die($conexion->error);
+                        $row = $registros->fetch();
+                        while ($row != null) {
+                        ?>
+                            <option value="<?php echo $row['codComercial']; ?>"><?php echo $row['codComercial']; ?></option>
+                        <?php
 
-                $conexion = conectar("ventas_comerciales");
-                $registros = $conexion->query("SELECT DISTINCT codComercial FROM ventas") or die($conexion->error);
-                while ($reg = $registros->fetch_array()) {
-                    echo "<option name='cod' value='" . $reg['codComercial'] . "'>" . $reg['codComercial'] . "</option>";
-                }
-                $conexion->close();
-                echo "</select>";
-                ?>
+                            $row = $registros->fetch();
+                        }
+                        $conexion = null;
+                        ?>
+                    </select>
 
                 </td>
-                <td><?php
-                echo "<select name='ref' id='ref'>";
-                echo "<option name='ref' value=''>Referencia del producto</option>";
+                <td><select name='ref' id='ref'>
+                        <?php
+                        echo "<option name='ref' value=''>Referencia del producto</option>";
+                        $conexion = conectar("ventas_comerciales");
+                        $query = "select DISTINCT refProducto from ventas";
+                        $registros = $conexion->query($query) or die($conexion->error);
+                        $row = $registros->fetch();
+                        while ($row != null) {
+                        ?>
+                            <option value="<?php echo $row['refProducto']; ?>"><?php echo $row['refProducto']; ?></option>
+                        <?php
 
-                $conexion = conectar("ventas_comerciales");
-                $registros = $conexion->query("SELECT DISTINCT refProducto FROM ventas") or die($conexion->error);
-                while ($reg = $registros->fetch_array()) {
-                    echo "<option name='ref' value='" . $reg['refProducto'] . "'>" . $reg['refProducto'] . "</option>";
-                }
-                $conexion->close();
-                echo "</select>";
-                ?>
-
+                            $row = $registros->fetch();
+                        }
+                        $conexion = null;
+                        ?>
+                    </select>
                 </td>
                 <td><input type='text' name='cant' size='10' class='centrado'></td>
-                <td><input type='text' name='fecha' size='10' class='centrado'></td>
+                <td><input type='date' name='fecha' size='10' class='centrado'></td>
                 <td class='bot'><input type='submit' name='cr' id='cr' value='Insertar'></td>
             </tr>
         </table>

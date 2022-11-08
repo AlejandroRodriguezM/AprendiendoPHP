@@ -2,18 +2,29 @@
 //Conexión a la base de datos
 function conectar($base)
 {
-  $conexion = new mysqli("localhost", "root", "1234", $base);
-  if ($conexion->connect_error)
-    die("Problemas con la conexión");
-  return $conexion;
+  try {
+    $conexion = new PDO("mysql:host=localhost;dbname=$base", "root", "1234");
+    $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $conexion->exec("SET CHARACTER SET UTF8");
+  } catch (PDOException $e) {
+    die("Codigo: ". $e->getCode() . "<br>Error: " . $e->getMessage());
+  } finally {
+    return $conexion;
+  }
 }
 
 //Insertar un registro y borrado
 function operacionTransaccion($query, $base)
 {
-  $conexion = conectar($base);
-  $conexion->query($query) or die($conexion->error);
-  $conexion->close();
+  try{
+    $conexion = conectar($base);
+    $conexion->query($query);
+  }catch (PDOException $e) {
+    die("Codigo: ". $e->getCode() . "<br>Error: " . $e->getMessage());
+  } finally {
+    $conexion = null;
+  }
+
 }
 
 function formularioInsertarVenta()
@@ -29,32 +40,7 @@ function formularioInsertarVenta()
   echo "<label for='fecha'>Fecha</label>";
   echo "<input type='text' name='fecha' id='fecha'>";
   echo "<input type='submit' name='insertar' value='Insertar'>";
-
-  // formulario con select and option
-  echo "<label for='id_vendedor'>Id vendedor</label>";
-  echo "<select name='id_vendedor' id='id_vendedor'>";
-  echo "<option value=''>--Select--</option>";
-  $conexion = conectar("ventas");
-  $registros = $conexion->query("select id from vendedores") or die($conexion->error);
-  while ($reg = $registros->fetch_array()) {
-    echo "<option value='" . $reg['id'] . "'>" . $reg['id'] . "</option>";
-  }
-  $conexion->close();
-  echo "</select>";
-  
-
-    // si se ha pulsado el boton insertar
-    if (isset($_REQUEST['insertar']) == "Insertar") {
-      $id = $_REQUEST['id'];
-      $fecha = $_REQUEST['fecha'];
-      $id_producto = $_REQUEST['id_producto'];
-      $cantidad = $_REQUEST['cantidad'];
-      $query = "insert into ventas values($id,$id_producto,$cantidad,$fecha)";
-      operacionTransaccion($query, "ventas_comerciales");
-    }
   echo "</form>";
-
-
 }
 
 function insertarVenta()
@@ -75,7 +61,7 @@ function insertarVenta()
   }
 }
 
-function insertarProducto($ref,$nom,$descripcion,$precio,$descuento)
+function insertarProducto($ref, $nom, $descripcion, $precio, $descuento)
 {
   //insertar datos
   if (isset($_POST['insertarProducto'])) {
