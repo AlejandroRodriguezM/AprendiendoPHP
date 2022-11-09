@@ -1,63 +1,60 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-<meta charset="utf-8">
-<title>Documento sin título</title>
-<link rel="stylesheet" type="text/css" href="hoja.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="styles/style.css">
+  <title>Document</title>
 </head>
 
 <body>
-<?php
-  include ("funciones.php");
-  if(!isset($_POST['bot_actualizar'])){
-    $id=$_GET['id'];
-    $nom=$_GET['nom'];
-    $apel=$_GET['apel'];
-    $dir=$_GET['dir'];
-  }else{
-    $id=$_POST['id'];
-    $nom=$_POST['nom'];
-    $apel=$_POST['ape'];
-    $dir=$_POST['dir'];
-    $base="test";
-    $query="update datos_usuarios set nombre='$nom',apellidos='$apel',direccion='$dir' where id=$id";
-    operacionTransaccion($query,$base);
-    header("Location:index.php");
-  }
-?>
-<h1>ACTUALIZAR</h1>
+  <div class="contenedor">
+    <header onclick="location.href='index.php';" style="cursor: pointer;">
+      <h1 id="inicio">Ventas comerciales</h1>
+    </header>
+    <nav>
+      <div>
+        <table class="botonesMenu">
+          <tr>
+            <td class="botonesMenu">
+              <form action="index.php" method="post">
+                <input class="menu" type="submit" value="Indice">
+              </form>
+            </td>
+            <td class="botonesMenu">
+              <form action="consulta.php" method="post">
+                <input class="menu" type="submit" value="consulta">
+              </form>
+            </td>
+            <td class="botonesMenu">
+              <form action="insercion.php" method="post">
+                <input class="menu" type="submit" value="insercion">
+              </form>
+            </td>
+            <td class="botonesMenu">
+              <form action="modificacion.php" method="post">
+                <input class="menu" type="submit" value="modificacion">
+              </form>
+            <td class="botonesMenu">
+              <form action="eliminacion.php" method="post">
+                <input class="menu" type="submit" value="eliminacion">
+              </form>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </nav>
+    <h1>Modificando datos<span class="subtitulo"></span></h1>
+    <nav>
+      <input type="submit" value="Modificar venta" onclick="location.href='modificar/modificar_venta.php';">
+      <input type="submit" value="Modificar producto" onclick="location.href='modificar/modificar_producto.php';">
+      <input type="submit" value="Modificar comercial" onclick="location.href='modificar/modificar_comercial.php';">
+    </nav>
+  </div>
 
-<p>
- 
-</p>
-<p>&nbsp;</p>
-<form name="form1" method="post" action="">
-  <table width="25%" border="0" align="center">
-    <tr>
-      <td></td>
-      <td><label for="id"></label>
-      <input type="hidden" name="id" id="id" value="<?php echo $id; ?>"></td>
-    </tr>
-    <tr>
-      <td>Nombre</td>
-      <td><label for="nom"></label>
-      <input type="text" name="nom" id="nom" value="<?php echo $nom; ?>"></td>
-    </tr>
-    <tr>
-      <td>Apellido</td>
-      <td><label for="ape"></label>
-      <input type="text" name="ape" id="ape" value="<?php echo $apel; ?>"></td>
-    </tr>
-    <tr>
-      <td>Dirección</td>
-      <td><label for="dir"></label>
-      <input type="text" name="dir" id="dir" value="<?php echo $dir; ?>"></td>
-    </tr>
-    <tr>
-      <td colspan="2"><input type="submit" name="bot_actualizar" id="bot_actualizar" value="Actualizar"></td>
-    </tr>
-  </table>
-</form>
-<p>&nbsp;</p>
+
 </body>
+
 </html>

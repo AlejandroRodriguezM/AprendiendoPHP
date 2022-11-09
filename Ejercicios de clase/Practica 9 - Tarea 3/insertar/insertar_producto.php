@@ -20,12 +20,11 @@
             $descripcion = $_POST['descripcion'];
             $precio = $_POST['precio'];
             $descuento = $_POST['descuento'];
-            $query = "select * from productos";
-            $identificador = "referencia";
-            if (checkID($referencia,$query,$identificador)) {
+            $query = "select referencia from productos where referencia = '$referencia'";
+            if (checkID($query)) {
                 $base = "ventas_comerciales";
-                $consulta = "INSERT INTO productos(referencia, nombre, descripcion, precio, descuento) VALUES('$referencia', '$nombre', '$descripcion', '$precio', '$descuento')";
-                operacionTransaccion($query, $base);
+                $sentenciaSQL = "INSERT INTO productos(referencia, nombre, descripcion, precio, descuento) VALUES('$referencia', '$nombre', '$descripcion', '$precio', '$descuento')";
+                operacionTransaccion($sentenciaSQL, $base);
                 header("Location:insertar_producto.php");
             } else {
                 echo "El codigo introducido ya existe";
@@ -51,6 +50,11 @@
             <div>
                 <table class="botonesMenu">
                     <tr>
+                    <td class="botonesMenu">
+                            <form action="index.php" method="post">
+                                <input class="menu" type="submit" value="Indice">
+                            </form>
+                        </td>
                         <td class="botonesMenu">
                             <form action="../consulta.php" method="post">
                                 <input class="menu" type="submit" value="consulta">

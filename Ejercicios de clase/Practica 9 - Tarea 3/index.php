@@ -18,6 +18,11 @@
             <div>
                 <table class="botonesMenu">
                     <tr>
+                    <td class="botonesMenu">
+                            <form action="index.php" method="post">
+                                <input class="menu" type="submit" value="Indice">
+                            </form>
+                        </td>
                         <td class="botonesMenu">
                             <form action="consulta.php" method="post">
                                 <input class="menu" type="submit" value="consulta">

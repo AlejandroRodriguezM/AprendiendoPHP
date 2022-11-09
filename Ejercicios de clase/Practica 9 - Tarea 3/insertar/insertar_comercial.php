@@ -21,12 +21,11 @@
             $hijos = $_POST['hijos'];
             $fNacimiento = $_POST['fNacimiento'];
             $fNacimiento = date('Y-m-d', strtotime(str_replace('-', '/', $fNacimiento)));
-            $query = "select * from comerciales";
-            $identificador = 'codigo';
-            if(checkID($codigo,$query,$identificador)){
+            $query = "select codigo from comerciales where codigo = '$codigo'";
+            if(checkID($query)){
                 $base = "ventas_comerciales";
-                $consulta = "INSERT INTO comerciales(codigo, nombre, salario, hijos, fNacimiento) VALUES('$codigo', '$nombre', '$salario', '$hijos', '$fNacimiento')";
-                operacionTransaccion($query, $base);
+                $sentenciaSQL = "INSERT INTO comerciales(codigo, nombre, salario, hijos, fNacimiento) VALUES('$codigo', '$nombre', '$salario', '$hijos', '$fNacimiento')";
+                operacionTransaccion($sentenciaSQL, $base);
                 header("Location:insertar_comercial.php");
             }
             else{
@@ -53,6 +52,11 @@
             <div>
                 <table class="botonesMenu">
                     <tr>
+                    <td class="botonesMenu">
+                            <form action="index.php" method="post">
+                                <input class="menu" type="submit" value="Indice">
+                            </form>
+                        </td>
                         <td class="botonesMenu">
                             <form action="../consulta.php" method="post">
                                 <input class="menu" type="submit" value="consulta">

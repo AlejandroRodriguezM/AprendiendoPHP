@@ -19,6 +19,7 @@ function operacionTransaccion($query, $base)
   try {
     $conexion = conectar($base);
     $conexion->query($query);
+    $conexion->exec($query);
   } catch (PDOException $e) {
     die("Codigo: " . $e->getCode() . "<br>Error: " . $e->getMessage());
   } finally {
@@ -26,18 +27,27 @@ function operacionTransaccion($query, $base)
   }
 }
 
-function checkID($codigo,$query)
+function checkID($query)
 {
   $conexion = conectar("ventas_comerciales");
-  $registros = $conexion->query($query);
   $existe = false;
-  while ($fila = $registros->fetchALL(PDO::FETCH_ASSOC)) {
-    foreach ($fila as $key => $value) {
-      if ($value == $codigo) {
-        $existe = true;
-        echo "<script>alert('El codigo ya existe')</script>";
-      }
-    }
+  //haz una query con select, si no se encuentra, devuelve true
+  $busqueda = $conexion->exec($query);
+  if($busqueda == 0){
+    $existe = true;
   }
   return $existe;
 }
+
+function deleteData($query, $base){
+  try {
+    $conexion = conectar($base);
+    $conexion->exec($query);
+  } catch (PDOException $e) {
+    die("Codigo: " . $e->getCode() . "<br>Error: " . $e->getMessage());
+  } finally {
+    $conexion = null;
+  }
+
+}
+
