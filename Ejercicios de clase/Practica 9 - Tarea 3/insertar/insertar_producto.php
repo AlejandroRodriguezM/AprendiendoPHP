@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/style.css">
+    <link rel="shortcut icon" href="../img/ico.png">
     <title>Document</title>
 </head>
 
@@ -24,7 +25,7 @@
             if (checkID($query)) {
                 $base = "ventas_comerciales";
                 $sentenciaSQL = "INSERT INTO productos(referencia, nombre, descripcion, precio, descuento) VALUES('$referencia', '$nombre', '$descripcion', '$precio', '$descuento')";
-                operacionTransaccion($sentenciaSQL, $base);
+                operacionesMySql($sentenciaSQL, $base);
                 header("Location:insertar_producto.php");
             } else {
                 echo "El codigo introducido ya existe";
@@ -50,28 +51,28 @@
             <div>
                 <table class="botonesMenu">
                     <tr>
-                    <td class="botonesMenu">
+                        <td class="botonesMenu">
                             <form action="index.php" method="post">
                                 <input class="menu" type="submit" value="Indice">
                             </form>
                         </td>
                         <td class="botonesMenu">
                             <form action="../consulta.php" method="post">
-                                <input class="menu" type="submit" value="consulta">
+                                <input class="menu" type="submit" value="Consulta de comerciales">
                             </form>
                         </td>
                         <td class="botonesMenu">
                             <form action="../insercion.php" method="post">
-                                <input class="menu" type="submit" value="insercion">
+                                <input class="menu" type="submit" value="Indice inserción">
                             </form>
                         </td>
                         <td class="botonesMenu">
                             <form action="../modificacion.php" method="post">
-                                <input class="menu" type="submit" value="modificacion">
+                                <input class="menu" type="submit" value="Indice modificar">
                             </form>
                         <td class="botonesMenu">
                             <form action="../eliminacion.php" method="post">
-                                <input class="menu" type="submit" value="eliminacion">
+                                <input class="menu" type="submit" value="Indice eliminar">
                             </form>
                         </td>
                     </tr>
@@ -111,11 +112,11 @@
             $conexion = null;
             ?>
             <tr>
-                <td><input type="text" name="referencia" size="10" class="centrado"></td>
+                <td><input type="text" name="referencia" size="10" class="centrado" pattern="[A-Z]{2}[0-9]{4}"></td>
                 <td><input type="text" name="nombre" size="10" class="centrado"></td>
                 <td><input type="text" name="descripcion" size="10" class="centrado"></td>
-                <td><input type="text" name="precio" size="10" class="centrado"></td>
-                <td><input type="text" name="descuento" size="10" class="centrado"></td>
+                <td><input type="number" name="precio" size="10" class="centrado"></td>
+                <td><input type="number" name="descuento" size="10" class="centrado"></td>
                 <td class='bot'><input type='submit' name='cr' id='cr' value='Insertar'></td>
                 <td class='bot'><input type='submit' name='back' id='back' value='Volver'></td>
             </tr>

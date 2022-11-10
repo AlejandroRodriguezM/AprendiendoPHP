@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="styles/style.css">
-    <title>Document</title>
+    <link rel="shortcut icon" href="img/ico.png">
+    <title>Indice de inserción</title>
 </head>
 
 <body>
@@ -18,28 +19,28 @@
             <div>
                 <table class="botonesMenu">
                     <tr>
-                    <td class="botonesMenu">
+                        <td class="botonesMenu">
                             <form action="index.php" method="post">
                                 <input class="menu" type="submit" value="Indice">
                             </form>
                         </td>
                         <td class="botonesMenu">
                             <form action="consulta.php" method="post">
-                                <input class="menu" type="submit" value="consulta">
+                                <input class="menu" type="submit" value="Consulta de comerciales">
                             </form>
                         </td>
                         <td class="botonesMenu">
                             <form action="insercion.php" method="post">
-                                <input class="menu" type="submit" value="insercion">
+                                <input class="menu" type="submit" value="Indice inserción">
                             </form>
                         </td>
                         <td class="botonesMenu">
                             <form action="modificacion.php" method="post">
-                                <input class="menu" type="submit" value="modificacion">
+                                <input class="menu" type="submit" value="Indice modificar">
                             </form>
                         <td class="botonesMenu">
                             <form action="eliminacion.php" method="post">
-                                <input class="menu" type="submit" value="eliminacion">
+                                <input class="menu" type="submit" value="Indice eliminar">
                             </form>
                         </td>
                     </tr>
@@ -47,11 +48,13 @@
             </div>
         </nav>
         <h1>Insertando datos<span class="subtitulo"></span></h1>
-        <nav>
-            <input type="submit" value="Insertar venta" onclick="location.href='insertar/insertar_venta.php';">
-            <input type="submit" value="Insertar producto" onclick="location.href='insertar/insertar_producto.php';">
-            <input type="submit" value="Insertar comercial" onclick="location.href='insertar/insertar_comercial.php';">
-        </nav>
+        <p>Aqui aparecen los indices para moverte en las diferentes opciones.</p>
+        <p>Segun la opcion, podras insertar datos </p>
+        <div class="subMenu_botones">
+            <input class="boton_indice" type="image" src="img/ventas.jpg" value="Insertar venta" alt="Submit" width="150" height="150" onclick="location.href='insertar/insertar_venta.php';">
+            <input class="boton_indice" type="image" src="img/producto.jpg" value="Insertar producto" alt="Submit" width="150" height="150" onclick="location.href='insertar/insertar_producto.php';">
+            <input class="boton_indice" type="image" src="img/comercial.jpg" value="Insertar comercial" alt="Submit" width="150" height="150" onclick="location.href='insertar/insertar_comercial.php';">
+        </div>
     </div>
 
 

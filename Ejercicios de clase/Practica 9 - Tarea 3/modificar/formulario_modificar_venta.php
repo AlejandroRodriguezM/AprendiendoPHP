@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/style.css">
+    <link rel="shortcut icon" href="../img/ico.png">
     <title>Document</title>
 </head>
 
@@ -25,21 +26,21 @@
                         </td>
                         <td class="botonesMenu">
                             <form action="../consulta.php" method="post">
-                                <input class="menu" type="submit" value="consulta">
+                                <input class="menu" type="submit" value="Consulta de comerciales">
                             </form>
                         </td>
                         <td class="botonesMenu">
                             <form action="../insercion.php" method="post">
-                                <input class="menu" type="submit" value="insercion">
+                                <input class="menu" type="submit" value="Indice inserción">
                             </form>
                         </td>
                         <td class="botonesMenu">
                             <form action="../modificacion.php" method="post">
-                                <input class="menu" type="submit" value="modificacion">
+                                <input class="menu" type="submit" value="Indice modificar">
                             </form>
                         <td class="botonesMenu">
                             <form action="../eliminacion.php" method="post">
-                                <input class="menu" type="submit" value="eliminacion">
+                                <input class="menu" type="submit" value="Indice eliminar">
                             </form>
                         </td>
                     </tr>
@@ -59,13 +60,17 @@
         $refProducto = $_POST['refProducto'];
         $cantidad = $_POST['cantidad'];
         $fecha = $_POST['fecha'];
-
         $sql = "UPDATE ventas SET codComercial='$conComercial', refProducto='$refProducto', cantidad='$cantidad', fecha='$fecha' WHERE codComercial='$conComercial'";
-        operacionTransaccion($query, $base);
+        operacionesMySql($query, $base);
         header("Location:modificar_venta.php");
     }
+
+    if (isset($_POST['bot_cancelar'])) {
+        header("Location:modificar_venta.php");
+    }
+
     ?>
-    <h1>Actualizar comercial</h1>
+    <h1>Actualizar venta</h1>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <table width="25%" border="0" align="center">
             <tr>
@@ -113,17 +118,18 @@
             <tr>
                 <td>cantidad</td>
                 <td><label for="cantidad"></label>
-                    <input type="text" name="cantidad" id="cantidad" value="<?php echo $cantidad ?>">
+                    <input type="number" name="cantidad" id="cantidad" value="<?php echo $cantidad ?>">
                 </td>
             </tr>
             <tr>
                 <td>fecha</td>
                 <td><label for="fecha"></label>
-                    <input type="text" name="fecha" id="fecha" value="<?php echo $fecha ?>">
+                    <input type="date" name="fecha" id="fecha" value="<?php echo $fecha ?>">
                 </td>
             </tr>
             <tr>
-                <td colspan="2" align="center"><input type="submit" name="bot_actualizar" id="bot_actualizar" value="Actualizar"></td>
+                <td class='bot'><input type="submit" name="bot_actualizar" id="bot_actualizar" onclick="return confirm('¿Estas seguro que quieres modificar los datos de la venta?')" value="Actualizar"></td>
+                <td class='bot'><input type="submit" name="bot_cancelar" id="bot_cancelar" value="Cancelar"></td>
             </tr>
         </table>
     </form>

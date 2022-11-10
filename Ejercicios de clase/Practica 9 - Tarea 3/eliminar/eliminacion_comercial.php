@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/style.css">
+    <link rel="shortcut icon" href="../img/ico.png">
     <title>Document</title>
 </head>
 
@@ -16,8 +17,8 @@
     if (isset($_POST['del'])) {
         $codigo = $_POST['codigo'];
         $base = "ventas_comerciales";
-        $sentenciaSQL = "delete from comerciales where codigo='$codigo';";
-        deleteData($sentenciaSQL, $base);
+        $sentenciaSQL = "DELETE FROM comerciales WHERE codigo='$codigo';";
+        operacionesMySql($sentenciaSQL, $base);
         header("Location:eliminacion_comercial.php");
     }
 
@@ -44,21 +45,21 @@
                         </td>
                         <td class="botonesMenu">
                             <form action="../consulta.php" method="post">
-                                <input class="menu" type="submit" value="consulta">
+                                <input class="menu" type="submit" value="Consulta de comerciales">
                             </form>
                         </td>
                         <td class="botonesMenu">
                             <form action="../insercion.php" method="post">
-                                <input class="menu" type="submit" value="insercion">
+                                <input class="menu" type="submit" value="Indice inserción">
                             </form>
                         </td>
                         <td class="botonesMenu">
                             <form action="../modificacion.php" method="post">
-                                <input class="menu" type="submit" value="modificacion">
+                                <input class="menu" type="submit" value="Indice modificar">
                             </form>
                         <td class="botonesMenu">
                             <form action="../eliminacion.php" method="post">
-                                <input class="menu" type="submit" value="eliminacion">
+                                <input class="menu" type="submit" value="Indice eliminar">
                             </form>
                         </td>
                     </tr>
@@ -93,7 +94,8 @@
                     <td><?php echo $row['hijos']; ?></td>
                     <td><?php echo $row['fNacimiento']; ?></td>
                     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                        <td class='bot'><input type='submit' name='del' id='del' value='Eliminar'></td>
+                        <td class='bot'><input type='submit' name='del' id='del' onclick="return confirm('¿Estas seguro que quieres borrar al comercial y sus ventas?')" value='Eliminar'></td>
+
                         <td class='bot'><input type='hidden' name='codigo' id='codigo' value='<?php echo $row['codigo']; ?>'></td>
                     </form>
 
@@ -103,6 +105,9 @@
             }
             $conexion = null;
             ?>
+            <tr>
+                <td class="sin">&nbsp;</td>
+            </tr>
             <tr>
                 <td class="sin">&nbsp;</td>
                 <td class="sin">&nbsp;</td>

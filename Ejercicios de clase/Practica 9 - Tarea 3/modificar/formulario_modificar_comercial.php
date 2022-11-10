@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/style.css">
+    <link rel="shortcut icon" href="../img/ico.png">
     <title>Document</title>
 </head>
 
@@ -25,21 +26,21 @@
                         </td>
                         <td class="botonesMenu">
                             <form action="../consulta.php" method="post">
-                                <input class="menu" type="submit" value="consulta">
+                                <input class="menu" type="submit" value="Consulta de comerciales">
                             </form>
                         </td>
                         <td class="botonesMenu">
                             <form action="../insercion.php" method="post">
-                                <input class="menu" type="submit" value="insercion">
+                                <input class="menu" type="submit" value="Indice inserción">
                             </form>
                         </td>
                         <td class="botonesMenu">
                             <form action="../modificacion.php" method="post">
-                                <input class="menu" type="submit" value="modificacion">
+                                <input class="menu" type="submit" value="Indice modificar">
                             </form>
                         <td class="botonesMenu">
                             <form action="../eliminacion.php" method="post">
-                                <input class="menu" type="submit" value="eliminacion">
+                                <input class="menu" type="submit" value="Indice eliminar">
                             </form>
                         </td>
                     </tr>
@@ -63,7 +64,10 @@
         $fNacimiento = $_POST['fNacimiento'];
         $base = "ventas_comerciales";
         $query = "UPDATE comerciales SET nombre='$nombre', salario='$salario', hijos='$hijos', fNacimiento='$fNacimiento' where codigo='$codigo'";
-        operacionTransaccion($query, $base);
+        operacionesMySql($query, $base);
+        header("Location:modificar_comercial.php");
+    }
+    if (isset($_POST['bot_cancelar'])) {
         header("Location:modificar_comercial.php");
     }
     ?>
@@ -86,23 +90,24 @@
             <tr>
                 <td>Salario</td>
                 <td><label for="salario"></label>
-                    <input type="text" name="salario" id="salario" value="<?php echo $salario ?>">
+                    <input type="number" name="salario" id="salario" value="<?php echo $salario ?>">
                 </td>
             </tr>
             <tr>
                 <td>Hijos</td>
                 <td><label for="hijos"></label>
-                    <input type="text" name="hijos" id="hijos" value="<?php echo $hijos ?>">
+                    <input type="number" name="hijos" id="hijos" value="<?php echo $hijos ?>">
                 </td>
             </tr>
             <tr>
                 <td>Fecha de nacimiento</td>
                 <td><label for="fNacimiento"></label>
-                    <input type="text" name="fNacimiento" id="fNacimiento" value="<?php echo $fNacimiento ?>">
+                    <input type="date" name="fNacimiento" id="fNacimiento" value="<?php echo $fNacimiento ?>">
                 </td>
             </tr>
             <tr>
-                <td colspan="2" align="center"><input type="submit" name="bot_actualizar" id="bot_actualizar" value="Actualizar"></td>
+                <td class='bot'><input type="submit" name="bot_actualizar" id="bot_actualizar" onclick="return confirm('¿Estas seguro que quieres modificar los datos del comercial?')" value="Actualizar"></td>
+                <td class='bot'><input type="submit" name="bot_cancelar" id="bot_cancelar" value="Cancelar"></td>
             </tr>
         </table>
     </form>

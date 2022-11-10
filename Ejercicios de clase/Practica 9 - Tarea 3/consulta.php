@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="styles/style.css">
-    <title>Document</title>
+    <link rel="shortcut icon" href="img/ico.png">
+    <title>Consulta de comerciales</title>
 </head>
 
 <body>
@@ -34,21 +35,21 @@
                         </td>
                         <td class="botonesMenu">
                             <form action="consulta.php" method="post">
-                                <input class="menu" type="submit" value="consulta">
+                                <input class="menu" type="submit" value="Consulta de comerciales">
                             </form>
                         </td>
                         <td class="botonesMenu">
                             <form action="insercion.php" method="post">
-                                <input class="menu" type="submit" value="insercion">
+                                <input class="menu" type="submit" value="Indice inserción">
                             </form>
                         </td>
                         <td class="botonesMenu">
                             <form action="modificacion.php" method="post">
-                                <input class="menu" type="submit" value="modificacion">
+                                <input class="menu" type="submit" value="Indice modificar">
                             </form>
                         <td class="botonesMenu">
                             <form action="eliminacion.php" method="post">
-                                <input class="menu" type="submit" value="eliminacion">
+                                <input class="menu" type="submit" value="Indice eliminar">
                             </form>
                         </td>
                     </tr>
@@ -96,8 +97,8 @@
                     </td>
                 </tr>
                 <tr>
-                <td class="sin">&nbsp;</td>
-            </tr>
+                    <td class="sin">&nbsp;</td>
+                </tr>
         </table>
         <table width="50%" border="0" align="center">
             <?php

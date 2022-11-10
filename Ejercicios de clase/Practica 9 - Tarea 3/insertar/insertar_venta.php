@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/style.css">
+    <link rel="shortcut icon" href="../img/ico.png">
     <title>Document</title>
 </head>
 
@@ -23,7 +24,7 @@
 
             $base = "ventas_comerciales";
             $query = "INSERT INTO ventas(codComercial,refProducto,cantidad,fecha) values('$codigo','$referencia','$cantidad','$fecha')";
-            operacionTransaccion($query, $base);
+            operacionesMySql($query, $base);
             header("Location:insertar_venta.php");
         } else {
             echo "No se han introducido todos los datos";
@@ -46,28 +47,28 @@
             <div>
                 <table class="botonesMenu">
                     <tr>
-                    <td class="botonesMenu">
+                        <td class="botonesMenu">
                             <form action="index.php" method="post">
                                 <input class="menu" type="submit" value="Indice">
                             </form>
                         </td>
                         <td class="botonesMenu">
                             <form action="../consulta.php" method="post">
-                                <input class="menu" type="submit" value="consulta">
+                                <input class="menu" type="submit" value="Consulta de comerciales">
                             </form>
                         </td>
                         <td class="botonesMenu">
                             <form action="../insercion.php" method="post">
-                                <input class="menu" type="submit" value="insercion">
+                                <input class="menu" type="submit" value="Indice inserción">
                             </form>
                         </td>
                         <td class="botonesMenu">
                             <form action="../modificacion.php" method="post">
-                                <input class="menu" type="submit" value="modificacion">
+                                <input class="menu" type="submit" value="Indice modificar">
                             </form>
                         <td class="botonesMenu">
                             <form action="../eliminacion.php" method="post">
-                                <input class="menu" type="submit" value="eliminacion">
+                                <input class="menu" type="submit" value="Indice eliminar">
                             </form>
                         </td>
                     </tr>

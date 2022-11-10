@@ -14,11 +14,11 @@ function conectar($base)
 }
 
 //Insertar un registro y borrado
-function operacionTransaccion($query, $base)
+function operacionesMySql($query, $base)
 {
   try {
     $conexion = conectar($base);
-    $conexion->query($query);
+    // $conexion->query($query);
     $conexion->exec($query);
   } catch (PDOException $e) {
     die("Codigo: " . $e->getCode() . "<br>Error: " . $e->getMessage());
@@ -31,23 +31,10 @@ function checkID($query)
 {
   $conexion = conectar("ventas_comerciales");
   $existe = false;
-  //haz una query con select, si no se encuentra, devuelve true
   $busqueda = $conexion->exec($query);
-  if($busqueda == 0){
+  if ($busqueda == 0) {
     $existe = true;
   }
   return $existe;
-}
-
-function deleteData($query, $base){
-  try {
-    $conexion = conectar($base);
-    $conexion->exec($query);
-  } catch (PDOException $e) {
-    die("Codigo: " . $e->getCode() . "<br>Error: " . $e->getMessage());
-  } finally {
-    $conexion = null;
-  }
-
 }
 
