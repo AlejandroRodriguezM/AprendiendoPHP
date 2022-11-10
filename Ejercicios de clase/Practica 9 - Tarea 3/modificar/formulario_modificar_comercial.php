@@ -55,7 +55,6 @@
         $salario = $_GET['salario'];
         $hijos = $_GET['hijos'];
         $fNacimiento = $_GET['fNacimiento'];
-
     } else {
         $codigo = $_POST['codigo'];
         $nombre = $_POST['nombre'];
@@ -65,7 +64,7 @@
         $base = "ventas_comerciales";
         $query = "UPDATE comerciales SET nombre='$nombre', salario='$salario', hijos='$hijos', fNacimiento='$fNacimiento' where codigo='$codigo'";
         operacionTransaccion($query, $base);
-        header("Location:formulario_modificar_comercial.php");
+        header("Location:modificar_comercial.php");
     }
     ?>
     <h1>Actualizar comercial</h1>
@@ -74,7 +73,7 @@
             <tr>
                 <td>Código</td>
                 <td><label for="codigo"></label>
-                    <input type="text" name="codigo" id="codigo" value="<?php echo $codigo ?>" disabled>
+                    <input type="text" name="codigo" id="codigo" value="<?php echo $codigo ?>" readonly>
                 </td>
                 </td>
             </tr>

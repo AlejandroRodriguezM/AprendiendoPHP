@@ -49,7 +49,13 @@
     </div>
     <?php
     include("../funciones.php");
-    if (isset($_POST['bot_actualizar'])) {
+    if (!isset($_POST['bot_actualizar'])) {
+        $referencia = $_GET['referencia'];
+        $nombre = $_GET['nombre'];
+        $descripcion = $_GET['descripcion'];
+        $precio = $_GET['precio'];
+        $descuento = $_GET['descuento'];
+    } else {
         $referencia = $_POST['referencia'];
         $nombre = $_POST['nombre'];
         $descripcion = $_POST['descripcion'];
@@ -58,15 +64,7 @@
         $base = "ventas_comerciales";
         $query = "UPDATE productos SET nombre='$nombre', descripcion='$descripcion', precio='$precio', descuento = '$descuento' WHERE referencia = '$referencia'";
         operacionTransaccion($query, $base);
-        header("Location:formulario_modificar_producto.php");
-
-    } else {
-        $referencia = $_GET['referencia'];
-        $nombre = $_GET['nombre'];
-        $descripcion = $_GET['descripcion'];
-        $precio = $_GET['precio'];
-        $descuento = $_GET['descuento'];
-
+        header("Location:modificar_producto.php");
     }
     ?>
     <h1>Actualizar comercial</h1>
@@ -75,7 +73,7 @@
             <tr>
                 <td>Referencia</td>
                 <td><label for="codigo"></label>
-                    <input type="text" name="referencia" id="referencia" value="<?php echo $referencia ?>" disabled>
+                    <input type="text" name="referencia" id="referencia" value="<?php echo $referencia ?>" readonly>
                 </td>
             </tr>
             <tr>

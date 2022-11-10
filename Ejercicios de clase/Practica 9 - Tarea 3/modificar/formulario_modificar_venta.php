@@ -55,14 +55,14 @@
         $cantidad = $_GET['cantidad'];
         $fecha = $_GET['fecha'];
     } else {
-        $conComercial = $_GET['codComercial'];
-        $refProducto = $_GET['refProducto'];
-        $cantidad = $_GET['cantidad'];
-        $fecha = $_GET['fecha'];
+        $conComercial = $_POST['codComercial'];
+        $refProducto = $_POST['refProducto'];
+        $cantidad = $_POST['cantidad'];
+        $fecha = $_POST['fecha'];
 
         $sql = "UPDATE ventas SET codComercial='$conComercial', refProducto='$refProducto', cantidad='$cantidad', fecha='$fecha' WHERE codComercial='$conComercial'";
         operacionTransaccion($query, $base);
-        header("Location:formulario_modificar_producto.php");
+        header("Location:modificar_venta.php");
     }
     ?>
     <h1>Actualizar comercial</h1>
