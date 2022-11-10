@@ -12,31 +12,19 @@
 <body>
     <?php
     include_once '../funciones.php';
-    //insertar datos
-    if (isset($_POST['cr'])) {
-        if (!empty($_POST['codigo']) && !empty($_POST['nombre']) && !empty($_POST['salario'] && !empty($_POST['hijos']) && !empty($_POST['fNacimiento']))) {
-            $codigo = $_POST['codigo'];
-            $nombre = $_POST['nombre'];
-            $salario = $_POST['salario'];
-            $hijos = $_POST['hijos'];
-            $fNacimiento = $_POST['fNacimiento'];
-            $fNacimiento = date('Y-m-d', strtotime(str_replace('-', '/', $fNacimiento)));
-            $query = "select codigo from comerciales where codigo = '$codigo'";
-            if (checkID($query)) {
-                $base = "ventas_comerciales";
-                $sentenciaSQL = "INSERT INTO comerciales(codigo, nombre, salario, hijos, fNacimiento) VALUES('$codigo', '$nombre', '$salario', '$hijos', '$fNacimiento')";
-                operacionTransaccion($sentenciaSQL, $base);
-                header("Location:insertar_comercial.php");
-            } else {
-                echo "El codigo introducido ya existe";
-            }
-        } else {
-            echo "No se han introducido todos los datos";
-        }
+    //eliminar datos
+    if (isset($_POST['mod'])) {
+        $codigo = $_POST['codigo'];
+        $nombre = $_POST['nombre'];
+        $salario = $_POST['salario'];
+        $hijos = $_POST['hijos'];
+        $fNacimiento = $_POST['fNacimiento'];
+
+        header("Location: formulario_modificar_comercial.php?codigo=$codigo&nombre=$nombre&salario=$salario&hijos=$hijos&fNacimiento=$fNacimiento");
     }
 
     if (isset($_POST['back'])) {
-        header("Location:../insercion.php");
+        header("Location:../modificacion.php");
     }
     // //Listado de datos
     $conexion = conectar("ventas_comerciales");
@@ -80,7 +68,7 @@
             </div>
         </nav>
     </div>
-    <h1>Insertando comerciales<span class="subtitulo"></span></h1>
+    <h1>Modificar comerciales<span class="subtitulo"></span></h1>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <table width="50%" border="0" align="center">
             <tr>
@@ -94,6 +82,7 @@
                 <td class="sin">&nbsp;</td>
                 <td class="sin">&nbsp;</td>
                 <td class="sin">&nbsp;</td>
+
             </tr>
             <?php
             $row = $registros->fetch();
@@ -105,6 +94,16 @@
                     <td><?php echo $row['salario']; ?></td>
                     <td><?php echo $row['hijos']; ?></td>
                     <td><?php echo $row['fNacimiento']; ?></td>
+                    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                        <td class='bot'><input type='submit' name='mod' id='mod' value='Modificar'</td>
+                        <td class='bot'><input type='hidden' name='codigo' id='codigo' value='<?php echo $row['codigo']; ?>'></td>
+                        <td class='bot'><input type='hidden' name='nombre' id='nombre' value='<?php echo $row['nombre']; ?>'></td>
+                        <td class='bot'><input type='hidden' name='salario' id='salario' value='<?php echo $row['salario']; ?>'></td>
+                        <td class='bot'><input type='hidden' name='hijos' id='hijos' value='<?php echo $row['hijos']; ?>'></td>
+                        <td class='bot'><input type='hidden' name='fNacimiento' id='fNacimiento' value='<?php echo $row['fNacimiento']; ?>'></td>
+
+                    </form>
+
                 </tr>
             <?php
                 $row = $registros->fetch();
@@ -112,12 +111,11 @@
             $conexion = null;
             ?>
             <tr>
-                <td><input type="text" name="codigo" size="10" class="centrado"></td>
-                <td><input type="text" name="nombre" size="10" class="centrado"></td>
-                <td><input type="text" name="salario" size="10" class="centrado"></td>
-                <td><input type="text" name="hijos" size="10" class="centrado"></td>
-                <td><input type="date" name="fNacimiento" size="10" class="centrado"></td>
-                <td class='bot'><input type='submit' name='cr' id='cr' value='Insertar'></td>
+                <td class="sin">&nbsp;</td>
+                <td class="sin">&nbsp;</td>
+                <td class="sin">&nbsp;</td>
+                <td class="sin">&nbsp;</td>
+                <td class="sin">&nbsp;</td>
                 <td class='bot'><input type='submit' name='back' id='back' value='Volver'></td>
             </tr>
         </table>

@@ -2,7 +2,7 @@
     //Conexión a la base de datos
     function conectar($base){
         try{
-          $conexion=new PDO("mysql:host=localhost;dbname=".$base,"root","");
+          $conexion=new PDO("mysql:host=localhost;dbname=".$base,"root","1234");
           $conexion->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
         }catch(PDOException $e){
           echo $e->getMessage();
