@@ -68,7 +68,7 @@
             </div>
         </nav>
     </div>
-    <h1>Modificar comerciales<span class="subtitulo"></span></h1>
+    <h1>Modificar comerciales.<span class="subtitulo"></span></h1>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <table width="50%" border="0" align="center">
             <tr>
