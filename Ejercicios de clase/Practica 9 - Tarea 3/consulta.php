@@ -73,14 +73,14 @@
                     <td>
                         <select name='cod' id='cod'>
                             <?php
-                            echo "<option name='cr' value=''>Nombre del vendedor</option>";
+                            echo "<option name='cr' value=''>Nombre del vendedor y su codigo asociado</option>";
                             $conexion = conectar("ventas_comerciales");
                             $query = "select * from comerciales";
                             $registros = $conexion->query($query) or die($conexion->error);
                             $row = $registros->fetch();
                             while ($row != null) {
                             ?>
-                                <option value="<?php echo $row['codigo']; ?>"><?php echo $row['nombre']; ?></option>
+                                <option value="<?php echo $row['codigo']; ?>"><?php echo $row['nombre'] . " - " . $row['codigo']; ?></option>
                             <?php
 
                                 $row = $registros->fetch();

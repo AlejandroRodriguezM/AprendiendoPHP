@@ -18,7 +18,6 @@ function operacionesMySql($query, $base)
 {
   try {
     $conexion = conectar($base);
-    // $conexion->query($query);
     $conexion->exec($query);
   } catch (PDOException $e) {
     die("Codigo: " . $e->getCode() . "<br>Error: " . $e->getMessage());
@@ -36,5 +35,15 @@ function checkID($query)
     $existe = true;
   }
   return $existe;
+}
+
+function checkAge($nacimiento){
+  $actualYear = date("Y");
+  $edad = $actualYear - $nacimiento;
+  if($edad >= 18){
+      return true;
+  }else{
+      return false;
+  }
 }
 

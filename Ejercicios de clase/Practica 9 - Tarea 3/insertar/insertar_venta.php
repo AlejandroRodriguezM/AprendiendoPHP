@@ -15,7 +15,7 @@
     include("../funciones.php");
     //insertar datos
     if (isset($_POST['cr'])) {
-        if (!empty($_POST['cod']) && !empty($_POST['ref']) && !empty($_POST['cant'] && !empty($_POST['fecha']))) {
+        if (!empty($_POST['cod']) && !empty($_POST['ref']) && !empty($_POST['cant']) && !empty($_POST['fecha'])) {
             $codigo = $_POST['cod'];
             $referencia = $_POST['ref'];
             $cantidad = $_POST['cant'];

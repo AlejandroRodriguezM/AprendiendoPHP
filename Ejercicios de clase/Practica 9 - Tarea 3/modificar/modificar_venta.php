@@ -25,7 +25,7 @@
     if (isset($_POST['back'])) {
         header("Location:../modificar.php");
     }
-    // //Listado de datos
+
     $conexion = conectar("ventas_comerciales");
     $query = "select * from ventas";
     $registros = $conexion->query($query) or die($conexion->error);

@@ -15,7 +15,7 @@
     include_once '../funciones.php';
     //insertar datos
     if (isset($_POST['cr'])) {
-        if (!empty($_POST['referencia']) && !empty($_POST['nombre']) && !empty($_POST['descripcion'] && !empty($_POST['precio']) && !empty($_POST['descuento']))) {
+        if (!empty($_POST['referencia']) && !empty($_POST['nombre']) && !empty($_POST['precio']) && !empty($_POST['descuento'])) {
             $referencia = $_POST['referencia'];
             $nombre = $_POST['nombre'];
             $descripcion = $_POST['descripcion'];

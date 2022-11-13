@@ -99,7 +99,13 @@ table .primera_fila {
   background-color: #FC3;
 }
 
-.centrado {
+.mens_error {
+  color: red;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
   text-align: center;
+  font-size: 35px;
 }
 

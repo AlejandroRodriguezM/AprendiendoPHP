@@ -50,6 +50,7 @@
     </div>
     <?php
     include("../funciones.php");
+    $mensaje = "";
     if (!isset($_POST['bot_actualizar'])) {
         $codigo = $_GET['codigo'];
         $nombre = $_GET['nombre'];
@@ -57,15 +58,27 @@
         $hijos = $_GET['hijos'];
         $fNacimiento = $_GET['fNacimiento'];
     } else {
-        $codigo = $_POST['codigo'];
-        $nombre = $_POST['nombre'];
-        $salario = $_POST['salario'];
-        $hijos = $_POST['hijos'];
-        $fNacimiento = $_POST['fNacimiento'];
-        $base = "ventas_comerciales";
-        $query = "UPDATE comerciales SET nombre='$nombre', salario='$salario', hijos='$hijos', fNacimiento='$fNacimiento' where codigo='$codigo'";
-        operacionesMySql($query, $base);
-        header("Location:modificar_comercial.php");
+        if (!empty($_POST['codigo']) && !empty($_POST['nombre']) && !empty($_POST['salario']) && !empty($_POST['hijos']) && !empty($_POST['fNacimiento'])) {
+            $codigo = $_POST['codigo'];
+            $nombre = $_POST['nombre'];
+            $salario = $_POST['salario'];
+            $hijos = $_POST['hijos'];
+            $fNacimiento = $_POST['fNacimiento'];
+            $arrayFecha = explode("-", $fNacimiento);
+            $nacimiento = $arrayFecha[0];
+
+            if (checkAge($nacimiento)) {
+                $base = "ventas_comerciales";
+                $query = "UPDATE comerciales SET nombre='$nombre', salario='$salario', hijos='$hijos', fNacimiento='$fNacimiento' where codigo='$codigo'";
+                operacionesMySql($query, $base);
+                header("Location:modificar_comercial.php");
+            } else {
+                $mensaje = "<b class='mens_error'>ERROR. El comercial debe ser mayor de edad. Se ha cancelado el insertado</b>";
+            }
+        }
+        else{
+            $mensaje = "<b class='mens_error'>ERROR. No se ha podido actualizar el comercial</b>";
+        }
     }
     if (isset($_POST['bot_cancelar'])) {
         header("Location:modificar_comercial.php");
@@ -110,6 +123,10 @@
                 <td class='bot'><input type="submit" name="bot_cancelar" id="bot_cancelar" value="Cancelar"></td>
             </tr>
         </table>
+        <?php
+        if (isset($_POST['cr'])) {
+            echo "<br>" . $mensaje;
+        } ?>
     </form>
 </body>
 

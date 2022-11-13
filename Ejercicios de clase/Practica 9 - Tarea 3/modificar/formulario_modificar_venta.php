@@ -50,19 +50,22 @@
     </div>
     <?php
     include("../funciones.php");
+    $mensaje = "";
     if (!isset($_POST['bot_actualizar'])) {
         $conComercial = $_GET['codComercial'];
         $refProducto = $_GET['refProducto'];
         $cantidad = $_GET['cantidad'];
         $fecha = $_GET['fecha'];
     } else {
-        $conComercial = $_POST['codComercial'];
-        $refProducto = $_POST['refProducto'];
-        $cantidad = $_POST['cantidad'];
-        $fecha = $_POST['fecha'];
-        $sql = "UPDATE ventas SET codComercial='$conComercial', refProducto='$refProducto', cantidad='$cantidad', fecha='$fecha' WHERE codComercial='$conComercial'";
-        operacionesMySql($query, $base);
-        header("Location:modificar_venta.php");
+        if (!empty($_POST['cod']) && !empty($_POST['ref']) && !empty($_POST['cant']) && !empty($_POST['fecha'])) {
+            $conComercial = $_POST['codComercial'];
+            $refProducto = $_POST['refProducto'];
+            $cantidad = $_POST['cantidad'];
+            $fecha = $_POST['fecha'];
+            $sql = "UPDATE ventas SET codComercial='$conComercial', refProducto='$refProducto', cantidad='$cantidad', fecha='$fecha' WHERE codComercial='$conComercial'";
+            operacionesMySql($query, $base);
+            header("Location:modificar_venta.php");
+        }
     }
 
     if (isset($_POST['bot_cancelar'])) {
@@ -132,6 +135,10 @@
                 <td class='bot'><input type="submit" name="bot_cancelar" id="bot_cancelar" value="Cancelar"></td>
             </tr>
         </table>
+        <?php
+        if (isset($_POST['cr'])) {
+            echo "<br>" . $mensaje;
+        } ?>
     </form>
 </body>
 

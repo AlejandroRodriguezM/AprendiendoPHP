@@ -13,7 +13,6 @@
 <body>
     <?php
     include_once '../funciones.php';
-    //eliminar datos
     if (isset($_POST['mod'])) {
         $codigo = $_POST['codigo'];
         $nombre = $_POST['nombre'];
@@ -26,7 +25,6 @@
     if (isset($_POST['back'])) {
         header("Location:../modificacion.php");
     }
-    // //Listado de datos
     $conexion = conectar("ventas_comerciales");
     $query = "select * from comerciales";
     $registros = $conexion->query($query) or die($conexion->error);
@@ -112,15 +110,14 @@
             ?>
             <tr>
                 <td class="sin">&nbsp;</td>
-            </tr>
-            <tr>
-                <td class="sin">&nbsp;</td>
                 <td class="sin">&nbsp;</td>
                 <td class="sin">&nbsp;</td>
                 <td class="sin">&nbsp;</td>
                 <td class="sin">&nbsp;</td>
                 <td class='bot'><input type='submit' name='back' id='back' value='Volver'></td>
             </tr>
+                
+
         </table>
 
     </form>

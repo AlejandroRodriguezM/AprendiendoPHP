@@ -15,24 +15,33 @@
     include_once '../funciones.php';
     //insertar datos
     if (isset($_POST['cr'])) {
-        if (!empty($_POST['codigo']) && !empty($_POST['nombre']) && !empty($_POST['salario'] && !empty($_POST['hijos']) && !empty($_POST['fNacimiento']))) {
+        if (!empty($_POST['codigo']) && !empty($_POST['nombre']) && !empty($_POST['salario']) && !empty($_POST['hijos']) && !empty($_POST['fNacimiento'])) {
             $codigo = $_POST['codigo'];
             $nombre = $_POST['nombre'];
             $salario = $_POST['salario'];
             $hijos = $_POST['hijos'];
             $fNacimiento = $_POST['fNacimiento'];
             $fNacimiento = date('Y-m-d', strtotime(str_replace('-', '/', $fNacimiento)));
-            $query = "select codigo from comerciales where codigo = '$codigo'";
-            if (checkID($query)) {
-                $base = "ventas_comerciales";
-                $sentenciaSQL = "INSERT INTO comerciales(codigo, nombre, salario, hijos, fNacimiento) VALUES('$codigo', '$nombre', '$salario', '$hijos', '$fNacimiento')";
-                operacionesMySql($sentenciaSQL, $base);
-                header("Location:insertar_comercial.php");
-            } else {
-                echo "El codigo introducido ya existe";
+            $arrayFecha = explode("-",$fNacimiento);
+            
+            $nacimiento = $arrayFecha[0];
+            if(checkAge($nacimiento)){
+                $query = "select codigo from comerciales where codigo = '$codigo'";
+                $mensaje = "<b>Has añadido correctamente al comercial $nombre con codigo $codigo</b>";
+                if (!checkID($query)) {
+                    $base = "ventas_comerciales";
+                    $sentenciaSQL = "INSERT INTO comerciales(codigo, nombre, salario, hijos, fNacimiento) VALUES('$codigo', '$nombre', '$salario', '$hijos', '$fNacimiento')";
+                    operacionesMySql($sentenciaSQL, $base);
+                    header("Location:insertar_comercial.php");
+                } else {
+                    $mensaje = "<b class='mens_error'>ERROR.El codigo introducido ya existe</b>";
+                }
+            }
+            else{
+                $mensaje = "<b class='mens_error'>ERROR. El comercial debe ser mayor de edad. Se ha cancelado el insertado</b>";
             }
         } else {
-            echo "No se han introducido todos los datos";
+            $mensaje =  "<b class='mens_error'>ERROR. No se han introducido todos los datos</b>";
         }
     }
 
@@ -120,9 +129,13 @@
                 <td><input type="date" name="fNacimiento" size="10" class="centrado"></td>
                 <td class='bot'><input type='submit' name='cr' id='cr' value='Insertar'></td>
                 <td class='bot'><input type='submit' name='back' id='back' value='Volver'></td>
+
             </tr>
         </table>
-
+        <?php
+        if (isset($_POST['cr'])) {
+            echo "<br>" . $mensaje;
+        } ?>
     </form>
 
 </body>

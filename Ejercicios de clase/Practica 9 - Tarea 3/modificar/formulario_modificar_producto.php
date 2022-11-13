@@ -50,6 +50,7 @@
     </div>
     <?php
     include("../funciones.php");
+    $mensaje = "";
     if (!isset($_POST['bot_actualizar'])) {
         $referencia = $_GET['referencia'];
         $nombre = $_GET['nombre'];
@@ -57,16 +58,22 @@
         $precio = $_GET['precio'];
         $descuento = $_GET['descuento'];
     } else {
-        $referencia = $_POST['referencia'];
-        $nombre = $_POST['nombre'];
-        $descripcion = $_POST['descripcion'];
-        $precio = $_POST['precio'];
-        $descuento = $_POST['descuento'];
-        $base = "ventas_comerciales";
-        $query = "UPDATE productos SET nombre='$nombre', descripcion='$descripcion', precio='$precio', descuento = '$descuento' WHERE referencia = '$referencia'";
-        operacionesMySql($query, $base);
-        header("Location:modificar_producto.php");
+        if (!empty($_POST['referencia']) && !empty($_POST['nombre']) && !empty($_POST['precio']) && !empty($_POST['descuento'])) {
+            $referencia = $_POST['referencia'];
+            $nombre = $_POST['nombre'];
+            $descripcion = $_POST['descripcion'];
+            $precio = $_POST['precio'];
+            $descuento = $_POST['descuento'];
+            $base = "ventas_comerciales";
+            $query = "UPDATE productos SET nombre='$nombre', descripcion='$descripcion', precio='$precio', descuento = '$descuento' WHERE referencia = '$referencia'";
+            operacionesMySql($query, $base);
+            header("Location:modificar_producto.php");
+        }
+        else{
+            $mensaje = "<b class='mens_error'>ERROR. No se ha podido actualizar el producto. Hay datos sin rellenar</b>";
+        }
     }
+
     if (isset($_POST['bot_cancelar'])) {
         header("Location:modificar_producto.php");
     }
@@ -109,6 +116,10 @@
                 <td class='bot'><input type="submit" name="bot_cancelar" id="bot_cancelar" value="Cancelar"></td>
             </tr>
         </table>
+        <?php
+        if (isset($_POST['cr'])) {
+            echo "<br>" . $mensaje;
+        } ?>
     </form>
 </body>
 
