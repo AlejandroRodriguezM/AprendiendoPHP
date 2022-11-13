@@ -13,21 +13,25 @@
 <body>
     <?php
     include_once '../funciones.php';
-    //insertar datos
+    $mensaje = "";
     if (isset($_POST['cr'])) {
         if (!empty($_POST['codigo']) && !empty($_POST['nombre']) && !empty($_POST['salario']) && !empty($_POST['hijos']) && !empty($_POST['fNacimiento'])) {
+            $salarioMinimoInterprofesional = 1000;
             $codigo = $_POST['codigo'];
             $nombre = $_POST['nombre'];
             $salario = $_POST['salario'];
+            if ($salario < $salarioMinimoInterprofesional || $salario == 0) {
+                $salario = $salarioMinimoInterprofesional;
+            }
             $hijos = $_POST['hijos'];
             $fNacimiento = $_POST['fNacimiento'];
             $fNacimiento = date('Y-m-d', strtotime(str_replace('-', '/', $fNacimiento)));
-            $arrayFecha = explode("-",$fNacimiento);
-            
+            $arrayFecha = explode("-", $fNacimiento);
+
             $nacimiento = $arrayFecha[0];
-            if(checkAge($nacimiento)){
+            if (checkAge($nacimiento)) {
                 $query = "select codigo from comerciales where codigo = '$codigo'";
-                $mensaje = "<b>Has añadido correctamente al comercial $nombre con codigo $codigo</b>";
+                $mensaje = "<b class='mens_ok'>Has añadido correctamente al comercial $nombre con codigo $codigo</b>";
                 if (!checkID($query)) {
                     $base = "ventas_comerciales";
                     $sentenciaSQL = "INSERT INTO comerciales(codigo, nombre, salario, hijos, fNacimiento) VALUES('$codigo', '$nombre', '$salario', '$hijos', '$fNacimiento')";
@@ -36,8 +40,7 @@
                 } else {
                     $mensaje = "<b class='mens_error'>ERROR.El codigo introducido ya existe</b>";
                 }
-            }
-            else{
+            } else {
                 $mensaje = "<b class='mens_error'>ERROR. El comercial debe ser mayor de edad. Se ha cancelado el insertado</b>";
             }
         } else {
@@ -123,7 +126,7 @@
             ?>
             <tr>
                 <td><input type="text" name="codigo" size="10" class="centrado" pattern="[0-9]{3}"></td>
-                <td><input type="text" name="nombre" size="10" class="centrado"></td>
+                <td><input type="text" name="nombre" size="10" class="centrado" pattern="[A-Za-z]{3,30}"></td>
                 <td><input type="number" name="salario" size="10" class="centrado"></td>
                 <td><input type="number" name="hijos" size="10" class="centrado"></td>
                 <td><input type="date" name="fNacimiento" size="10" class="centrado"></td>

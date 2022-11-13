@@ -13,21 +13,23 @@
 <body>
     <?php
     include("../funciones.php");
-    //insertar datos
+    $mensaje = "";
     if (isset($_POST['cr'])) {
         if (!empty($_POST['cod']) && !empty($_POST['ref']) && !empty($_POST['cant']) && !empty($_POST['fecha'])) {
             $codigo = $_POST['cod'];
             $referencia = $_POST['ref'];
             $cantidad = $_POST['cant'];
+            if ($cantidad == 0) {
+                $cantidad = 1;
+            }
             $fecha = $_POST['fecha'];
             $fecha = date('Y-m-d', strtotime(str_replace('-', '/', $fecha)));
-
             $base = "ventas_comerciales";
             $query = "INSERT INTO ventas(codComercial,refProducto,cantidad,fecha) values('$codigo','$referencia','$cantidad','$fecha')";
             operacionesMySql($query, $base);
             header("Location:insertar_venta.php");
         } else {
-            echo "No se han introducido todos los datos";
+            $mensaje =  "<b class='mens_error'>ERROR. No se han introducido todos los datos</b>";
         }
     }
 
@@ -149,7 +151,10 @@
                 <td class='bot'><input type='submit' name='back' id='back' value='Volver'></td>
             </tr>
         </table>
-
+        <?php
+        if (isset($_POST['cr'])) {
+            echo "<br>" . $mensaje;
+        } ?>
     </form>
 
 </body>

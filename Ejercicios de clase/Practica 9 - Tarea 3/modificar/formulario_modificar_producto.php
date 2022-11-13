@@ -62,8 +62,18 @@
             $referencia = $_POST['referencia'];
             $nombre = $_POST['nombre'];
             $descripcion = $_POST['descripcion'];
+            if(empty($descripcion)){
+                $descripcion = "Sin descripción";
+            }
             $precio = $_POST['precio'];
+            if($precio == 0){
+                $precio = 1;
+            }
+
             $descuento = $_POST['descuento'];
+            if($descuento == 0){
+                $descuento = 1;
+            }
             $base = "ventas_comerciales";
             $query = "UPDATE productos SET nombre='$nombre', descripcion='$descripcion', precio='$precio', descuento = '$descuento' WHERE referencia = '$referencia'";
             operacionesMySql($query, $base);

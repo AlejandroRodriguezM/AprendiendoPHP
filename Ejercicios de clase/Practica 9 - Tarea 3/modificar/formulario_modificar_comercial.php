@@ -97,7 +97,7 @@
             <tr>
                 <td>Nombre</td>
                 <td><label for="nombre"></label>
-                    <input type="text" name="nombre" id="nombre" value="<?php echo $nombre ?>">
+                    <input type="text" name="nombre" id="nombre" pattern="[A-Za-z]{3,30}" value="<?php echo $nombre ?>">
                 </td>
             </tr>
             <tr>

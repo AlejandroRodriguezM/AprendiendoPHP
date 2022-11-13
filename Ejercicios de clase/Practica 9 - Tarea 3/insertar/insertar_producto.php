@@ -13,14 +13,25 @@
 <body>
     <?php
     include_once '../funciones.php';
-    //insertar datos
+    $mensaje = "";
     if (isset($_POST['cr'])) {
         if (!empty($_POST['referencia']) && !empty($_POST['nombre']) && !empty($_POST['precio']) && !empty($_POST['descuento'])) {
             $referencia = $_POST['referencia'];
             $nombre = $_POST['nombre'];
             $descripcion = $_POST['descripcion'];
+            if (empty($descripcion)) {
+                $descripcion = "Sin descripción";
+            }
             $precio = $_POST['precio'];
+            if ($precio == 0) {
+                $precio = 1;
+            }
+
             $descuento = $_POST['descuento'];
+            if ($descuento == 0) {
+                $descuento = 1;
+            }
+
             $query = "select referencia from productos where referencia = '$referencia'";
             if (checkID($query)) {
                 $base = "ventas_comerciales";
@@ -28,10 +39,10 @@
                 operacionesMySql($sentenciaSQL, $base);
                 header("Location:insertar_producto.php");
             } else {
-                echo "El codigo introducido ya existe";
+                $mensaje = "<b class='mens_error'>ERROR. Ya existe un producto con esa referencia</b>";
             }
         } else {
-            echo "No se han introducido todos los datos";
+            $mensaje =  "<b class='mens_error'>ERROR. No se han introducido todos los datos</b>";
         }
     }
 
@@ -113,7 +124,7 @@
             ?>
             <tr>
                 <td><input type="text" name="referencia" size="10" class="centrado" pattern="[A-Z]{2}[0-9]{4}"></td>
-                <td><input type="text" name="nombre" size="10" class="centrado"></td>
+                <td><input type="text" name="nombre" size="10" class="centrado" pattern="[A-Za-z]{3,20}"></td>
                 <td><input type="text" name="descripcion" size="10" class="centrado"></td>
                 <td><input type="number" name="precio" size="10" class="centrado"></td>
                 <td><input type="number" name="descuento" size="10" class="centrado"></td>
@@ -121,6 +132,10 @@
                 <td class='bot'><input type='submit' name='back' id='back' value='Volver'></td>
             </tr>
         </table>
+        <?php
+        if (isset($_POST['cr'])) {
+            echo "<br>" . $mensaje;
+        } ?>
 
     </form>
 

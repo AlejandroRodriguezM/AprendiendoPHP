@@ -109,3 +109,13 @@ table .primera_fila {
   font-size: 35px;
 }
 
+.mens_ok {
+  color: green;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  text-align: center;
+  font-size: 30px;
+}
+
