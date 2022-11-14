@@ -7,51 +7,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/style.css">
     <link rel="shortcut icon" href="../img/ico.png">
-    <title>Document</title>
+    <title>Insertando comercial</title>
 </head>
 
 <body>
     <?php
     include_once '../funciones.php';
     $mensaje = "";
+    /**
+     * Permite insertar un comercial en la base de datos, siempre que los datos esten introducidos correctamente
+     */
     if (isset($_POST['cr'])) {
         if (!empty($_POST['codigo']) && !empty($_POST['nombre']) && !empty($_POST['salario']) && !empty($_POST['hijos']) && !empty($_POST['fNacimiento'])) {
             $salarioMinimoInterprofesional = 1000;
             $codigo = $_POST['codigo'];
             $nombre = $_POST['nombre'];
             $salario = $_POST['salario'];
-            if ($salario < $salarioMinimoInterprofesional || $salario == 0) {
+            //Comprobamos que el salario sea mayor que el salario minimo interprofesional
+            if ($salario < $salarioMinimoInterprofesional) {
                 $salario = $salarioMinimoInterprofesional;
             }
             $hijos = $_POST['hijos'];
             $fNacimiento = $_POST['fNacimiento'];
             $fNacimiento = date('Y-m-d', strtotime(str_replace('-', '/', $fNacimiento)));
-            $arrayFecha = explode("-", $fNacimiento);
 
-            $nacimiento = $arrayFecha[0];
-            if (checkAge($nacimiento)) {
-                $query = "select codigo from comerciales where codigo = '$codigo'";
-                $mensaje = "<b class='mens_ok'>Has añadido correctamente al comercial $nombre con codigo $codigo</b>";
-                if (!checkID($query)) {
-                    $base = "ventas_comerciales";
-                    $sentenciaSQL = "INSERT INTO comerciales(codigo, nombre, salario, hijos, fNacimiento) VALUES('$codigo', '$nombre', '$salario', '$hijos', '$fNacimiento')";
-                    operacionesMySql($sentenciaSQL, $base);
-                    header("Location:insertar_comercial.php");
-                } else {
-                    $mensaje = "<b class='mens_error'>ERROR.El codigo introducido ya existe</b>";
-                }
+            $query = "select codigo from comerciales where codigo = '$codigo'";
+            $mensaje = "<b class='mens_ok'>Has añadido correctamente al comercial $nombre con codigo $codigo</b>";
+            if (!checkID($query)) {
+                $base = "ventas_comerciales";
+                $sentenciaSQL = "INSERT INTO comerciales(codigo, nombre, salario, hijos, fNacimiento) VALUES('$codigo', '$nombre', '$salario', '$hijos', '$fNacimiento')";
+                operacionesMySql($sentenciaSQL, $base);
+                header("Location:insertar_comercial.php");
             } else {
-                $mensaje = "<b class='mens_error'>ERROR. El comercial debe ser mayor de edad. Se ha cancelado el insertado</b>";
+                $mensaje = "<b class='mens_error'>ERROR.El codigo introducido ya existe</b>";
             }
         } else {
             $mensaje =  "<b class='mens_error'>ERROR. No se han introducido todos los datos</b>";
         }
     }
 
+    /**
+     * Permite volver al menu de insertar indice
+     */
     if (isset($_POST['back'])) {
         header("Location:../insercion.php");
     }
-    // //Listado de datos
+
+    //Listado de datos
     $conexion = conectar("ventas_comerciales");
     $query = "select * from comerciales";
     $registros = $conexion->query($query) or die($conexion->error);
@@ -129,6 +131,7 @@
                 <td><input type="text" name="nombre" size="10" class="centrado" pattern="[A-Za-z]{3,30}"></td>
                 <td><input type="number" name="salario" size="10" class="centrado"></td>
                 <td><input type="number" name="hijos" size="10" class="centrado"></td>
+                <td><input type="date" name="fNacimiento" size="10" class="centrado" min="1955-01-01" max="2004-01-01"></td>
                 <td><input type="date" name="fNacimiento" size="10" class="centrado"></td>
                 <td class='bot'><input type='submit' name='cr' id='cr' value='Insertar'></td>
                 <td class='bot'><input type='submit' name='back' id='back' value='Volver'></td>
@@ -136,6 +139,7 @@
             </tr>
         </table>
         <?php
+        //Muestra un mensaje, segun el resultado del insertado del comercial
         if (isset($_POST['cr'])) {
             echo "<br>" . $mensaje;
         } ?>

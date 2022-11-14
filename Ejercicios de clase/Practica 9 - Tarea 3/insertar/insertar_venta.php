@@ -7,13 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/style.css">
     <link rel="shortcut icon" href="../img/ico.png">
-    <title>Document</title>
+    <title>Insertando venta</title>
 </head>
 
 <body>
     <?php
     include("../funciones.php");
     $mensaje = "";
+        /**
+     * Permite insertar una venta en la base de datos, siempre que los datos esten introducidos correctamente
+     */
     if (isset($_POST['cr'])) {
         if (!empty($_POST['cod']) && !empty($_POST['ref']) && !empty($_POST['cant']) && !empty($_POST['fecha'])) {
             $codigo = $_POST['cod'];
@@ -33,6 +36,9 @@
         }
     }
 
+        /**
+     * Permite volver al menu de insertar indice
+     */
     if (isset($_POST['back'])) {
         header("Location:../insercion.php");
     }
@@ -152,6 +158,7 @@
             </tr>
         </table>
         <?php
+        //Muestra un mensaje, segun el resultado del insertado del comercial
         if (isset($_POST['cr'])) {
             echo "<br>" . $mensaje;
         } ?>

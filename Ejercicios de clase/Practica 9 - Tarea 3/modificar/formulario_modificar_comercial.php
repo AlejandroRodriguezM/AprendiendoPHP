@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/style.css">
     <link rel="shortcut icon" href="../img/ico.png">
-    <title>Document</title>
+    <title>Formulario de modificacion de comercial</title>
 </head>
 
 <body>
@@ -51,6 +51,10 @@
     <?php
     include("../funciones.php");
     $mensaje = "";
+    /**
+     * Cuando se carga la pagina, los datos que se mostraran seran aquellos que han recibido del fichero modificicar_comercial.
+     * Una vez pulsado el boton actualizar, se guardaran los datos en pantalla
+     */
     if (!isset($_POST['bot_actualizar'])) {
         $codigo = $_GET['codigo'];
         $nombre = $_GET['nombre'];
@@ -66,20 +70,17 @@
             $fNacimiento = $_POST['fNacimiento'];
             $arrayFecha = explode("-", $fNacimiento);
             $nacimiento = $arrayFecha[0];
-
-            if (checkAge($nacimiento)) {
-                $base = "ventas_comerciales";
-                $query = "UPDATE comerciales SET nombre='$nombre', salario='$salario', hijos='$hijos', fNacimiento='$fNacimiento' where codigo='$codigo'";
-                operacionesMySql($query, $base);
-                header("Location:modificar_comercial.php");
-            } else {
-                $mensaje = "<b class='mens_error'>ERROR. El comercial debe ser mayor de edad. Se ha cancelado el insertado</b>";
-            }
-        }
-        else{
+            $base = "ventas_comerciales";
+            $query = "UPDATE comerciales SET nombre='$nombre', salario='$salario', hijos='$hijos', fNacimiento='$fNacimiento' where codigo='$codigo'";
+            operacionesMySql($query, $base);
+            header("Location:modificar_comercial.php");
+        } else {
             $mensaje = "<b class='mens_error'>ERROR. No se ha podido actualizar el comercial</b>";
         }
     }
+    /**
+     * Permite volver al menu de modificar comercial
+     */
     if (isset($_POST['bot_cancelar'])) {
         header("Location:modificar_comercial.php");
     }
@@ -115,7 +116,7 @@
             <tr>
                 <td>Fecha de nacimiento</td>
                 <td><label for="fNacimiento"></label>
-                    <input type="date" name="fNacimiento" id="fNacimiento" value="<?php echo $fNacimiento ?>">
+                    <input type="date" name="fNacimiento" id="fNacimiento" value="<?php echo $fNacimiento ?>" min="1955-01-01" max="2004-01-01">
                 </td>
             </tr>
             <tr>
@@ -124,6 +125,7 @@
             </tr>
         </table>
         <?php
+        //Muestra un mensaje, segun el resultado del insertado del comercial
         if (isset($_POST['cr'])) {
             echo "<br>" . $mensaje;
         } ?>

@@ -7,12 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/style.css">
     <link rel="shortcut icon" href="../img/ico.png">
-    <title>Document</title>
+    <title>Modificando comercial</title>
 </head>
 
 <body>
     <?php
     include_once '../funciones.php';
+    /**
+     * Al pulsar el boton mod, se guardaran los datos en una variable y mediante header se mandaran los datos a la pagina de formulario formulario_modificar_X.php 
+     */
     if (isset($_POST['mod'])) {
         $codigo = $_POST['codigo'];
         $nombre = $_POST['nombre'];
@@ -22,9 +25,14 @@
         header("Location: formulario_modificar_comercial.php?codigo=$codigo&nombre=$nombre&salario=$salario&hijos=$hijos&fNacimiento=$fNacimiento");
     }
 
+    /**
+     * Permite volver al menu indice de modificacion
+     */
     if (isset($_POST['back'])) {
         header("Location:../modificacion.php");
     }
+    
+    //Lista de datos
     $conexion = conectar("ventas_comerciales");
     $query = "select * from comerciales";
     $registros = $conexion->query($query) or die($conexion->error);
@@ -80,7 +88,6 @@
                 <td class="sin">&nbsp;</td>
                 <td class="sin">&nbsp;</td>
                 <td class="sin">&nbsp;</td>
-
             </tr>
             <?php
             $row = $registros->fetch();
@@ -99,9 +106,7 @@
                         <td class='bot'><input type='hidden' name='salario' id='salario' value='<?php echo $row['salario']; ?>'></td>
                         <td class='bot'><input type='hidden' name='hijos' id='hijos' value='<?php echo $row['hijos']; ?>'></td>
                         <td class='bot'><input type='hidden' name='fNacimiento' id='fNacimiento' value='<?php echo $row['fNacimiento']; ?>'></td>
-
                     </form>
-
                 </tr>
             <?php
                 $row = $registros->fetch();
@@ -116,12 +121,8 @@
                 <td class="sin">&nbsp;</td>
                 <td class='bot'><input type='submit' name='back' id='back' value='Volver'></td>
             </tr>
-                
-
         </table>
-
     </form>
-
 </body>
 
 </html>

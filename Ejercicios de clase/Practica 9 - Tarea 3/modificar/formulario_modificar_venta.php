@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/style.css">
     <link rel="shortcut icon" href="../img/ico.png">
-    <title>Document</title>
+    <title>Formulario para modificar venta</title>
 </head>
 
 <body>
@@ -50,6 +50,10 @@
     </div>
     <?php
     include("../funciones.php");
+    /**
+     * Cuando se carga la pagina, los datos que se mostraran seran aquellos que han recibido del fichero modificicar_venta.
+     * Una vez pulsado el boton actualizar, se guardaran los datos en pantalla
+     */
     $mensaje = "";
     if (!isset($_POST['bot_actualizar'])) {
         $conComercial = $_GET['codComercial'];
@@ -136,6 +140,7 @@
             </tr>
         </table>
         <?php
+        //Muestra un mensaje, segun el resultado del insertado del comercial
         if (isset($_POST['cr'])) {
             echo "<br>" . $mensaje;
         } ?>

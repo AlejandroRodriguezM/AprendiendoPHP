@@ -13,9 +13,8 @@
 <body>
     <?php
     include_once 'funciones.php';
-    //insertar datos
 
-    // //Listado de datos
+    //Listado de datos
     $conexion = conectar("ventas_comerciales");
     $query = "select * from comerciales";
     $registros = $conexion->query($query) or die($conexion->error);
@@ -73,6 +72,7 @@
                     <td>
                         <select name='cod' id='cod'>
                             <?php
+                            //Permite mostrar el nombre y codigo asociado a comercial
                             echo "<option name='cr' value=''>Nombre del vendedor y su codigo asociado</option>";
                             $conexion = conectar("ventas_comerciales");
                             $query = "select * from comerciales";

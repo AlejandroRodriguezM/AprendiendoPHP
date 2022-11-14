@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/style.css">
     <link rel="shortcut icon" href="../img/ico.png">
-    <title>Document</title>
+    <title>Formulario para modificar producto</title>
 </head>
 
 <body>
@@ -49,6 +49,10 @@
         </nav>
     </div>
     <?php
+    /**
+     * Cuando se carga la pagina, los datos que se mostraran seran aquellos que han recibido del fichero modificicar_producto.
+     * Una vez pulsado el boton actualizar, se guardaran los datos en pantalla
+     */
     include("../funciones.php");
     $mensaje = "";
     if (!isset($_POST['bot_actualizar'])) {
@@ -62,24 +66,23 @@
             $referencia = $_POST['referencia'];
             $nombre = $_POST['nombre'];
             $descripcion = $_POST['descripcion'];
-            if(empty($descripcion)){
+            if (empty($descripcion)) {
                 $descripcion = "Sin descripción";
             }
             $precio = $_POST['precio'];
-            if($precio == 0){
+            if ($precio == 0) {
                 $precio = 1;
             }
 
             $descuento = $_POST['descuento'];
-            if($descuento == 0){
+            if ($descuento == 0) {
                 $descuento = 1;
             }
             $base = "ventas_comerciales";
             $query = "UPDATE productos SET nombre='$nombre', descripcion='$descripcion', precio='$precio', descuento = '$descuento' WHERE referencia = '$referencia'";
             operacionesMySql($query, $base);
             header("Location:modificar_producto.php");
-        }
-        else{
+        } else {
             $mensaje = "<b class='mens_error'>ERROR. No se ha podido actualizar el producto. Hay datos sin rellenar</b>";
         }
     }
@@ -127,6 +130,7 @@
             </tr>
         </table>
         <?php
+        //Muestra un mensaje, segun el resultado del insertado del comercial
         if (isset($_POST['cr'])) {
             echo "<br>" . $mensaje;
         } ?>

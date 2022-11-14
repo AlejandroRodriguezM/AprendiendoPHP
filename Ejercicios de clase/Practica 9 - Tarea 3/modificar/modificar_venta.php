@@ -7,13 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/style.css">
     <link rel="shortcut icon" href="../img/ico.png">
-    <title>Document</title>
+    <title>Modificar venta</title>
 </head>
 
 <body>
     <?php
     include_once '../funciones.php';
-    //eliminar datos
+    /**
+     * Al pulsar el boton mod, se guardaran los datos en una variable y mediante header se mandaran los datos a la pagina de formulario formulario_modificar_X.php 
+     */
     if (isset($_POST['del'])) {
         $codComercial = $_POST['codComercial'];
         $refProducto = $_POST['refProducto'];
@@ -22,10 +24,14 @@
         header("Location: formulario_modificar_venta.php?codComercial=$codComercial&refProducto=$refProducto&cantidad=$cantidad&fecha=$fecha");
     }
 
+    /**
+     * Permite volver al menu indice de modificacion
+     */
     if (isset($_POST['back'])) {
         header("Location:../modificar.php");
     }
 
+    //Listado de datos
     $conexion = conectar("ventas_comerciales");
     $query = "select * from ventas";
     $registros = $conexion->query($query) or die($conexion->error);

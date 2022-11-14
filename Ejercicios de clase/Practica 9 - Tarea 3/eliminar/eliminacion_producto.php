@@ -7,13 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/style.css">
     <link rel="shortcut icon" href="../img/ico.png">
-    <title>Document</title>
+    <title>Eliminacion de producto</title>
 </head>
 
 <body>
     <?php
     include_once '../funciones.php';
-    //eliminar datos
+
+    /**
+     * Permite eliminar un comercial de la base de datos.
+     */
     if (isset($_POST['del'])) {
         $referencia = $_POST['referencia'];
         $base = "ventas_comerciales";
@@ -22,10 +25,14 @@
         header("Location:eliminacion_producto.php");
     }
 
+    /**
+     * Permite volver al menu de eliminacion indice
+     */
     if (isset($_POST['back'])) {
         header("Location:../eliminacion.php");
     }
-    // //Listado de datos
+
+    //Listado de datos
     $conexion = conectar("ventas_comerciales");
     $query = "select * from productos";
     $registros = $conexion->query($query) or die($conexion->error);

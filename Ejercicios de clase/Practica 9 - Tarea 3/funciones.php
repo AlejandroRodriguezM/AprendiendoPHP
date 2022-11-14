@@ -1,5 +1,10 @@
 <?php
-//Conexión a la base de datos
+/**
+ * Funcion que permite conectarte a la base de datos.
+ *
+ * @param [String] $base
+ * @return $conexion
+ */
 function conectar($base)
 {
   try {
@@ -13,7 +18,13 @@ function conectar($base)
   }
 }
 
-//Insertar un registro y borrado
+/**
+ * Funcion que sirve para insertar datos, modificar, u eliminar de la base de datos
+ *
+ * @param [String] $query
+ * @param [String] $base
+ * @return void
+ */
 function operacionesMySql($query, $base)
 {
   try {
@@ -26,6 +37,12 @@ function operacionesMySql($query, $base)
   }
 }
 
+/**
+ * Funcion que sirve para comprobar si el ID o referencia se encuentra dentro de la base de datos.
+ *
+ * @param [String] $query
+ * @return boolean
+ */
 function checkID($query)
 {
   $conexion = conectar("ventas_comerciales");
@@ -37,13 +54,5 @@ function checkID($query)
   return $existe;
 }
 
-function checkAge($nacimiento){
-  $actualYear = date("Y");
-  $edad = $actualYear - $nacimiento;
-  if($edad >= 18){
-      return true;
-  }else{
-      return false;
-  }
-}
+
 
