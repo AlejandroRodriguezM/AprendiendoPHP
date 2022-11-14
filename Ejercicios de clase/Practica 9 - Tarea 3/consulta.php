@@ -72,6 +72,7 @@
                     <td>
                         <select name='cod' id='cod'>
                             <?php
+                            /* A comment. */
                             //Permite mostrar el nombre y codigo asociado a comercial
                             echo "<option name='cr' value=''>Nombre del vendedor y su codigo asociado</option>";
                             $conexion = conectar("ventas_comerciales");
@@ -104,7 +105,6 @@
             <?php
             if (isset($_POST['consulta'])) {
                 $codigo = $_POST['cod'];
-                // $fNacimiento = date('Y-m-d', strtotime(str_replace('-', '/', $fNacimiento)));
                 $query = "select referencia, productos.nombre, descripcion, precio, descuento, cantidad, fecha
                             from productos inner join ventas on refProducto = referencia
                             inner join comerciales on codigo = codComercial
