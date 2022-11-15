@@ -62,6 +62,7 @@
         <header onclick="location.href='../index.php';" style="cursor: pointer;">
             <h1 id="inicio">Ventas comerciales</h1>
         </header>
+        <!-- Menu de navegacion de botones -->
         <nav>
             <div>
                 <table class="botonesMenu">
