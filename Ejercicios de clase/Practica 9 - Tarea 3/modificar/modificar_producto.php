@@ -95,6 +95,7 @@
             $row = $registros->fetch();
             while ($row != null) {
             ?>
+            <!--Datos de productos -->
                 <tr>
                     <td><?php echo $row['referencia']; ?></td>
                     <td><?php echo $row['nombre']; ?></td>

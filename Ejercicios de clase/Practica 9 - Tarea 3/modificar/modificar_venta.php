@@ -75,6 +75,7 @@
         </nav>
     </div>
     <h1>Modificando ventas<span class="subtitulo"></span></h1>
+    <!-- Tabla de datos -->
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <table width="50%" border="0" align="center">
             <tr>
@@ -92,6 +93,7 @@
             $row = $registros->fetch();
             while ($row != null) {
             ?>
+            <!--Datos de ventas -->
                 <tr>
                     <td><?php echo $row['codComercial']; ?></td>
                     <td><?php echo $row['refProducto']; ?></td>

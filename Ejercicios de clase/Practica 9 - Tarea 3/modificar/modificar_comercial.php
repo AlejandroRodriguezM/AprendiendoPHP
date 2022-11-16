@@ -31,7 +31,7 @@
     if (isset($_POST['back'])) {
         header("Location:../modificacion.php");
     }
-    
+
     //Lista de datos
     $conexion = conectar("ventas_comerciales");
     $query = "select * from comerciales";
@@ -76,6 +76,7 @@
         </nav>
     </div>
     <h1>Modificar comerciales.<span class="subtitulo"></span></h1>
+    <!-- Tabla de datos -->
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <table width="50%" border="0" align="center">
             <tr>
@@ -94,6 +95,7 @@
             $row = $registros->fetch();
             while ($row != null) {
             ?>
+                <!--Datos de comercial -->
                 <tr>
                     <td><?php echo $row['codigo']; ?></td>
                     <td><?php echo $row['nombre']; ?></td>
