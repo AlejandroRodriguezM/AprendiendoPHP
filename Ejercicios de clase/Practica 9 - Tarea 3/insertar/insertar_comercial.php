@@ -133,7 +133,6 @@
                 <td><input type="number" name="salario" size="10" class="centrado"></td>
                 <td><input type="number" name="hijos" size="10" class="centrado"></td>
                 <td><input type="date" name="fNacimiento" size="10" class="centrado" min="1955-01-01" max="2004-01-01"></td>
-                <td><input type="date" name="fNacimiento" size="10" class="centrado"></td>
                 <td class='bot'><input type='submit' name='cr' id='cr' value='Insertar'></td>
                 <td class='bot'><input type='submit' name='back' id='back' value='Volver'></td>
 
