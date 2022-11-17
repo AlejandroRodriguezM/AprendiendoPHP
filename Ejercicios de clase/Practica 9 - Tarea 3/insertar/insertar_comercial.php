@@ -30,14 +30,14 @@
             $hijos = $_POST['hijos'];
             $fNacimiento = $_POST['fNacimiento'];
             $fNacimiento = date('Y-m-d', strtotime(str_replace('-', '/', $fNacimiento)));
-
             $query = "select codigo from comerciales where codigo = '$codigo'";
-            $mensaje = "<b class='mens_ok'>Has añadido correctamente al comercial $nombre con codigo $codigo</b>";
-            if (!checkID($query)) {
+
+            if (checkID($query)) {
                 $base = "ventas_comerciales";
                 $sentenciaSQL = "INSERT INTO comerciales(codigo, nombre, salario, hijos, fNacimiento) VALUES('$codigo', '$nombre', '$salario', '$hijos', '$fNacimiento')";
                 operacionesMySql($sentenciaSQL, $base);
                 header("Location:insertar_comercial.php");
+                $mensaje = "<b class='mens_ok'>Has añadido correctamente al comercial $nombre con codigo $codigo</b>";
             } else {
                 $mensaje = "<b class='mens_error'>ERROR.El codigo introducido ya existe</b>";
             }
@@ -129,7 +129,7 @@
             ?>
             <tr>
                 <td><input type="text" name="codigo" size="10" class="centrado" pattern="[0-9]{3}"></td>
-                <td><input type="text" name="nombre" size="10" class="centrado" pattern="[A-Za-z]{3,30}"></td>
+                <td><input type="text" name="nombre" size="10" class="centrado" pattern="^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+${3,30}"></td>
                 <td><input type="number" name="salario" size="10" class="centrado"></td>
                 <td><input type="number" name="hijos" size="10" class="centrado"></td>
                 <td><input type="date" name="fNacimiento" size="10" class="centrado" min="1955-01-01" max="2004-01-01"></td>

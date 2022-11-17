@@ -131,7 +131,7 @@
             ?>
             <tr>
                 <td><input type="text" name="referencia" size="10" class="centrado" pattern="[A-Z]{2}[0-9]{4}"></td>
-                <td><input type="text" name="nombre" size="10" class="centrado" pattern="[A-Za-z]{3,20}"></td>
+                <td><input type="text" name="nombre" size="10" class="centrado" pattern="^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+${3,20}"></td>
                 <td><input type="text" name="descripcion" size="10" class="centrado"></td>
                 <td><input type="number" name="precio" size="10" class="centrado"></td>
                 <td><input type="number" name="descuento" size="10" class="centrado"></td>

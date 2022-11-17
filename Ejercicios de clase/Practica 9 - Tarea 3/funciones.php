@@ -47,8 +47,8 @@ function checkID($query)
 {
   $conexion = conectar("ventas_comerciales");
   $existe = false;
-  $busqueda = $conexion->exec($query);
-  if ($busqueda == 0) {
+  $busqueda = $conexion->query($query);
+  if ($busqueda->fetchColumn() == 0) {
     $existe = true;
   }
   return $existe;
