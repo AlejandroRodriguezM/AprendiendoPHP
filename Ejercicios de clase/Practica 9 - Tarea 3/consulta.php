@@ -13,7 +13,7 @@
 <body>
     <?php
     include_once 'funciones.php';
-
+    $mensaje = "";
     //Listado de datos
     $conexion = conectar("ventas_comerciales");
     $query = "select * from comerciales";
@@ -73,7 +73,6 @@
                     <td>
                         <select name='cod' id='cod'>
                             <?php
-                            /* A comment. */
                             //Permite mostrar el nombre y codigo asociado a comercial
                             echo "<option name='cr' value=''>Nombre del vendedor y su codigo asociado</option>";
                             $conexion = conectar("ventas_comerciales");
@@ -114,7 +113,10 @@
                 $conexion = conectar($base);
                 $registros = $conexion->query($query) or die($conexion->error);
                 $row = $registros->fetch();
-                echo "<tr>
+                if ($registros->fetchColumn() == 0) {
+                    $mensaje = "<b class='mens_error'>No hay ventas para el comercial: $codigo </b>";
+                } else {
+                    echo "<tr>
                             <td class='primera_fila'>Referencia</td>
                             <td class='primera_fila'>Nombre</td>
                             <td class='primera_fila'>Descripcion</td>
@@ -123,23 +125,26 @@
                             <td class='primera_fila'>Cantidad</td>
                             <td class='primera_fila'>Fecha</td>
                         </tr>";
-                while ($row != null) {
-                    echo "<tr>";
-                    echo "<td>" . $row['referencia'] . "</td>";
-                    echo "<td>" . $row['nombre'] . "</td>";
-                    echo "<td>" . $row['descripcion'] . "</td>";
-                    echo "<td>" . $row['precio'] . "</td>";
-                    echo "<td>" . $row['descuento'] . "</td>";
-                    echo "<td>" . $row['cantidad'] . "</td>";
-                    echo "<td>" . $row['fecha'] . "</td>";
-                    echo "</tr>";
-                    $row = $registros->fetch();
+
+                    while ($row != null) {
+                        echo "<tr>";
+                        echo "<td>" . $row['referencia'] . "</td>";
+                        echo "<td>" . $row['nombre'] . "</td>";
+                        echo "<td>" . $row['descripcion'] . "</td>";
+                        echo "<td>" . $row['precio'] . "</td>";
+                        echo "<td>" . $row['descuento'] . "</td>";
+                        echo "<td>" . $row['cantidad'] . "</td>";
+                        echo "<td>" . $row['fecha'] . "</td>";
+                        echo "</tr>";
+                        $row = $registros->fetch();
+                    }
                 }
             } ?>
         </table>
-
+        <?php
+        //Muestra un mensaje, segun el resultado del insertado del comercial
+        if (isset($_POST['consulta'])) {
+            echo "<br>" . $mensaje;
+        } ?>
     </form>
-
-</body>
-
 </html>

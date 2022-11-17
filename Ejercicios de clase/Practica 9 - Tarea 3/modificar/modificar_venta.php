@@ -125,9 +125,6 @@
                 <td class='bot'><input type='submit' name='back' id='back' value='Volver'></td>
             </tr>
         </table>
-
     </form>
-
 </body>
-
 </html>

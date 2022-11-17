@@ -57,8 +57,6 @@
             <input class="boton_indice" type="image" src="img/comercial.jpg" value="Modificar comercial" alt="Submit" width="150" height="150" onclick="location.href='modificar/modificar_comercial.php';">
         </div>
     </div>
-
-
 </body>
 
 </html>

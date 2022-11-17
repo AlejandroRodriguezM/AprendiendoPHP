@@ -57,7 +57,5 @@
                 <p>Podras eliminar datos de un comercial, de una venta especifica o de un producto especifico.</p>
         </div>
     </div>
-
 </body>
-
 </html>

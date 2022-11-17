@@ -57,8 +57,5 @@
             <input class="boton_indice" type="image" src="img/comercial.jpg" value="Eliminar comercial" alt="Submit" width="150" height="150" onclick="location.href='eliminar/eliminacion_comercial.php';">
         </div>
     </div>
-
-
 </body>
-
 </html>
