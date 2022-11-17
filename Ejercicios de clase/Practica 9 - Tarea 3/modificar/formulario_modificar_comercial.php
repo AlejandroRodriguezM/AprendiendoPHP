@@ -76,6 +76,13 @@
             operacionesMySql($query, $base);
             header("Location:modificar_comercial.php");
         } else {
+            $codigo = $_POST['codigo'];
+            $nombre = $_POST['nombre'];
+            $salario = $_POST['salario'];
+            $hijos = $_POST['hijos'];
+            $fNacimiento = $_POST['fNacimiento'];
+            $arrayFecha = explode("-", $fNacimiento);
+            $nacimiento = $arrayFecha[0];
             $mensaje = "<b class='mens_error'>ERROR. No se ha podido actualizar el comercial</b>";
         }
     }
@@ -127,7 +134,7 @@
         </table>
         <?php
         //Muestra un mensaje, segun el resultado del insertado del comercial
-        if (isset($_POST['cr'])) {
+        if (isset($_POST['bot_actualizar'])) {
             echo "<br>" . $mensaje;
         } ?>
     </form>

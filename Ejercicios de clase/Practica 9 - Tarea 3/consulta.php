@@ -141,6 +141,7 @@
                 }
             } ?>
         </table>
+        
         <?php
         //Muestra un mensaje, segun el resultado del insertado del comercial
         if (isset($_POST['consulta'])) {

@@ -84,6 +84,11 @@
             operacionesMySql($query, $base);
             header("Location:modificar_producto.php");
         } else {
+            $referencia = $_POST['referencia'];
+            $nombre = $_POST['nombre'];
+            $descripcion = $_POST['descripcion'];
+            $precio = $_POST['precio'];
+            $descuento = $_POST['descuento'];
             $mensaje = "<b class='mens_error'>ERROR. No se ha podido actualizar el producto. Hay datos sin rellenar</b>";
         }
     }
@@ -132,7 +137,7 @@
         </table>
         <?php
         //Muestra un mensaje, segun el resultado del insertado del comercial
-        if (isset($_POST['cr'])) {
+        if (isset($_POST['bot_actualizar'])) {
             echo "<br>" . $mensaje;
         } ?>
     </form>

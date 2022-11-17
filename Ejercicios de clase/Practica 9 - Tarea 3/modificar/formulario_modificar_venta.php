@@ -71,6 +71,13 @@
             operacionesMySql($query, $base);
             header("Location:modificar_venta.php");
         }
+        else{
+            $conComercial = $_GET['codComercial'];
+            $refProducto = $_GET['refProducto'];
+            $cantidad = $_GET['cantidad'];
+            $fecha = $_GET['fecha'];
+            $mensaje = "ERROR. No se han introducido todos los datos";
+        }
     }
 
     if (isset($_POST['bot_cancelar'])) {
@@ -142,7 +149,7 @@
         </table>
         <?php
         //Muestra un mensaje, segun el resultado del insertado del comercial
-        if (isset($_POST['cr'])) {
+        if (isset($_POST['bot_actualizar'])) {
             echo "<br>" . $mensaje;
         } ?>
     </form>
