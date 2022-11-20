@@ -1,0 +1,308 @@
+/* @@@@ ESTILOS GLOBALES @@@@ */
+body {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 30px 30px 70px 30px;
+    background: #fff;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.7) 0 0 30px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.7) 0 0 30px;
+    box-shadow: rgba(0, 0, 0, 0.7) 0 0 30px;
+}
+
+header {
+    position: relative;
+    background-color: #DAECD2;
+    padding: 5px;
+}
+
+header h1 {
+    text-align: center;
+    font-size: 2.5em;
+    margin-top: 5px;
+    margin-bottom: 12px;
+}
+
+nav {
+    background: #ECAC25;
+    padding: 5px 10px;
+}
+
+main {
+    padding: 15px 10px;
+}
+
+select, input, button {
+    padding: 4px;
+    border-radius: 5px;
+}
+
+
+/* @@@@ ESTILOS PARA EL NOMBRE DEL USUARIO EN LA CABECERA @@@@ */
+#nombre-usuario-cabecera {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 5px 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+}
+
+/* @@@@ ESTILOS PARA GENERAR FORMULARIO EN BLOQUE HORIZONTAL @@@@ */
+div.input-labeled {
+    margin: 10px 0;
+    padding-right: 12px;
+}
+
+div.input-labeled>label {
+    display: block;
+    font-size: 0.8em;
+    text-decoration: underline;
+    padding-left: 5px;
+}
+
+
+
+/* @@@@ ESTILOS PARA FORMULARIO VERTICAL DE TAMAÑO REDUCIDO @@@*/
+fieldset.mini-formulario {
+    width: 300px;
+    margin: auto;
+    background: rgba(200, 255, 200, 0.6);
+}
+
+fieldset.mini-formulario>legend {
+    background: #060;
+    color: white;
+    font-weight: bold;
+    padding: 2px 15px;
+    border-radius: 10px;
+}
+
+fieldset.mini-formulario select,
+fieldset.mini-formulario input {
+    display: block;
+    width: 100%
+}
+
+
+/* @@@@ ESTILOS PARA EL MENU GRANDE MOSTRADO EN EL CONTENIDO DE LA PAGINA @@@@*/
+
+#menu a {
+    font-size: 1.2em;
+    display: block;
+    padding: 15px 25px;
+    margin-bottom: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    border: solid green;
+    width: 50%;
+    background-color: #DAECD2;
+    font-size: large;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+
+#menu a:hover {
+    background-color: #ECAC25;
+    font-weight: bold;
+}
+
+
+/* @@@@ ESTILOS PARA HACER UN BOTON DESPLEGABLE @@@@ */
+.desplegable {
+    background: inherit;
+    display: inline-block;
+}
+
+.desplegable>div {
+    display: none;
+    background: inherit;
+    margin: 0 -5px;
+}
+
+.desplegable:hover>div {
+    display: block;
+    position: absolute;
+}
+
+.desplegable>div>a {
+    display: block;
+    padding: 5px;
+    text-decoration: none;
+}
+
+.desplegable>div>a:hover {
+    background: yellowgreen;
+}
+
+
+/* @@@@ ESTILOS PARA FORMULARIO EN LINEA DENTRO DE UNA TABLA @@@@ */
+.formulario table {
+    margin: auto;
+    border: double blue;
+    background-color: lightgoldenrodyellow;
+    padding: 10px;
+}
+
+.formulario td {
+    padding: 5px;
+}
+
+.formulario tbody td:first-child {
+    text-align: right;
+}
+
+.formulario input {
+    padding: 4px;
+    border: solid black 1px;
+    border-radius: 5px;
+    font-size: large;
+}
+
+.formulario input[type=submit] {
+    font-weight: bold;
+    padding: 2px 16px;
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+.formulario input[type=submit]:hover {
+    background-color: cornflowerblue;
+}
+
+.formulario label {
+    font-size: x-large;
+}
+
+
+/* @@@@ ESTILOS PARA HACER MAS VISUALES LAS TABLAS @@@@ */
+table.tabla {
+    border: double;
+    border-collapse: collapse;
+    margin: auto;
+}
+
+table.tabla thead {
+    background: khaki;
+}
+
+table.tabla tfoot {
+    background: goldenrod;
+    font-size: 1.3em;
+}
+
+table.tabla thead th,
+table.tabla tbody td {
+    border-left: dashed 1px;
+    border-bottom: solid 1px;
+}
+
+table.tabla td {
+    padding: 10px 15px;
+}
+
+table.tabla th {
+    padding: 10px 5px;
+}
+
+table.tabla tbody tr:nth-child(odd) {
+    background-color: aliceblue;
+}
+
+table.tabla tbody tr:nth-child(even) {
+    background-color: beige;
+}
+
+table.tabla tbody tr:hover {
+    background-color: gray;
+}
+
+table.tabla tbody td:nth-child(n+3) {
+    text-align: right;
+}
+
+table.tabla tfoot th:first-child {
+    font-size: 0.8em;
+    font-style: italic;
+}
+
+table.tabla tfoot th:nth-child(2) {
+    text-align: right;
+}
+
+table.tabla tfoot th:last-child {
+    text-align: left;
+}
+
+/* @@@@ BOTON DEVOLVER EN LA PAGINA DE DEVOLVER RECIBO @@@@ */
+button.devolver {
+    background: coral;
+    border: solid 1px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 2px 8px;
+}
+
+button.devolver:hover {
+    background: red;
+}
+
+
+/* @@@@ ESTILOS PARA LOS MENSAJES INFORMATIVOS @@@@ */
+.info,
+.correcto,
+.error {
+    border: solid 1px;
+    border-radius: 5px;
+    padding: 5px;
+    max-width: 500px;
+    margin: 5px auto;
+}
+
+.info>b,
+.correcto>b,
+.error>b {
+    padding: 0 4px;
+    border-radius: 100px;
+    margin-right: 4px;
+    color: white;
+}
+
+.error {
+    border-color: red;
+    background: indianred;
+}
+
+.error>b {
+    background: red;
+}
+
+.info {
+    border-color: blue;
+    background: lightskyblue;
+}
+
+.info>b {
+    background: blue;
+}
+
+.correcto {
+    border-color: green;
+    background: greenyellow;
+}
+
+.correcto>b {
+    background: green;
+}
+
+
+
+/* @@@@ ESTILOS PARA LAS CANTIDADES @@@@ */
+.positivo {
+    color: blue;
+}
+
+.negativo {
+    color: red;
+}

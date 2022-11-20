@@ -1,0 +1,148 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 11-ene-2016, 11:42:24
+    Author     : DV
+*/
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+#contenedor {
+    width: 90%;
+    max-width: 1000px;
+    margin: 20px auto;
+}
+
+#logotipo {
+   width:600px;
+   padding: 20px 0px;
+}
+
+#logotipo a {
+    font-family: Arial, Verdana, sans-serif;
+    font-size: 50px;
+    color: #000;
+    text-decoration: none;
+}
+#menu {
+    background: #528FD5;
+    overflow: hidden;  /*Para limpiar el float, necesario para el float left*/
+}
+
+#menu ul {
+    list-style: none;
+}
+
+#menu ul li {
+    float: left;
+}
+
+#menu ul li a {
+    font-family: Arial, Verdana, sans-serif;
+    padding: 10px 20px;
+    display: block; /*Necesario para que funcione el padding arriba y abajo*/
+    color: #fff;
+    text-decoration: none;
+}
+
+#menu ul li a:hover {
+    background: #75ACEC;
+}
+
+.sesion {
+    font-family: Arial, Verdana, sans-serif;
+    font-size: 15px;
+    float: right;
+    padding: 5px 5px;
+    margin: 5px 5px;
+}
+
+/*Estilos para los posts del foro*/
+.anuncio_publico {
+    font-family: Arial, Verdana, sans-serif;
+    margin: 20px 30px;
+    padding: 10px 20px;
+    background-color: #E7D789;
+    border-radius: 5px;
+}
+
+.post_privado {
+    font-family: Arial, Verdana, sans-serif;
+    margin: 20px 30px;
+    padding: 10px 20px;
+    background-color: #FFA062;
+    color: #fff;
+    border-radius: 5px;
+}
+
+
+.autoryfecha {
+    font-style: oblique;
+    font-size: 12px;
+}
+
+/* @@@@ ESTILOS PARA HACER MAS VISUALES LAS TABLAS @@@@ */
+.tabla {
+    border: double;
+    border-collapse: collapse;
+    margin: auto;
+}
+.tabla thead {
+    background: khaki;
+}
+.tabla tfoot {
+    background: goldenrod;
+    font-size: 1.3em;
+}
+.tabla thead th,
+.tabla tbody td {
+    border-left: dashed 1px;
+    border-bottom: solid 1px;
+}
+.tabla td {
+    padding: 10px 15px;
+}
+.tabla th {
+    padding: 10px 5px;
+}
+.tabla tbody tr:nth-child(odd) {
+    background-color: aliceblue;
+}
+
+.tabla tbody tr:nth-child(even) {
+    background-color: beige;
+}
+.tabla tbody tr:hover {
+    background-color: gray;
+}
+.tabla tbody td:nth-child(n+3) {
+    text-align: right;
+}
+.tabla tfoot th:first-child {
+    font-size: 0.8em;
+    font-style: italic;
+}
+.tabla tfoot th:nth-child(2) {
+    text-align: right;
+}
+.tabla tfoot th:last-child {
+    text-align: left;
+}
+
+/* @@@@ BOTON DEVOLVER EN LA PAGINA DE DEVOLVER RECIBO @@@@ */
+button.desbloquear {
+    background: coral;
+    border: solid 1px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 2px 8px;
+}
+button.desbloquear:hover {
+    background: red;
+}

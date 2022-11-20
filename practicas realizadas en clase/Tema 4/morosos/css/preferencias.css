@@ -1,0 +1,68 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 12-ene-2016, 13:35:31
+    Author     : DV
+*/
+
+.error {
+  font-family: Verdana, Arial, sans-serif; 
+  font-size: 0.7em;
+  color: #900;
+  background-color : #ffff00;
+}
+
+.anuncio {
+  font-family: Verdana, Arial, sans-serif; 
+  font-size: 0.7em;
+  color: green;
+  background-color : #ffff00;
+}
+
+#preferencias fieldset {
+  margin: 20px;
+  padding:10px;
+  border:1px solid #ccc;
+  background-color: #eee;
+}
+
+#preferencias legend {
+  font-family : Arial, Verdana, sans-serif;
+  font-size: 15px;
+  font-weight:bold;
+  color:#333;
+}
+
+#preferencias .campo {
+  margin-top:8px;
+  margin-bottom: 10px;
+}
+
+#preferencias label {
+  font-family : Arial, Verdana, sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+
+#preferencias input[type="radio"] { 
+  border : 1px solid #999;
+  height: 18px;
+  width: 18px;
+  position: relative;
+  top: 3px;
+  margin-left: 5px;
+}
+
+#preferencias input[type="submit"] {
+  width:100px;
+  height:30px;
+  padding-left:0px;
+  margin-right: 10px;
+  float: left;
+}
+

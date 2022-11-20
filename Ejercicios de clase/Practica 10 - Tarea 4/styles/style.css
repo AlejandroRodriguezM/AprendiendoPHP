@@ -1,0 +1,177 @@
+body {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 30px 30px 70px 30px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.7) 0 0 30px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.7) 0 0 30px;
+  box-shadow: rgba(0, 0, 0, 0.7) 0 0 30px;
+}
+
+main {
+  padding: 15px 10px;
+}
+
+header {
+  position: relative;
+  background-color: #DAECD2;
+  padding: 5px;
+}
+
+header, a {
+  border-radius: 2px;
+  padding: 10px;
+  font-family: "Times New Roman", Times, serif;
+  background-color: rgb(113, 196, 113);
+  background-size: 200px;
+}
+
+header>h1 {
+  color: black;
+  font-size: 4em;
+  font-weight: bold;
+  letter-spacing: 10px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+h1 {
+  text-align: center;
+}
+
+p {
+  font-size: 1.5em;
+  font-weight: bold;
+  text-align: center;
+}
+
+nav {
+  background: #ECAC25;
+  padding: 5px 10px;
+}
+
+.contenedor {
+  width: 70%;
+  margin: auto;
+  background-color: #fbfcfd;
+}
+
+.indice, ol {
+  width: 100%;
+  height: 75%;
+  background-color: #f5f5f5;
+  list-style-type: disc;
+}
+
+a.DivRelleno {
+  height: 100%;
+  width: 100%;
+  text-decoration: none;
+}
+
+.menu {
+  width: 165px;
+  height: 45px;
+  padding: 10px;
+  margin: 10px;
+  text-align: center;
+}
+
+.subMenu_botones {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.boton_indice {
+  padding: 20px;
+}
+
+.subtitulo {
+  font-size: 12px;
+}
+
+body {
+  background-color: #FFC;
+}
+
+table td {
+  text-align: center;
+  border: 1px #000099 dotted;
+}
+
+.botonesMenu {
+  text-align: center;
+  border: 0px;
+}
+
+table .sin {
+  border: 0;
+}
+
+table .bot {
+  padding: 0 5px;
+  display: inline;
+  border: 0;
+}
+
+table .primera_fila {
+  font-size: 1.5em;
+  text-decoration: underline;
+  background-color: #FC3;
+}
+
+.mens_error {
+  color: red;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  text-align: center;
+  font-size: 35px;
+}
+
+
+.mens_ok {
+  color: green;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  text-align: center;
+  font-size: 30px;
+}
+
+/* @@@@ ESTILOS PARA FORMULARIO VERTICAL DE TAMAÑO REDUCIDO @@@*/
+fieldset.mini-formulario {
+  width: 180px;
+  margin: auto;
+  background: rgba(200, 255, 243, 0.6);
+}
+
+fieldset.mini-formulario>legend {
+  background: rgb(0, 65, 102);
+  color: white;
+  font-weight: bold;
+  padding: 2px 15px;
+  border-radius: 10px;
+}
+
+fieldset.mini-formulario select,
+fieldset.mini-formulario input {
+  display: block;
+
+}
+
+.left {
+  float: left;
+}
+
+.button_gestion {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+  width: 100%
+}

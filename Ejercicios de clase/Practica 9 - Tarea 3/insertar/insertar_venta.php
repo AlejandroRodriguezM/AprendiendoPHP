@@ -14,7 +14,7 @@
     <?php
     include("../funciones.php");
     $mensaje = "";
-        /**
+    /**
      * Permite insertar una venta en la base de datos, siempre que los datos esten introducidos correctamente
      */
     if (isset($_POST['cr'])) {
@@ -36,7 +36,7 @@
         }
     }
 
-        /**
+    /**
      * Permite volver al menu de insertar indice
      */
     if (isset($_POST['back'])) {
@@ -165,4 +165,5 @@
         } ?>
     </form>
 </body>
+
 </html>
