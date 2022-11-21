@@ -1,6 +1,25 @@
 <?php
 include "../inc/header.inc.php";
 
+if (isset($_POST['del'])) {
+    $login = $_POST['select_login'];
+    $base = "conta2";
+    $con = connection_bd($base);
+    if ($login != 'daw') {
+        $sql = "DELETE FROM usuarios WHERE login = :login";
+        $stmt = $con->prepare($sql);
+        $stmt->bindParam(':login', $login);
+        $stmt->execute();
+        $sql = "DELETE FROM movimientos WHERE loginUsu = :login";
+        $stmt = $con->prepare($sql);
+        $stmt->bindParam(':login', $login);
+        $stmt->execute();
+        $con = null;
+        $message = "<b>You have successfully deleted the user: $login</b>";
+    } else {
+        $message = "You can't delete the admin user";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +36,7 @@ include "../inc/header.inc.php";
 <body>
 
     <header>
-        <h1 id="inicio">Gastos personales</h1>
+        <h1 id="inicio">Personal expenses</h1>
     </header>
     <nav>
         <span class="desplegable">
@@ -29,7 +48,7 @@ include "../inc/header.inc.php";
                 <a href="../">Exit</a>
             </div>
         </span>
-        &gt; Modify user
+        &gt; Delete user
     </nav>
 
     <main>
@@ -40,13 +59,12 @@ include "../inc/header.inc.php";
                 echo "<div class='correcto'><b>!</b>$correcto</div>";
             }
 
-
             ?>
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <label>Select User</label>
                 <select name='select_login' id='login_user'>
                     <?php
-                    echo "<option name='login' value=''>User name</option>";
+                    echo "<option name='select_login' value=''>User name</option>";
                     $conexion = connection_bd("conta2");
                     $query = "select * from usuarios";
                     $registros = $conexion->query($query) or die($conexion->error);
@@ -55,18 +73,18 @@ include "../inc/header.inc.php";
                     ?>
                         <option value="<?php echo $row['login']; ?>"><?php echo $row['login']; ?></option>
                     <?php
-
                         $row = $registros->fetch();
                     }
                     $conexion = null;
                     ?>
                 </select>
-                    <input type='submit' name='del' id='del' onclick="return confirm('¿Estas seguro que quieres eliminar la venta?')" value='Eliminar'>
-                    <input type='hidden' name='refProducto' id='refProducto' value='<?php echo $row['refProducto']; ?>'>
-                    <input type="submit" value="Cancelar">
+
+                <input type='submit' name='del' id='del' onclick="return confirm('¿Estas seguro que quieres eliminar la venta?')" value='Delete'>
+                <input type="submit" value="Cancel">
+
                 <?php
-                if (isset($error)) {
-                    echo "<div class='error'><b>!</b>$error</div>";
+                if (isset($message)) {
+                    echo "<div class='error'><b>!</b>$message</div>";
                 }
                 ?>
             </form>

@@ -129,7 +129,6 @@ function errorValidarDatosUsuario(&$fValue, $requirePW = true, $loginExists = tr
 	if (strlen($fValue['login']) < 1 || strlen($fValue['login']) > 10) {
 		return "Falta el nombre de Login o es muy largo(max: 10 caracteres)";
 	}
-
 	// El nombre de login no existe
 	try {
 		$consulta = $conexion->prepare("SELECT * FROM Usuarios WHERE login=?");
@@ -147,14 +146,12 @@ function errorValidarDatosUsuario(&$fValue, $requirePW = true, $loginExists = tr
 
 	// Se valida la clave si es requerido o si se ha introducido algo
 	if ($requirePW || strlen($fValue['password']) || strlen($fValue['repassword'])) {
-
 		// Las claves coinciden
 		if ($fValue['password'] !== $fValue['repassword']) {
 			return "Las claves no coinciden";
 			// Le borro el campo de repetir clave para obligarle a escribirlo otra vez
 			$fValue['repassword'] = "";
 		}
-
 		// Se ha introducido una clave de longitud correcta
 		if (strlen($fValue['password']) < 1 || strlen($fValue['password']) > 20) {
 			return "La clave debe contener de 1 a 20 caracteres.";
@@ -306,4 +303,23 @@ function calcularSaldoContable($cantidad, &$saldoContable)
 	$saldoContable += $cantidad;
 
 	return htmlSpanMoneda($saldoContable);
+}
+
+/**
+ * Se borrara el usuario cuyo login queramos
+ */
+function borrarUsuario($login)
+{
+	// Abrimos la conexion a la base de datos
+	global $conexion;
+	// Preparamos la consulta
+	try {
+		$consulta = $conexion->prepare("DELETE FROM usuarios WHERE login = ?");
+		// Ejecutamos la consulta
+		$consulta->execute(array($login));
+		// Devolvemos los datos
+		return $consulta->rowCount();
+	} catch (PDOException $e) {
+		return "#" . $e->getCode() . ": " . $e->getMessage();
+	}
 }
