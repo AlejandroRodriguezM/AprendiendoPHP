@@ -1,3 +1,10 @@
+<?php
+include "../inc/header.inc.php";
+//comprobamos que el usuario existe
+if(!isset($_SESSION['usuario'])){
+    die("Error - debe <a href='../index.php'>Identificarse</a>");
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,8 +19,6 @@
 
 <body>
     <?php
-    include "../inc/header.inc.php";
-
     if (isset($_POST['create'])) {
         $password = $_POST['password'];
         $rePassword = $_POST['repassword'];
@@ -44,7 +49,7 @@
     </header>
     <nav>
         <span class="desplegable">
-            <a href="./?<?php echo $fakeCookie; ?>">Manage users</a>
+            <a href="index.php?<?php echo $fakeCookie; ?>">Manage users</a>
             <div>
                 <a href="new_user.php?<?php  ?>">New user</a>
                 <a href="modify_user.php?<?php  ?>">Modify user</a>

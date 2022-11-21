@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Funcion que permite conectarte a la base de datos.
  *
@@ -7,32 +8,33 @@
  */
 function connection_bd($base)
 {
-  try {
-    $conexion = new PDO("mysql:host=localhost;dbname=$base", "root", "1234");
-    $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $conexion->exec("SET CHARACTER SET UTF8");
-  } catch (PDOException $e) {
-    die("Codigo: " . $e->getCode() . "<br>Error: " . $e->getMessage());
-  } finally {
-    return $conexion;
-  }
+	try {
+		$conexion = new PDO("mysql:host=localhost;dbname=$base", "root", "1234");
+		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$conexion->exec("SET CHARACTER SET UTF8");
+	} catch (PDOException $e) {
+		die("Codigo: " . $e->getCode() . "<br>Error: " . $e->getMessage());
+	} finally {
+		return $conexion;
+	}
 }
 
-function obtain_password($login, $con){
-    try{
-        $sql="Select password from usuarios where login='$login'";
-        if($result=$con->query($sql)){
-            $row=$result->fetch();
-            if($row != null){
-                unset($result);
-                return $row['password'];
-            }
-        }
-    }catch(PDOException $e){
-        $error_Code=$e->getCode();
-        $message=$e->getMessage();
-        die("Code: ".$error_Code."\nMessage: ".$message);
-    }
+function obtain_password($login, $con)
+{
+	try {
+		$sql = "Select password from usuarios where login='$login'";
+		if ($result = $con->query($sql)) {
+			$row = $result->fetch();
+			if ($row != null) {
+				unset($result);
+				return $row['password'];
+			}
+		}
+	} catch (PDOException $e) {
+		$error_Code = $e->getCode();
+		$message = $e->getMessage();
+		die("Code: " . $error_Code . "\nMessage: " . $message);
+	}
 }
 
 // Devuelve la cadena GET con los datos del usuario para usar en las URLs
@@ -57,7 +59,6 @@ function protegeAccesoCuenta($redirect = "../")
 	// Si no hay cookie, redirigimos
 	if (!isset($_COOKIE['login'])) {
 		header("Location: $redirect");
-
 		// Si hay cookie, comprobamos que sea correcta
 	} else {
 		// Obtenemos los datos del usuario
@@ -121,8 +122,9 @@ function getLoginsList()
 	$consulta = $conexion->prepare("SELECT login FROM usuarios");
 	// Ejecutamos la consulta
 	$consulta->execute();
+	$login = $consulta->fetchAll(PDO::FETCH_COLUMN);
 	// Devolvemos los datos
-	return $consulta->fetchAll(PDO::FETCH_COLUMN);
+	return $login;
 }
 
 
@@ -350,14 +352,14 @@ function calcularSaldoContable($cantidad, &$saldoContable)
  */
 function operacionesMySql($query, $base)
 {
-  try {
-    $conexion = connection_bd($base);
-    $conexion->exec($query);
-  } catch (PDOException $e) {
-    die("Codigo: " . $e->getCode() . "<br>Error: " . $e->getMessage());
-  } finally {
-    $conexion = null;
-  }
+	try {
+		$conexion = connection_bd($base);
+		$conexion->exec($query);
+	} catch (PDOException $e) {
+		die("Codigo: " . $e->getCode() . "<br>Error: " . $e->getMessage());
+	} finally {
+		$conexion = null;
+	}
 }
 
 /**
@@ -368,13 +370,11 @@ function operacionesMySql($query, $base)
  */
 function checkUser($query, $base)
 {
-  $conexion = connection_bd($base);
-  $existe = false;
-  $busqueda = $conexion->query($query);
-  if ($busqueda->fetchColumn() == 0) {
-    $existe = true;
-  }
-  return $existe;
+	$conexion = connection_bd($base);
+	$existe = false;
+	$busqueda = $conexion->query($query);
+	if ($busqueda->fetchColumn() == 0) {
+		$existe = true;
+	}
+	return $existe;
 }
-
-
