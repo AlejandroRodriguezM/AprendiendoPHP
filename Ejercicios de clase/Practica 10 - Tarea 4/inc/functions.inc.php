@@ -360,5 +360,21 @@ function operacionesMySql($query, $base)
   }
 }
 
+/**
+ * Funcion que sirve para comprobar si el login se encuentra dentro de la base de datos.
+ *
+ * @param [String] $query
+ * @return boolean
+ */
+function checkUser($query, $base)
+{
+  $conexion = connection_bd($base);
+  $existe = false;
+  $busqueda = $conexion->query($query);
+  if ($busqueda->fetchColumn() == 0) {
+    $existe = true;
+  }
+  return $existe;
+}
 
 

@@ -6,15 +6,10 @@ if (isset($_POST['del'])) {
     $base = "conta2";
     $con = connection_bd($base);
     if ($login != 'daw') {
-        $sql = "DELETE FROM usuarios WHERE login = :login";
-        $stmt = $con->prepare($sql);
-        $stmt->bindParam(':login', $login);
-        $stmt->execute();
-        $sql = "DELETE FROM movimientos WHERE loginUsu = :login";
-        $stmt = $con->prepare($sql);
-        $stmt->bindParam(':login', $login);
-        $stmt->execute();
-        $con = null;
+        $sql1 = "DELETE FROM usuarios WHERE login = '$login'";
+        $sql2 = "DELETE FROM movimientos WHERE loginUsu = '$login'";
+        operacionesMySql($sql1, $base);
+        operacionesMySql($sql2, $base);
         $message = "<b>You have successfully deleted the user: $login</b>";
     } else {
         $message = "You can't delete the admin user";
@@ -84,7 +79,7 @@ if (isset($_POST['del'])) {
 
                 <?php
                 if (isset($message)) {
-                    echo "<div class='error'><b>!</b>$message</div>";
+                    echo "<div class='error'><b>$message</b></div>";
                 }
                 ?>
             </form>
