@@ -115,13 +115,13 @@
             <tr>
                 <td>Salario</td>
                 <td><label for="salario"></label>
-                    <input type="number" name="salario" id="salario" value="<?php echo $salario ?>">
+                    <input type="number" name="salario" id="salario" value="<?php echo $salario ?>" min=0>
                 </td>
             </tr>
             <tr>
                 <td>Hijos</td>
                 <td><label for="hijos"></label>
-                    <input type="number" name="hijos" id="hijos" value="<?php echo $hijos ?>">
+                    <input type="number" name="hijos" id="hijos" value="<?php echo $hijos ?>" min=0>
                 </td>
             </tr>
             <tr>

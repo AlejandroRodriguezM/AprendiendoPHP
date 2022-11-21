@@ -121,13 +121,13 @@
             <tr>
                 <td>Precio</td>
                 <td><label for="precio"></label>
-                    <input type="number" name="precio" id="precio" value="<?php echo $precio ?>">
+                    <input type="number" name="precio" id="precio" value="<?php echo $precio ?>" min=0>
                 </td>
             </tr>
             <tr>
                 <td>Descuento</td>
                 <td><label for="descuento"></label>
-                    <input type="number" name="descuento" id="descuento" value="<?php echo $descuento ?>">
+                    <input type="number" name="descuento" id="descuento" value="<?php echo $descuento ?>" min=0>
                 </td>
             </tr>
             <tr>

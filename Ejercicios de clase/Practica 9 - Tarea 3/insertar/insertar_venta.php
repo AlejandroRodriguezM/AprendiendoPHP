@@ -119,12 +119,12 @@
                         <?php
                         echo "<option name='ref' value=''>Codigo de vendedor</option>";
                         $conexion = conectar("ventas_comerciales");
-                        $query = "select DISTINCT codComercial from ventas";
+                        $query = "select codigo from comerciales";
                         $registros = $conexion->query($query) or die($conexion->error);
                         $row = $registros->fetch();
                         while ($row != null) {
                         ?>
-                            <option value="<?php echo $row['codComercial']; ?>"><?php echo $row['codComercial']; ?></option>
+                            <option value="<?php echo $row['codigo']; ?>"><?php echo $row['codigo']; ?></option>
                         <?php
 
                             $row = $registros->fetch();
@@ -152,7 +152,7 @@
                         ?>
                     </select>
                 </td>
-                <td><input type='number' name='cant' size='10' class='centrado' value = 0></td>
+                <td><input type='number' name='cant' size='10' class='centrado' value = 0 min=0></td>
                 <td><input type='date' name='fecha' size='10' class='centrado'></td>
                 <td class='bot'><input type='submit' name='cr' id='cr' value='Insertar'></td>
                 <td class='bot'><input type='submit' name='back' id='back' value='Volver'></td>

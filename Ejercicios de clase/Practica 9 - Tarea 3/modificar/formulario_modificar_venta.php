@@ -133,7 +133,7 @@
             <tr>
                 <td>cantidad</td>
                 <td><label for="cantidad"></label>
-                    <input type="number" name="cantidad" id="cantidad" value="<?php echo $cantidad ?>">
+                    <input type="number" name="cantidad" id="cantidad" value="<?php echo $cantidad ?> min="0" step="1"">
                 </td>
             </tr>
             <tr>
