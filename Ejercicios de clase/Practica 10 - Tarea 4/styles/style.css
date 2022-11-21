@@ -15,9 +15,6 @@ header {
   position: relative;
   background-color: #DAECD2;
   padding: 5px;
-}
-
-header, a {
   border-radius: 2px;
   padding: 10px;
   font-family: "Times New Roman", Times, serif;
@@ -174,4 +171,67 @@ fieldset.mini-formulario input {
   margin-bottom: 10px;
   cursor: pointer;
   width: 100%
+}
+
+/* @@@@ ESTILOS PARA EL MENU GRANDE MOSTRADO EN EL CONTENIDO DE LA PAGINA @@@@*/
+
+#menu a {
+  font-size: 1.2em;
+  display: block;
+  padding: 15px 25px;
+  margin-bottom: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  border: solid green;
+  width: 50%;
+  background-color: #DAECD2;
+  font-size: large;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+#menu a:hover {
+  background-color: #ECAC25;
+  font-weight: bold;
+}
+
+/* @@@@ ESTILOS PARA HACER UN BOTON DESPLEGABLE @@@@ */
+.desplegable {
+  background: inherit;
+  display: inline-block;
+}
+
+.desplegable>div {
+  display: none;
+  background: inherit;
+  margin: 0 -5px;
+}
+
+.desplegable:hover>div {
+  display: block;
+  position: absolute;
+}
+
+.desplegable>div>a {
+  display: block;
+  padding: 5px;
+  text-decoration: none;
+}
+
+.desplegable>div>a:hover {
+  background: yellowgreen;
+}
+
+/* @@@@ ESTILOS PARA GENERAR FORMULARIO EN BLOQUE HORIZONTAL @@@@ */
+div.input-labeled {
+  margin: 10px 0;
+  padding-right: 12px;
+}
+
+div.input-labeled>label {
+  display: block;
+  font-size: 0.8em;
+  text-decoration: underline;
+  padding-left: 5px;
 }
