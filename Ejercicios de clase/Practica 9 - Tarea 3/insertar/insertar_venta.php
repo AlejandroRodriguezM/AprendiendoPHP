@@ -152,7 +152,7 @@
                         ?>
                     </select>
                 </td>
-                <td><input type='number' name='cant' size='10' class='centrado'></td>
+                <td><input type='number' name='cant' size='10' class='centrado' value = 0></td>
                 <td><input type='date' name='fecha' size='10' class='centrado'></td>
                 <td class='bot'><input type='submit' name='cr' id='cr' value='Insertar'></td>
                 <td class='bot'><input type='submit' name='back' id='back' value='Volver'></td>

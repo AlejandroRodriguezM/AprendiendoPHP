@@ -63,7 +63,7 @@
         $precio = $_GET['precio'];
         $descuento = $_GET['descuento'];
     } else {
-        if (!empty($_POST['referencia']) && !empty($_POST['nombre']) && !empty($_POST['precio']) && !empty($_POST['descuento'])) {
+        if (!empty($_POST['referencia']) && !empty($_POST['nombre'])) {
             $referencia = $_POST['referencia'];
             $nombre = $_POST['nombre'];
             $descripcion = $_POST['descripcion'];

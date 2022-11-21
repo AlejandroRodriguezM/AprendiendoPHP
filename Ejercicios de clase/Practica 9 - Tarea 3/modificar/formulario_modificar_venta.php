@@ -62,7 +62,7 @@
         $cantidad = $_GET['cantidad'];
         $fecha = $_GET['fecha'];
     } else {
-        if (!empty($_POST['cod']) && !empty($_POST['ref']) && !empty($_POST['cant']) && !empty($_POST['fecha'])) {
+        if (!empty($_POST['cod']) && !empty($_POST['ref']) && !empty($_POST['fecha'])) {
             $conComercial = $_POST['codComercial'];
             $refProducto = $_POST['refProducto'];
             $cantidad = $_POST['cantidad'];

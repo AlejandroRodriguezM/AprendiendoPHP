@@ -63,7 +63,7 @@
         $hijos = $_GET['hijos'];
         $fNacimiento = $_GET['fNacimiento'];
     } else {
-        if (!empty($_POST['codigo']) && !empty($_POST['nombre']) && !empty($_POST['salario']) && !empty($_POST['fNacimiento'])) {
+        if (!empty($_POST['codigo']) && !empty($_POST['nombre']) && !empty($_POST['fNacimiento'])) {
             $codigo = $_POST['codigo'];
             $nombre = $_POST['nombre'];
             $salario = $_POST['salario'];

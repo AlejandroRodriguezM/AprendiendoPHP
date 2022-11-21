@@ -130,8 +130,8 @@
             <tr>
                 <td><input type="text" name="codigo" size="10" class="centrado" pattern="[0-9]{3}"></td>
                 <td><input type="text" name="nombre" size="10" class="centrado" pattern="^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+${3,30}"></td>
-                <td><input type="number" name="salario" size="10" class="centrado"></td>
-                <td><input type="number" name="hijos" size="10" class="centrado"></td>
+                <td><input type="number" name="salario" size="10" class="centrado" value = 0></td>
+                <td><input type="number" name="hijos" size="10" class="centrado" value = 0></td>
                 <td><input type="date" name="fNacimiento" size="10" class="centrado" min="1955-01-01" max="2004-01-01"></td>
                 <td class='bot'><input type='submit' name='cr' id='cr' value='Insertar'></td>
                 <td class='bot'><input type='submit' name='back' id='back' value='Volver'></td>
