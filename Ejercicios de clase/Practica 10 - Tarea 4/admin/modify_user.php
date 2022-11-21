@@ -1,6 +1,23 @@
 <?php
 include "../inc/header.inc.php";
 
+if(isset($_POST['mod'])){
+    $login = $_POST['select_login'];
+    $array = getUserData($login);
+    $name = $array['nombre'];
+    $bornDate = $array['fNacimiento'];
+    $budget = $array['presupuesto'];
+    $password = $array['password'];
+
+
+}
+else{
+    $login = "";
+    $name = "";
+    $bornDate = "";
+    $budget = "";
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,10 +59,10 @@ include "../inc/header.inc.php";
         }
         ?>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-            <label>Selecciona Usuario</label>
-            <select name='select_login' id='codComercial'>
+            <label>Select User</label>
+            <select name='select_login' id='user_login'>
                 <?php
-                echo "<option name='login' value=''>Nombre de usuario</option>";
+                echo "<option name='select_login' value=''>User Name</option>";
                 $conexion = connection_bd("conta2");
                 $query = "select * from usuarios";
                 $registros = $conexion->query($query) or die($conexion->error);
@@ -60,15 +77,15 @@ include "../inc/header.inc.php";
                 $conexion = null;
                 ?>
             </select>
-            <input type="submit" value="Upload User Data">
+            <input type="submit" name='mod' id='mod' value="Upload User Data">
         </form>
         <hr>
         <?php
         ?>
-        <form method="post" action="?<?php  ?>">
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <div class="input-labeled">
                 <label>Login:</label>
-                <input type="text" name="modUser[login]" required maxlength="10" readonly value="<?php  ?>">
+                <input type="text" name="modUser[login]" required maxlength="10" readonly value="<?php echo $login  ?>">
             </div>
             <div class="input-labeled">
                 <label>Clave:</label>
@@ -80,11 +97,11 @@ include "../inc/header.inc.php";
             </div>
             <div class="input-labeled">
                 <label>Nombre:</label>
-                <input type="text" name="modUser[nombre]" required maxlength="30" value="<?php  ?>">
+                <input type="text" name="modUser[nombre]" required maxlength="30" value="<?php echo $name  ?>">
             </div>
             <div class="input-labeled">
                 <label>Fecha Nacimiento:</label>
-                <input type="date" name="modUser[fNacimiento]" placeholder="aaaa-mm-dd" required maxlength="10" value="<?php  ?>">
+                <input type="date" name="modUser[fNacimiento]" placeholder="aaaa-mm-dd" required maxlength="10" value="<?php echo $bornDate  ?>">
             </div>
             <input type="submit" name="form_mod_user" value="Guardar">
         </form>
