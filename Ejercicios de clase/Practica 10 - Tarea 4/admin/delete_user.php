@@ -1,6 +1,24 @@
 <?php
 include "../inc/header.inc.php";
+session_start();
+//comprobamos que el usuario existe
+if(!isset($_SESSION['usuario'])){
+  die("Error - debe <a href='../index.php'>Identificarse</a>");
+}
 
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../styles/style.css">
+    <link rel="shortcut icon" href="img/ico.png">
+    <title>Delete User</title>
+</head>
+<?php
 if (isset($_POST['del'])) {
     $login = $_POST['select_login'];
     $base = "conta2";
@@ -16,17 +34,6 @@ if (isset($_POST['del'])) {
     }
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../styles/style.css">
-    <link rel="shortcut icon" href="img/ico.png">
-    <title>Pagina principal</title>
-</head>
 
 <body>
 

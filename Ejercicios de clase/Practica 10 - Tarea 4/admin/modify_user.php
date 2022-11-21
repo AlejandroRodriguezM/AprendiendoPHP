@@ -1,8 +1,9 @@
 <?php
 include "../inc/header.inc.php";
+session_start();
 //comprobamos que el usuario existe
-if(!isset($_SESSION['usuario'])){
-  die("Error - debe <a href='../index.php'>Identificarse</a>");
+if (!isset($_SESSION['usuario'])) {
+    die("Error - You have to <a href='../index.php'>Log in</a>");
 }
 ?>
 <!DOCTYPE html>
@@ -34,7 +35,7 @@ if (isset($_POST['select'])) {
     $budget = "";
 }
 
-if(isset($_POST['mod'])){
+if (isset($_POST['mod'])) {
     $login = $_POST['login'];
     $name = $_POST['nombre'];
     $bornDate = $_POST['fNacimiento'];
@@ -52,10 +53,11 @@ if(isset($_POST['mod'])){
     }
 }
 ?>
+
 <body>
 
     <header>
-        <h1 id="inicio">Gastos personales</h1>
+        <h1 id="inicio">Personal Budget</h1>
     </header>
     <nav>
         <span class="desplegable">

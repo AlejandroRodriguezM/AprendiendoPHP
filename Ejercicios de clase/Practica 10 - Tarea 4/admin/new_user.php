@@ -1,9 +1,10 @@
 <?php
 include "../inc/header.inc.php";
+session_start();
 //comprobamos que el usuario existe
-if(!isset($_SESSION['usuario'])){
+if (!isset($_SESSION['usuario'])) {
     die("Error - debe <a href='../index.php'>Identificarse</a>");
-  }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,34 +17,34 @@ if(!isset($_SESSION['usuario'])){
     <link rel="shortcut icon" href="img/ico.png">
     <title>Create new user</title>
 </head>
+<?php
+if (isset($_POST['create'])) {
+    $password = $_POST['password'];
+    $rePassword = $_POST['repassword'];
+    if (strcmp($password, $rePassword) === 0) {
+        $login = $_POST['login'];
+        $base = "conta2";
+        $query = "select login from usuarios where login = '$login'";
+        if (checkUser($query, $base)) {
+            $pass_encrypted = password_hash($password, PASSWORD_DEFAULT);
+            $name = $_POST['nombre'];
+            $bornDate = $_POST['fNacimiento'];
+            $budget = $_POST['presupuesto'];
+            $con = connection_bd($base);
+            $sql = "INSERT INTO usuarios (login, password, nombre, fNacimiento, presupuesto) VALUES ('$login', '$pass_encrypted', '$name', '$bornDate', '$budget')";
+            operacionesMySql($sql, $base);
+            $message = "<b>You have successfully created the user: $login</b>";
+        } else {
+            $message = "The user: $login Already exists";
+        }
+    } else {
+        $message = "Passwords don't match";
+    }
+}
+?>
 
 <body>
-    <?php
-    if (isset($_POST['create'])) {
-        $password = $_POST['password'];
-        $rePassword = $_POST['repassword'];
-        if (strcmp($password, $rePassword) === 0) {
-            $login = $_POST['login'];
-            $base = "conta2";
-            $query = "select login from usuarios where login = '$login'";
-            if (checkUser($query, $base)) {
-                $pass_encrypted = password_hash($password, PASSWORD_DEFAULT);
-                $name = $_POST['nombre'];
-                $bornDate = $_POST['fNacimiento'];
-                $budget = $_POST['presupuesto'];
-                $con = connection_bd($base);
-                $sql = "INSERT INTO usuarios (login, password, nombre, fNacimiento, presupuesto) VALUES ('$login', '$pass_encrypted', '$name', '$bornDate', '$budget')";
-                operacionesMySql($sql, $base);
-                $message = "<b>You have successfully created the user: $login</b>";
-            }
-            else{
-                $message = "The user: $login Already exists";
-            }
-        } else {
-            $message = "Passwords don't match";
-        }
-    }
-    ?>
+
     <header>
         <h1 id="inicio">Creating new Users</h1>
     </header>
