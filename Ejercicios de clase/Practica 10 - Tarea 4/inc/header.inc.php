@@ -14,5 +14,3 @@ try {
 } catch (PDOException $e) {
 	$error = "#".$e->getCode().": ".$e->getMessage();
 }
-
-?>

@@ -13,7 +13,7 @@ if (isset($_POST['form_user_login'])) {
         session_start();
         $_SESSION['usuario'] = $user;
         $_SESSION['hora'] = date("H:i", time());
-        // header("Location: ./user/index.php");
+        header("Location: ./user/index.php");
     } else {
         //utilizamos una cookie para controlar el usuario y fallos
         if (!isset($_COOKIE['login'])) {

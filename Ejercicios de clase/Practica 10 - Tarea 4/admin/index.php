@@ -4,8 +4,8 @@ include "../inc/header.inc.php";
 session_start();
 
 //comprobamos que el usuario existe
-if(!isset($_SESSION['usuario'])){
-  die("Error - debe <a href='../index.php'>Identificarse</a>");
+if (!isset($_SESSION['usuario'])) {
+    die("Error - You have to <a href='../index.php'>Log in</a>");
 }
 ?>
 <!DOCTYPE html>
