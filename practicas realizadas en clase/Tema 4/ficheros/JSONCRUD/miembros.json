@@ -1,0 +1,29 @@
+[
+    {
+        "id": "1",
+        "nombre": "Ramon Ramirez",
+        "email": "ramonr@gmail.com",
+        "telefono": "987878787",
+        "creado": "2022-11-21T12:44",
+        "modificado": "2022-11-21T12:44",
+        "estado": "1"
+    },
+    {
+        "id": "3",
+        "nombre": "Jacinta Benavente",
+        "email": "jacinta@gmail.com",
+        "telefono": "987111111",
+        "creado": "2022-11-21T12:50",
+        "modificado": "22-11-21 10:37:13",
+        "estado": "0"
+    },
+    {
+        "id": "2",
+        "nombre": "Carmen Ordo\u00f1ez",
+        "email": "carmen22@gmail.com",
+        "telefono": "678678679",
+        "creado": "2022-11-21T22:19",
+        "modificado": "22-11-21 10:38:14",
+        "estado": "0"
+    }
+]
