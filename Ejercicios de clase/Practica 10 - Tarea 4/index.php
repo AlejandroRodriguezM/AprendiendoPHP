@@ -4,10 +4,8 @@ include "inc/header.inc.php";
 if (isset($_POST['form_user_login'])) {
     $user = $_POST['user'];
     $password = $_POST['password'];
-    //Conexion a la BD
-    $con = connection_bd("conta2");
     //Obtenemos el password almacenado en la BD
-    $password_bd = obtain_password($user, $con);
+    $password_bd = obtain_password($user);
     //Comprobamo las credenciales con la BD
     //password_verify encripta el primer parametro y compara
     // echo password_hash("daw", PASSWORD_DEFAULT);
@@ -47,13 +45,12 @@ if (isset($_POST['form_user_login'])) {
 } else if (isset($_POST['form_admin_login'])) {
     $user = $_POST['user'];
     $password = $_POST['password'];
-    //Conexion a la BD
-    $con = connection_bd("conta2");
     //Obtenemos el password almacenado en la BD
-    $password_bd = obtain_password($user, $con);
-    //Comprobamo las credenciales con la BD
+    $password_bd = obtain_password($user);
     //password_verify encripta el primer parametro y compara
-    // echo password_hash("daw", PASSWORD_DEFAULT);
+    
+    //Creamos una coockie para el admin
+
     if (password_verify($password, $password_bd)) {
         session_start();
         $_SESSION['usuario'] = $user;
@@ -63,7 +60,6 @@ if (isset($_POST['form_user_login'])) {
         $error = "Contraseña incorrecta en cuenta de administrador";
     }
 }
-unset($con);
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -37,14 +37,13 @@ if (isset($_POST['select'])) {
 
 if (isset($_POST['mod'])) {
     $login = $_POST['login'];
-    $name = $_POST['nombre'];
-    $bornDate = $_POST['fNacimiento'];
+    $name = $_POST['user_name'];
+    $bornDate = $_POST['born_date'];
     $password = $_POST['password'];
     $rePassword = $_POST['repassword'];
     if (strcmp($password, $rePassword) === 0) {
         $pass_encrypted = password_hash($password, PASSWORD_DEFAULT);
         $base = "conta2";
-        $con = connection_bd($base);
         $sql = "UPDATE usuarios SET password = '$pass_encrypted', nombre = '$name', fNacimiento = '$bornDate' WHERE login = '$login'";
         operacionesMySql($sql, $base);
         $message = "<b>You have successfully modified the user: $login</b>";
@@ -55,7 +54,6 @@ if (isset($_POST['mod'])) {
 ?>
 
 <body>
-
     <header>
         <h1 id="inicio">Personal Budget</h1>
     </header>
@@ -85,50 +83,44 @@ if (isset($_POST['mod'])) {
             <label>Select User</label>
             <select name='select_login' id='user_login'>
                 <?php
-                echo "<option name='select_login' value=''>User Name</option>";
-                $conexion = connection_bd("conta2");
-                $query = "select * from usuarios";
-                $registros = $conexion->query($query) or die($conexion->error);
-                $row = $registros->fetch();
-                while ($row != null) {
-                ?>
-                    <option value="<?php echo $row['login']; ?>"><?php echo $row['login']; ?></option>
-                <?php
-
-                    $row = $registros->fetch();
+                echo "<option name='select_login' value=''>User name</option>";
+                $listaLogin = getLoginsList();
+                foreach ($listaLogin as $loginUser) {
+                    echo "<option name='select_login' value='$loginUser'>$loginUser</option>";
                 }
-                $conexion = null;
                 ?>
             </select>
             <input type="submit" name='select' id='select' value="Upload User Data">
         </form>
         <hr>
         <?php
+        if (isset($_POST['select'])) {
+
+            echo "<form method='post' action='" . htmlspecialchars($_SERVER["PHP_SELF"]) . "'>";
         ?>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <div class="input-labeled">
                 <label>Login:</label>
                 <input type="text" name="login" required maxlength="10" readonly value="<?php echo $login  ?>">
             </div>
             <div class="input-labeled">
-                <label>Clave:</label>
-                <input type="password" name="password" placeholder="**********" maxlength="20" value="<?php  ?>">
+                <label>Password:</label>
+                <input type="password" name="password" placeholder="**********" maxlength="20" value="">
             </div>
             <div class="input-labeled">
-                <label>Repite Clave:</label>
-                <input type="password" name="repassword" placeholder="**********" maxlength="20" value="<?php  ?>">
+                <label>Repite password:</label>
+                <input type="password" name="repassword" placeholder="**********" maxlength="20" value="">
             </div>
             <div class="input-labeled">
-                <label>Nombre:</label>
-                <input type="text" name="nombre" required maxlength="30" value="<?php echo $name  ?>">
+                <label>Name:</label>
+                <input type="text" name="user_name" required maxlength="30" value="<?php echo $name  ?>">
             </div>
             <div class="input-labeled">
-                <label>Fecha Nacimiento:</label>
-                <input type="date" name="fNacimiento" placeholder="aaaa-mm-dd" required maxlength="10" value="<?php echo $bornDate  ?>">
+                <label>Born date:</label>
+                <input type="date" name="born_date" placeholder="aaaa-mm-dd" required maxlength="10" value="<?php echo $bornDate  ?>">
             </div>
             <input type="submit" name="mod" id="mod" value="Guardar">
-        </form>
-        <?php  ?>
+            </form>
+        <?php  } ?>
     </fieldset>
     </main>
 </body>

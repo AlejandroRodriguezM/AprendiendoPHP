@@ -23,16 +23,14 @@ if (isset($_POST['create'])) {
     $rePassword = $_POST['repassword'];
     if (strcmp($password, $rePassword) === 0) {
         $login = $_POST['login'];
-        $base = "conta2";
         $query = "select login from usuarios where login = '$login'";
-        if (checkUser($query, $base)) {
+        if (checkUser($query)) {
             $pass_encrypted = password_hash($password, PASSWORD_DEFAULT);
-            $name = $_POST['nombre'];
-            $bornDate = $_POST['fNacimiento'];
-            $budget = $_POST['presupuesto'];
-            $con = connection_bd($base);
+            $name = $_POST['name_user'];
+            $bornDate = $_POST['born_date'];
+            $budget = $_POST['budget'];
             $sql = "INSERT INTO usuarios (login, password, nombre, fNacimiento, presupuesto) VALUES ('$login', '$pass_encrypted', '$name', '$bornDate', '$budget')";
-            operacionesMySql($sql, $base);
+            operacionesMySql($sql);
             $message = "<b>You have successfully created the user: $login</b>";
         } else {
             $message = "The user: $login Already exists";
@@ -86,15 +84,15 @@ if (isset($_POST['create'])) {
                 </div>
                 <div class="input-labeled">
                     <label>Name:</label>
-                    <input type="text" name="nombre" required maxlength="30" value="<?php  ?>">
+                    <input type="text" name="user_name" required maxlength="30" value="<?php  ?>">
                 </div>
                 <div class="input-labeled">
                     <label>Fecha Nacimiento:</label>
-                    <input type="date" name="fNacimiento" placeholder="aaaa-mm-dd" required maxlength="10" value="<?php  ?>">
+                    <input type="date" name="born_date" placeholder="aaaa-mm-dd" required maxlength="10" value="<?php  ?>">
                 </div>
                 <div class="input-labeled">
                     <label>Budget:</label>
-                    <input type="text" name="presupuesto" required maxlength="30" value="<?php  ?>">
+                    <input type="number" name="budget" required maxlength="30" value="<?php  ?>">
                 </div>
                 <input type="submit" name="create" id='create' onclick="return confirm('Are you sure you want to add a new user?')" value="Create user">
                 <?php

@@ -1,42 +1,5 @@
 <?php
 
-/**
- * Funcion que permite conectarte a la base de datos.
- *
- * @param [String] $base
- * @return $conexion
- */
-function connection_bd($base)
-{
-	try {
-		$conexion = new PDO("mysql:host=localhost;dbname=$base", "root", "1234");
-		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$conexion->exec("SET CHARACTER SET UTF8");
-	} catch (PDOException $e) {
-		die("Codigo: " . $e->getCode() . "<br>Error: " . $e->getMessage());
-	} finally {
-		return $conexion;
-	}
-}
-
-function obtain_password($login, $con)
-{
-	try {
-		$sql = "Select password from usuarios where login='$login'";
-		if ($result = $con->query($sql)) {
-			$row = $result->fetch();
-			if ($row != null) {
-				unset($result);
-				return $row['password'];
-			}
-		}
-	} catch (PDOException $e) {
-		$error_Code = $e->getCode();
-		$message = $e->getMessage();
-		die("Code: " . $error_Code . "\nMessage: " . $message);
-	}
-}
-
 // Devuelve la cadena GET con los datos del usuario para usar en las URLs
 function generarFakeCookie($login, $password, $cifrar = true)
 {
@@ -72,6 +35,8 @@ function protegeAccesoCuenta($redirect = "../")
 			if (password_verify($password, $usuario['password'])) {
 				// Devolvemos los datos del usuario
 				return $usuario;
+			} else {
+				header("Location: $redirect");
 			}
 		}
 		// Si no es correcta, redirigimos
@@ -119,30 +84,29 @@ function getLoginsList()
 	// Abrimos la conexion a la base de datos
 	global $conexion;
 	// Preparamos la consulta
-	$consulta = $conexion->prepare("SELECT login FROM usuarios");
+	$sql = "SELECT login FROM usuarios";
 	// Ejecutamos la consulta
-	$consulta->execute();
-	$login = $consulta->fetchAll(PDO::FETCH_COLUMN);
+	$resultado = $conexion->query($sql);
+	$listaLogin = $resultado->fetchAll(PDO::FETCH_COLUMN);
 	// Devolvemos los datos
-	return $login;
+	return $listaLogin;
 }
-
 
 /**
  * Obtener los datos de un usuario a partir de su Login
+ *
+ * @param [type] $login
+ * @return array
  */
 function getUserData($login)
 {
-	$conexion = connection_bd("conta2");
+	global $conexion;
 	$sql = "SELECT * FROM usuarios WHERE login='$login'";
 	$resultado = $conexion->query($sql);
 	$usuario = $resultado->fetch(PDO::FETCH_ASSOC);
 	// Devolvemos los datos del usuario
 	return $usuario;
 }
-
-
-
 
 /* Valida los datos de usuario
 *	Recibe el array asosiativo por referencia con los datos del usuario
@@ -343,6 +307,38 @@ function calcularSaldoContable($cantidad, &$saldoContable)
 }
 
 
+///////////////////////////////////////////
+///     Funciones creadas por ARM       ///
+///////////////////////////////////////////
+
+/**
+ * Return the password from a user using loggin
+ *
+ * @param [type] $login
+ * @param [type] $con
+ * @return
+ */
+function obtain_password($login)
+{
+	// Abrimos la conexion a la base de datos
+	global $conexion;
+	try {
+		$sql = "Select password from usuarios where login='$login'";
+		if ($result = $conexion->query($sql)) {
+			$row = $result->fetch();
+			if ($row != null) {
+				unset($result);
+				return $row['password'];
+			}
+		}
+	} catch (PDOException $e) {
+		$error_Code = $e->getCode();
+		$message = $e->getMessage();
+		die("Code: " . $error_Code . "\nMessage: " . $message);
+	}
+}
+
+
 /**
  * Funcion que sirve para insertar datos, modificar, u eliminar de la base de datos
  *
@@ -350,10 +346,10 @@ function calcularSaldoContable($cantidad, &$saldoContable)
  * @param [String] $base
  * @return void
  */
-function operacionesMySql($query, $base)
+function operacionesMySql($query)
 {
 	try {
-		$conexion = connection_bd($base);
+		global $conexion;
 		$conexion->exec($query);
 	} catch (PDOException $e) {
 		die("Codigo: " . $e->getCode() . "<br>Error: " . $e->getMessage());
@@ -368,9 +364,9 @@ function operacionesMySql($query, $base)
  * @param [String] $query
  * @return boolean
  */
-function checkUser($query, $base)
+function checkUser($query)
 {
-	$conexion = connection_bd($base);
+	global $conexion;
 	$existe = false;
 	$busqueda = $conexion->query($query);
 	if ($busqueda->fetchColumn() == 0) {

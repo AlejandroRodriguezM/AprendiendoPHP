@@ -2,8 +2,8 @@
 include "../inc/header.inc.php";
 session_start();
 //comprobamos que el usuario existe
-if(!isset($_SESSION['usuario'])){
-  die("Error - debe <a href='../index.php'>Identificarse</a>");
+if (!isset($_SESSION['usuario'])) {
+    die("Error - debe <a href='../index.php'>Identificarse</a>");
 }
 
 ?>
@@ -22,12 +22,11 @@ if(!isset($_SESSION['usuario'])){
 if (isset($_POST['del'])) {
     $login = $_POST['select_login'];
     $base = "conta2";
-    $con = connection_bd($base);
     if ($login != 'daw') {
         $sql1 = "DELETE FROM usuarios WHERE login = '$login'";
         $sql2 = "DELETE FROM movimientos WHERE loginUsu = '$login'";
-        operacionesMySql($sql1, $base);
-        operacionesMySql($sql2, $base);
+        operacionesMySql($sql1);
+        operacionesMySql($sql2);
         $message = "<b>You have successfully deleted the user: $login</b>";
     } else {
         $message = "You can't delete the admin user";
@@ -67,17 +66,10 @@ if (isset($_POST['del'])) {
                 <select name='select_login' id='login_user'>
                     <?php
                     echo "<option name='select_login' value=''>User name</option>";
-                    $conexion = connection_bd("conta2");
-                    $query = "select * from usuarios";
-                    $registros = $conexion->query($query) or die($conexion->error);
-                    $row = $registros->fetch();
-                    while ($row != null) {
-                    ?>
-                        <option value="<?php echo $row['login']; ?>"><?php echo $row['login']; ?></option>
-                    <?php
-                        $row = $registros->fetch();
+                    $listaLogin = getLoginsList();
+                    foreach ($listaLogin as $login) {
+                        echo "<option name='select_login' value='$login'>$login</option>";
                     }
-                    $conexion = null;
                     ?>
                 </select>
 
