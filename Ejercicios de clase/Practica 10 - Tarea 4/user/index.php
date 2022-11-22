@@ -21,11 +21,12 @@ if (!isset($_SESSION['usuario'])) {
 </head>
 
 <body>
-
     <header>
-        <h1 id="inicio">Account manage</h1>
+        <h1>My account</h1>
+        <div id="nombre-usuario-cabecera">
+        </div>
     </header>
-    <nav>Contabilidad personal</nav>
+    <i>Welcome</i> <b><?php echo $_SESSION['usuario']; ?></b>
     <main>
         <div id="menu">
             <a href="movements.php?<?php  ?>">Last movements</a>

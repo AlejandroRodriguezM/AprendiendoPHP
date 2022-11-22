@@ -21,11 +21,10 @@ if (!isset($_SESSION['usuario'])) {
 </head>
 
 <body>
-
     <header>
-        <h1>Personal Management: Delete</h1>
+        <h1>Deposits</h1>
         <div id="nombre-usuario-cabecera">
-            <i>Welcome</i> <b><?php  ?></b>
+            <i>Welcome</i> <b><?php echo $_SESSION['usuario']; ?></b>
         </div>
     </header>
     <nav>
@@ -45,7 +44,7 @@ if (!isset($_SESSION['usuario'])) {
         <form method="post" class="formulario" action="?<?php  ?>">
             <table>
                 <tfoot>
-                    <tr>
+                    <tr></tr>
                         <td colspan="2">
                             <?php
                             if (!empty($error)) {

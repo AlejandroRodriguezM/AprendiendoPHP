@@ -19,13 +19,16 @@ if (!isset($_SESSION['usuario'])) {
     <link rel="shortcut icon" href="img/ico.png">
     <title>Movements</title>
 </head>
+<?php 
 
+
+?>
 <body>
-
     <header>
-        <h1 id="inicio">Account manage</h1>
+        <h1>Last movements</h1>
+        <div id="nombre-usuario-cabecera">
+        </div>
     </header>
-    <nav>Personal contability</nav>
     <nav>
         <span class="desplegable">
             <a href="./?<?php  ?>">My account</a>
@@ -39,6 +42,7 @@ if (!isset($_SESSION['usuario'])) {
         </span>
         &gt; Last movements
     </nav>
+    <i>Welcome</i> <b><?php echo $_SESSION['usuario']; ?></b>
     <main>
         <?php
 

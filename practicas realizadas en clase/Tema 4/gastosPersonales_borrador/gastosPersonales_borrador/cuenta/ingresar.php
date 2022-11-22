@@ -9,6 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="../css/estilos.css">
 </head>
 <body>
+	
 	<header>
 		<h1>Gestion Personal: Ingreso</h1>
 		<div id="nombre-usuario-cabecera">

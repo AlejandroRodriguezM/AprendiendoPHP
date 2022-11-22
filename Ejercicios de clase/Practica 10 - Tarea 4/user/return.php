@@ -19,13 +19,17 @@ if (!isset($_SESSION['usuario'])) {
     <link rel="shortcut icon" href="img/ico.png">
     <title>Movements</title>
 </head>
+<?php 
 
+
+?>
 <body>
-
     <header>
-        <h1 id="inicio">Account manage</h1>
+        <h1>Returns</h1>
+        <div id="nombre-usuario-cabecera">
+        </div>
     </header>
-    <nav>Personal contability</nav>
+
     <nav>
         <span class="desplegable">
             <a href="./?<?php  ?>">My account</a>
