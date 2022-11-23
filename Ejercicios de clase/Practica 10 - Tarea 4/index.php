@@ -8,7 +8,6 @@ if (isset($_POST['form_user_login'])) {
     $password_bd = obtain_password($user);
     //Comprobamo las credenciales con la BD
     //password_verify encripta el primer parametro y compara
-    // echo password_hash("daw", PASSWORD_DEFAULT);
     if (password_verify($password, $password_bd)) {
         session_start();
         $_SESSION['usuario'] = $user;
