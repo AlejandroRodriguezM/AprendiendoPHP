@@ -226,14 +226,20 @@ function devolverRecibo($codigoMov)
 	global $conexion;
 	// Preparamos la consulta
 	try {
-		//Modify movimientos and usuarios
-		$consulta = $conexion->prepare("DELETE movimientos WHERE codigoMov = $codigoMov");
-		$consulta->execute(array($codigoMov));
+		$login = $_SESSION['usuario'];
+		$cantidad = returnAmount($codigoMov);
+		$borrado = "DELETE from movimientos WHERE codigoMov = '$codigoMov'";
+		operacionesMySql($borrado);
+		$sql = "";
+		if($cantidad > 0){
+			$sql = "UPDATE usuarios SET presupuesto = (presupuesto + $cantidad) WHERE login = '$login'";
+		}else{
+			$sql = "UPDATE usuarios SET presupuesto = (presupuesto - $cantidad) WHERE login = '$login'";
+		}
+		$consulta = $conexion->prepare($sql);
+		$consulta->execute();
 
-		$consulta = $conexion->prepare("UPDATE usuarios SET presupuesto = presupuesto + (SELECT cantidad FROM movimientos WHERE codigoMov = $codigoMov) WHERE login = (SELECT loginUsu FROM movimientos WHERE codigoMov = $codigoMov)");
-		$consulta->execute(array($codigoMov, $codigoMov));
-		// Devolvemos los datos
-		return $consulta->rowCount();
+		return false;
 	} catch (PDOException $e) {
 		return "#" . $e->getCode() . ": " . $e->getMessage();
 	}
@@ -395,6 +401,13 @@ function createRandomUserCodeMove()
 	}
 }
 
+/**
+ * Modify the budget from an specific user.
+ *
+ * @param [type] $amount
+ * @param boolean $pago
+ * @return void
+ */
 function modifyBudgetUser($amount, $pago = false)
 {
 	// Abrimos la conexion a la base de datos
@@ -418,5 +431,28 @@ function modifyBudgetUser($amount, $pago = false)
 		}
 	} catch (PDOException $e) {
 		return "#" . $e->getCode() . ": " . $e->getMessage();
+	}
+}
+
+function returnBudget(){
+	global $conexion;
+	$login = $_SESSION['usuario'];
+	$sql = "select * from usuarios where login = '$login'";
+	$busqueda = $conexion->query($sql);
+	$row = $busqueda->fetch();
+	$budget = $row['presupuesto'];
+	return $budget;
+}
+
+function returnAmount($movCode){
+	global $conexion;
+	$sql = "select * from movimientos where codigoMov = '$movCode'";
+	//return amount if exist > 1 row
+
+	$busqueda = $conexion->query($sql);
+	if($busqueda){
+		$row = $busqueda->fetch();
+		$amount = $row['cantidad'];
+		return $amount;
 	}
 }

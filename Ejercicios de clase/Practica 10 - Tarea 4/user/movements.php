@@ -24,6 +24,8 @@ $tabla = getMovimientos(true);
 if ($tabla) {
     $numMovimientos = count($tabla);
 }
+
+$actualBudget = returnBudget();
 ?>
 
 <body>
@@ -71,6 +73,7 @@ if ($tabla) {
                     echo "<td>" . '?¿?¿?' . "</td>";
                     // echo "<td>" . $fila['saldo'] . "</td>";
                     echo "</tr>";
+
                 }
                 ?>
             </tbody>
@@ -79,7 +82,7 @@ if ($tabla) {
                     <th>Nº Mov</th>
                     <th><?php echo $numMovimientos ?></th>
                     <th colspan="2">Current balance:</th>
-                    <th><?php ?></th>
+                    <th><?php echo $actualBudget?></th>
                 </tr>
             </tfoot>
         </table>
