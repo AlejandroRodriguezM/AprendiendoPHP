@@ -177,18 +177,14 @@ function getMovimientos($soloRecibos = false)
 {
 	// Abrimos la conexion a la base de datos
 	global $conexion;
-	// Preparamos la consulta y comprobamos que existen los mivimientos
-	$consulta = $conexion->prepare("SELECT * FROM movimientos WHERE login=? ORDER BY fecha DESC LIMIT 10");
-	$consulta->bindParam(1, $_SESSION['login']);
-	$base = "ventas_comerciales";
-	$conexion = conectar($base);
-	$registros = $conexion->query($consulta) or die($conexion->error);
-	if ($registros->fetchColumn() == 0) {
-		return "<b class='mens_error'>No existen movimientos </b>";
-	} else {
+
+	if ($soloRecibos) {
+		// Preparamos la consulta y comprobamos que existen los mivimientos
+		$login = $_SESSION['usuario'];
+		$consulta = $conexion->prepare("SELECT * FROM movimientos WHERE loginUsu = '$login' ORDER BY fecha ASC LIMIT 10");
 		$consulta->execute();
-		// Devolvemos los datos
-		return $consulta->fetchAll(PDO::FETCH_ASSOC);
+		$movimientos = $consulta->fetchAll(PDO::FETCH_ASSOC);
+		return $movimientos;
 	}
 }
 
@@ -207,9 +203,14 @@ function guardarNuevoMovimiento($mov, $pago = false)
 	try {
 		$consulta = $conexion->prepare("INSERT INTO movimientos (codigoMov, loginUsu, fecha, concepto, cantidad) VALUES (?, ?, ?, ?, ?)");
 		// Ejecutamos la consulta
-		$consulta->execute(array($mov['fecha'], $mov['concepto'], $mov['cantidad'] * ($pago ? -1 : 1), $mov['tipo']));
-		// Devolvemos los datos
-		return $consulta->rowCount();
+		$consulta->execute(array($mov['codigoMov'], $mov['loginUsu'], $mov['fecha'], $mov['concepto'], $mov['cantidad']));
+
+		// Si es un pago, convertimos la cantidad a negativo
+		if ($pago) {
+			$consulta = $conexion->prepare("UPDATE movimientos SET cantidad = -cantidad WHERE codigoMov = ?");
+			$consulta->execute(array($mov['codigoMov']));
+		}
+		return false;
 	} catch (PDOException $e) {
 		return "#" . $e->getCode() . ": " . $e->getMessage();
 	}
@@ -373,4 +374,49 @@ function checkUser($query)
 		$existe = true;
 	}
 	return $existe;
+}
+
+/**
+ * Create a randomNumber of 4 digits randomdly, in case the cod alredy existe, the funtions call imself to try to create new code
+ *
+ * @return $codigo
+ */
+function createRandomUserCodeMove()
+{
+	global $conexion;
+	$codigo = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 4);
+
+	$sql = "select codigoMov from movimientos where codigoMov = '$codigo'";
+	$busqueda = $conexion->query($sql);
+	if ($busqueda->fetchColumn() == 0) {
+		return $codigo;
+	} else {
+		createRandomUserCodeMove();
+	}
+}
+
+function modifyBudgetUser($amount, $pago = false)
+{
+	// Abrimos la conexion a la base de datos
+	global $conexion;
+	// Preparamos la consulta
+	try {
+		$login = $_SESSION['usuario'];
+		$sql = "select * from usuarios where login = '$login'";
+		$busqueda = $conexion->query($sql);
+		$row = $busqueda->fetch();
+		$budget = $row['presupuesto'];
+		// Si es un pago, convertimos la cantidad a negativo
+		if ($pago) {
+			$budget = $budget - $amount;
+			$consulta = "UPDATE usuarios SET presupuesto = $budget WHERE login = '$login'";
+			operacionesMySql($consulta);
+		} else {
+			$budget = $budget + $amount;
+			$consulta = "UPDATE usuarios SET presupuesto = $budget WHERE login = '$login'";
+			operacionesMySql($consulta);
+		}
+	} catch (PDOException $e) {
+		return "#" . $e->getCode() . ": " . $e->getMessage();
+	}
 }

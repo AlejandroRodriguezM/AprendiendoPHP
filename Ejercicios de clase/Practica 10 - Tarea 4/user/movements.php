@@ -19,10 +19,13 @@ if (!isset($_SESSION['usuario'])) {
     <link rel="shortcut icon" href="img/ico.png">
     <title>Movements</title>
 </head>
-<?php 
-
-
+<?php
+$tabla = getMovimientos(true);
+if ($tabla) {
+    $numMovimientos = count($tabla);
+}
 ?>
+
 <body>
     <header>
         <h1>Last movements</h1>
@@ -30,17 +33,17 @@ if (!isset($_SESSION['usuario'])) {
         </div>
     </header>
     <nav>
-        <span class="desplegable">
+	<span class="desplegable">
             <a href="./?<?php  ?>">My account</a>
-            <div id="menu">
-                <a href="movements.php?<?php  ?>">Last movements</a>
-                <a href="deposit.php?<?php  ?>">Post a Revenue</a>
+            <div>
+                <a href="movements.php?<?php  ?>">Latest movements</a>
+                <a href="deposit.php?<?php  ?>">Make a deposit</a>
                 <a href="pay.php?<?php  ?>">Record an Expense</a>
                 <a href="return.php?<?php  ?>">Return a movement</a>
                 <a href="../">Exit</a>
             </div>
         </span>
-        &gt; Last movements
+        &gt; Latest movements
     </nav>
     <i>Welcome</i> <b><?php echo $_SESSION['usuario']; ?></b>
     <main>
@@ -59,16 +62,24 @@ if (!isset($_SESSION['usuario'])) {
             </thead>
             <tbody>
                 <?php
-
-
+                foreach ($tabla as $fila) {
+                    echo "<tr>";
+                    echo "<td>" . $fila['codigoMov'] . "</td>";
+                    echo "<td>" . $fila['fecha'] . "</td>";
+                    echo "<td>" . $fila['concepto'] . "</td>";
+                    echo "<td>" . $fila['cantidad'] . "</td>";
+                    echo "<td>" . '?¿?¿?' . "</td>";
+                    // echo "<td>" . $fila['saldo'] . "</td>";
+                    echo "</tr>";
+                }
                 ?>
             </tbody>
             <tfoot>
                 <tr>
                     <th>Nº Mov</th>
-                    <th><?php  ?></th>
+                    <th><?php echo $numMovimientos ?></th>
                     <th colspan="2">Current balance:</th>
-                    <th><?php  ?></th>
+                    <th><?php ?></th>
                 </tr>
             </tfoot>
         </table>

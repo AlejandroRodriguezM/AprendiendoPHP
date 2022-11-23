@@ -19,6 +19,26 @@ if (!isset($_SESSION['usuario'])) {
     <link rel="shortcut icon" href="img/ico.png">
     <title>Deposits</title>
 </head>
+<?php
+if(isset($_POST['deposit'])){
+    $cantidad = $_POST['amount'];
+    $concepto = $_POST['concept'];
+    $fecha = $_POST['date'];
+    $usuario = $_SESSION['usuario'];
+    $codigo = createRandomUserCodeMove();
+    $mov = array(
+        "codigoMov" => $codigo,
+        "loginUsu" => $usuario,
+        "fecha" => $fecha,
+        "concepto" => $concepto,
+        "cantidad" => $cantidad
+    );
+    if(!guardarNuevoMovimiento($mov, false)){
+        modifyBudgetUser($cantidad,false);
+    }
+    $mensaje = "Movement saved successfully";
+}
+?>
 
 <body>
     <header>
@@ -32,46 +52,46 @@ if (!isset($_SESSION['usuario'])) {
             <a href="./?<?php  ?>">My account</a>
             <div>
                 <a href="movements.php?<?php  ?>">Last movements</a>
-                <a href="deposit.php?<?php  ?>">Post a Revenue</a>
+                <a href="deposit.php?<?php  ?>">Make a deposit</a>
                 <a href="pay.php?<?php  ?>">Record an Expense</a>
                 <a href="return.php?<?php  ?>">Return a movement</a>
                 <a href="../">Exit</a>
             </div>
         </span>
-        &gt; Return a movement
+        &gt; Make a deposit
     </nav>
     <main>
         <form method="post" class="formulario" action="?<?php  ?>">
             <table>
                 <tfoot>
-                    <tr></tr>
-                        <td colspan="2">
-                            <?php
-                            if (!empty($error)) {
-                                echo '<div class="error"><b>!</b>' . $error . '</div>';
-                            }
-                            ?>
-                        </td>
-                    </tr>
+                    <?php
+                    if (!empty($mensaje)) {
+                        echo "<tr>";
+                        echo "<td colspan='2'>";
+                        echo '<div><b>!</b>' . $mensaje . '</div>';
+                        echo "</td>";
+                        echo "</tr>";
+                    }
+                    ?>
                 </tfoot>
                 <tbody>
                     <tr>
-                        <td><label>Fecha:</label></td>
+                        <td><label>Date:</label></td>
                         <td>
-                            <input type="date" name="movimiento[fecha]" value="<?php  ?>" size="10" placeholder="aaaa-mm-dd" maxlength="10" required>
+                            <input type="date" name="date" value="<?php  ?>" size="10" placeholder="aaaa-mm-dd" maxlength="10" required>
                         </td>
                     </tr>
                     <tr>
-                        <td><label>Concepto:</label></td>
+                        <td><label>Concept:</label></td>
                         <td>
-                            <input type="text" name="movimiento[concepto]" value="<?php  ?>" size="20" placeholder="Descripción Movimiento" maxlength="20" required>
+                            <input type="text" name="concept" value="<?php  ?>" size="20" placeholder="Description Movement" maxlength="20" required>
                         </td>
                     </tr>
                     <tr>
-                        <td><label>Cantidad:</label></td>
+                        <td><label>Amount:</label></td>
                         <td>
-                            <input type="number" name="movimiento[cantidad]" value="<?php  ?>" min="0" step="0.01" required>
-                            <input type="submit" name="ingresar" value="Ingresar">
+                            <input type="number" name="amount" value="<?php  ?>" min="0" step="0.01" required>
+                            <input type="submit" name="deposit" value="Deposit">
                         </td>
                     </tr>
                 </tbody>

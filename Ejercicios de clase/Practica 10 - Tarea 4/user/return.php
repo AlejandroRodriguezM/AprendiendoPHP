@@ -19,10 +19,11 @@ if (!isset($_SESSION['usuario'])) {
     <link rel="shortcut icon" href="img/ico.png">
     <title>Movements</title>
 </head>
-<?php 
+<?php
 
 
 ?>
+
 <body>
     <header>
         <h1>Returns</h1>
@@ -35,7 +36,7 @@ if (!isset($_SESSION['usuario'])) {
             <a href="./?<?php  ?>">My account</a>
             <div id="menu">
                 <a href="movements.php?<?php  ?>">Last movements</a>
-                <a href="deposit.php?<?php  ?>">Post a Revenue</a>
+                <a href="deposit.php?<?php  ?>">Make a deposit</a>
                 <a href="pay.php?<?php  ?>">Record an Expense</a>
                 <a href="return.php?<?php  ?>">Return a movement</a>
                 <a href="../">Exit</a>

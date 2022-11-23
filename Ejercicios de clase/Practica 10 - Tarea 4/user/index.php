@@ -30,7 +30,7 @@ if (!isset($_SESSION['usuario'])) {
     <main>
         <div id="menu">
             <a href="movements.php?<?php  ?>">Last movements</a>
-            <a href="deposit.php?<?php  ?>">Post a Revenue</a>
+            <a href="deposit.php?<?php  ?>">Make a deposit</a>
             <a href="pay.php?<?php  ?>">Record an Expense</a>
             <a href="return.php?<?php  ?>">Return a movement</a>
             <a href="../">Exit</a>
