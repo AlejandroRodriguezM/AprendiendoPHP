@@ -21,6 +21,7 @@ if (!isset($_SESSION['usuario'])) {
 </head>
 <?php
 if (isset($_POST['payment'])) {
+	$budgetUser = returnBudget();
 	$cantidad = $_POST['amount'];
 	$concepto = $_POST['concept'];
 	$fecha = $_POST['date'];
@@ -33,10 +34,16 @@ if (isset($_POST['payment'])) {
 		"concepto" => $concepto,
 		"cantidad" => $cantidad
 	);
-	if (!guardarNuevoMovimiento($mov, true)) {
-		modifyBudgetUser($cantidad, true);
+	if( $budgetUser <= 0){
+		$mensaje = "You don't have enough money to make this payment";
 	}
-	$mensaje = "Movement saved successfully";
+	else{
+		if (!guardarNuevoMovimiento($mov, true)) {
+			modifyBudgetUser($cantidad, true);
+		}
+		$mensaje = "Movement saved successfully";
+	}
+
 }
 ?>
 
