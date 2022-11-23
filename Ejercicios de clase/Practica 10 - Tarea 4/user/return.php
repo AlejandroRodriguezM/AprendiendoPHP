@@ -30,12 +30,14 @@ else{
 
 if (isset($_POST['return'])) {
     $codigoMov = $_POST['codMov'];
-
+    
     if (!devolverRecibo($codigoMov)) {
         $mensaje = "Movement deleted successfully";
     } else {
         $mensaje = "Error deleting movement";
     }
+    //send variable $mensaje using header
+    header("Location: return.php?mensaje=$mensaje");
 }
 ?>
 

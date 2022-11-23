@@ -24,6 +24,9 @@ $tabla = getMovimientos(true);
 if ($tabla) {
     $numMovimientos = count($tabla);
 }
+else{
+    $numMovimientos = 0;
+}
 
 $actualBudget = returnBudget();
 ?>

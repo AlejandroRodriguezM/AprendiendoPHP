@@ -222,23 +222,12 @@ function guardarNuevoMovimiento($mov, $pago = false)
 */
 function devolverRecibo($codigoMov)
 {
-	// Abrimos la conexion a la base de datos
-	global $conexion;
 	// Preparamos la consulta
 	try {
-		$login = $_SESSION['usuario'];
 		$cantidad = returnAmount($codigoMov);
+		modifyBudgetUser($cantidad, true);
 		$borrado = "DELETE from movimientos WHERE codigoMov = '$codigoMov'";
 		operacionesMySql($borrado);
-		$sql = "";
-		if($cantidad > 0){
-			$sql = "UPDATE usuarios SET presupuesto = (presupuesto + $cantidad) WHERE login = '$login'";
-		}else{
-			$sql = "UPDATE usuarios SET presupuesto = (presupuesto - $cantidad) WHERE login = '$login'";
-		}
-		$consulta = $conexion->prepare($sql);
-		$consulta->execute();
-
 		return false;
 	} catch (PDOException $e) {
 		return "#" . $e->getCode() . ": " . $e->getMessage();
@@ -357,7 +346,9 @@ function operacionesMySql($query)
 {
 	try {
 		global $conexion;
+		// Ejecutamos la consulta
 		$conexion->exec($query);
+
 	} catch (PDOException $e) {
 		die("Codigo: " . $e->getCode() . "<br>Error: " . $e->getMessage());
 	} finally {
@@ -410,49 +401,50 @@ function createRandomUserCodeMove()
  */
 function modifyBudgetUser($amount, $pago = false)
 {
-	// Abrimos la conexion a la base de datos
-	global $conexion;
 	// Preparamos la consulta
+	global $conexion;
 	try {
 		$login = $_SESSION['usuario'];
-		$sql = "select * from usuarios where login = '$login'";
-		$busqueda = $conexion->query($sql);
-		$row = $busqueda->fetch();
-		$budget = $row['presupuesto'];
 		// Si es un pago, convertimos la cantidad a negativo
 		if ($pago) {
-			$budget = $budget - $amount;
-			$consulta = "UPDATE usuarios SET presupuesto = $budget WHERE login = '$login'";
-			operacionesMySql($consulta);
+			$consulta = $conexion->prepare("UPDATE usuarios SET presupuesto = presupuesto - ? WHERE login = ?");
 		} else {
-			$budget = $budget + $amount;
-			$consulta = "UPDATE usuarios SET presupuesto = $budget WHERE login = '$login'";
-			operacionesMySql($consulta);
+			$consulta = $conexion->prepare("UPDATE usuarios SET presupuesto = presupuesto + ? WHERE login = ?");
 		}
+
+		
+		$consulta->execute(array($amount, $login));
 	} catch (PDOException $e) {
 		return "#" . $e->getCode() . ": " . $e->getMessage();
 	}
 }
 
-function returnBudget(){
+/**
+ * Function that returns the budget of a specific user 
+ *
+ * @return int
+ */
+function returnBudget()
+{
 	global $conexion;
 	$login = $_SESSION['usuario'];
-	$sql = "select * from usuarios where login = '$login'";
-	$busqueda = $conexion->query($sql);
-	$row = $busqueda->fetch();
-	$budget = $row['presupuesto'];
+	$consulta = $conexion->prepare("SELECT presupuesto FROM usuarios where login = ?");
+	$consulta->execute(array($login));
+	$budget = $consulta->fetch(PDO::FETCH_ASSOC)['presupuesto'];
 	return $budget;
 }
 
-function returnAmount($movCode){
+/**
+ * Function that returns the amount of a specific movement
+ *
+ * @param [type] $movCode
+ * @return int
+ */
+function returnAmount($movCode)
+{
 	global $conexion;
-	$sql = "select * from movimientos where codigoMov = '$movCode'";
-	//return amount if exist > 1 row
-
-	$busqueda = $conexion->query($sql);
-	if($busqueda){
-		$row = $busqueda->fetch();
-		$amount = $row['cantidad'];
-		return $amount;
-	}
+	$consulta = $conexion->prepare("SELECT cantidad FROM movimientos WHERE codigoMov = ?");
+	$consulta->execute(array($movCode));
+	$cantidad = $consulta->fetch(PDO::FETCH_ASSOC)['cantidad'];
+	return $cantidad;
 }
