@@ -12,6 +12,35 @@ function protegeAccesoAdmin($redirect = "../")
 	}
 }
 
+function errorSesion($user){
+	if (!isset($_COOKIE['login'])) {
+		$num_fallos = 1;
+		setcookie('login', $user, time() + 3600);
+		setcookie('num_fallos', $num_fallos, time() + 3600);
+		$error = "Contraseña incorrecta primer intento, al tercero se bloquea";
+	} else if ($_COOKIE['num_fallos'] == 1 && $_COOKIE['login'] == $user) {
+		$num_fallos = 2;
+		setcookie('login', $user, time() + 3600);
+		setcookie('num_fallos', $num_fallos, time() + 3600);
+		$error = "Contraseña incorrecta segundo intento, al tercero se bloquea";
+	} else if ($_COOKIE['num_fallos'] == 1 && $_COOKIE['login'] != $user) {
+		$num_fallos = 1;
+		setcookie('login', $user, time() + 3600);
+		setcookie('num_fallos', $num_fallos, time() + 3600);
+		$error = "Contraseña incorrecta primer intento, al tercero se bloquea";
+	} else if ($_COOKIE['num_fallos'] == 2 && $_COOKIE['login'] == $user) {
+		setcookie('login', null, -1);
+		setcookie('num_fallos', null, -1);
+		header("Location: index.php");
+	} else if ($_COOKIE['num_fallos'] == 2 && $_COOKIE['login'] != $user) {
+		$num_fallos = 1;
+		setcookie('login', $user, time() + 3600);
+		setcookie('num_fallos', $num_fallos, time() + 3600);
+		$error = "Contraseña incorrecta primer intento, al tercero se bloquea";
+	}
+	return $error;
+}
+
 // Devuelve un array con los Login existentes
 function getLoginsList()
 {
@@ -41,8 +70,6 @@ function getUserData($login)
 	// Devolvemos los datos del usuario
 	return $usuario;
 }
-
-
 
 // Obtener los 10 ultimos movimientos de un usuario
 function getMovimientos($soloRecibos = false)

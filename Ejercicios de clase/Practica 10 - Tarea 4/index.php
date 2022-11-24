@@ -1,60 +1,23 @@
 <?php
 include "inc/header.inc.php";
 //Comprobamos si ya se enviado el formulario
-if (isset($_POST['form_user_login'])) {
+if (isset($_POST['acces'])) {
+    echo "hola";
     $user = $_POST['user'];
     $password = $_POST['password'];
+    $_SESSION['hora'] = date("H:i", time());
     //Obtenemos el password almacenado en la BD
     $password_bd = obtain_password($user);
-    //Comprobamo las credenciales con la BD
-
     if (password_verify($password, $password_bd)) {
         session_start();
-        $_SESSION['usuario'] = $user;
-        $_SESSION['hora'] = date("H:i", time());
-        setcookie('user',$user, time() + 3600);
-        header("Location: ./user/index.php");
-    } else {
-        //utilizamos una cookie para controlar el usuario y fallos
-        if (!isset($_COOKIE['login'])) {
-            $num_fallos = 1;
-            setcookie('login', $user, time() + 3600);
-            setcookie('num_fallos', $num_fallos, time() + 3600);
-            $error = "Contraseña incorrecta primer intento, al tercero se bloquea";
-        } else if ($_COOKIE['num_fallos'] == 1 && $_COOKIE['login'] == $user) {
-            $num_fallos = 2;
-            setcookie('login', $user, time() + 3600);
-            setcookie('num_fallos', $num_fallos, time() + 3600);
-            $error = "Contraseña incorrecta segundo intento, al tercero se bloquea";
-        } else if ($_COOKIE['num_fallos'] == 1 && $_COOKIE['login'] != $user) {
-            $num_fallos = 1;
-            setcookie('login', $user, time() + 3600);
-            setcookie('num_fallos', $num_fallos, time() + 3600);
-            $error = "Contraseña incorrecta primer intento, al tercero se bloquea";
-        } else if ($_COOKIE['num_fallos'] == 2 && $_COOKIE['login'] == $user) {
-            setcookie('login', null, -1);
-            setcookie('num_fallos', null, -1);
-            header("Location: index.php");
-        } else if ($_COOKIE['num_fallos'] == 2 && $_COOKIE['login'] != $user) {
-            $num_fallos = 1;
-            setcookie('login', $user, time() + 3600);
-            setcookie('num_fallos', $num_fallos, time() + 3600);
-            $error = "Contraseña incorrecta primer intento, al tercero se bloquea";
+        setcookie('user', $user, time() + 3600);
+        if (isset($_POST['form_user_login'])) {
+            header("Location: ./user/index.php");
+        } else if (isset($_POST['form_admin_login'])) {
+            header("Location: ./admin/index.php");
         }
-    }
-} else if (isset($_POST['form_admin_login'])) {
-    $user = $_POST['user'];
-    $password = $_POST['password'];
-    //Obtenemos el password almacenado en la BD
-    $password_bd = obtain_password($user);
-    if (password_verify($password, $password_bd)) {
-        session_start();
-        $_SESSION['usuario'] = $user;
-        $_SESSION['hora'] = date("H:i", time());
-        setcookie('user',$user, time() + 3600);
-        header("Location: ./admin/index.php");
     } else {
-        $error = "Contraseña incorrecta en cuenta de administrador";
+        $error = errorSesion($user);
     }
 }
 ?>
@@ -83,6 +46,9 @@ if (isset($_POST['form_user_login'])) {
             if (isset($error)) {
                 echo "<div class='error'>$error</div>";
             }
+            if (empty($_COOKIE['error_admin'])) {
+                echo "<div class='error'>Usuario bloqueado</div>";
+            }
             ?>
             <form method="post">
                 <div class="input-labeled">
@@ -98,10 +64,8 @@ if (isset($_POST['form_user_login'])) {
                 <hr>
                 <div class="left">
                     <input class='button_gestion' type="submit" name="form_user_login" value="Gestion de cuenta">
-                </div>
-
-                <div class="left">
                     <input class='button_gestion' type="submit" name="form_admin_login" value="Gestionar Usuarios">
+                    <input type="hidden" name="acces" id="acces">
                 </div>
             </form>
         </fieldset>

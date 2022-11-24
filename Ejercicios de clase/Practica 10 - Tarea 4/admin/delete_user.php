@@ -6,7 +6,7 @@ if (!isset($_SESSION['usuario'])) {
     die("Error - You have to <a href='../index.php'>Log in</a>");
 }
 
-if (isset($_COOKIE['admin'])) {
+if (isset($_COOKIE['user'])) {
     protegeAccesoAdmin($redirect = "../");
 }
 
@@ -63,7 +63,7 @@ if(isset($_POST['cancel'])){
                 <a href="new_user.php?<?php  ?>">New user</a>
                 <a href="modify_user.php?<?php  ?>">Modify user</a>
                 <a href="delete_user.php?<?php  ?>">Delete user</a>
-                <a href="../<?php setcookie('user', $user, time() - 3600); ?>">Exit</a>
+                <a href="../<?php ?>">Exit</a>
             </div>
         </span>
         &gt; Delete user

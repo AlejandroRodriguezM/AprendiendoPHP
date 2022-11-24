@@ -8,8 +8,13 @@ if (!isset($_SESSION['usuario'])) {
     die("Error - You have to <a href='../index.php'>Log in</a>");
 }
 
-if(isset($_COOKIE['admin'])){
+if (isset($_COOKIE['user'])) {
     protegeAccesoAdmin($redirect = "../");
+}
+
+if(isset($_POST['exit'])){
+    session_destroy();
+    header("Location: ../index.php");
 }
 
 ?>
@@ -36,7 +41,7 @@ if(isset($_COOKIE['admin'])){
             <a href="new_user.php?<?php  ?>">New user</a>
             <a href="modify_user.php?<?php  ?>">Modify user</a>
             <a href="delete_user.php?<?php  ?>">Delete user</a>
-            <a href="../<?php session_destroy() ?>">Exit</a>
+            <a href="../<?php  ?>"><input type="hidden" name="exit" id="exit" value="Exit"">Exit</a>
         </div>
     </main>
 </body>
