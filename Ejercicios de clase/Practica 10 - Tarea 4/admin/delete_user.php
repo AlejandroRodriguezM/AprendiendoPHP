@@ -6,6 +6,10 @@ if (!isset($_SESSION['usuario'])) {
     die("Error - You have to <a href='../index.php'>Log in</a>");
 }
 
+if (isset($_COOKIE['admin'])) {
+    protegeAccesoAdmin($redirect = "../");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,15 +26,28 @@ if (!isset($_SESSION['usuario'])) {
 if (isset($_POST['del'])) {
     $login = $_POST['select_login'];
     $base = "conta2";
+    $tabla = getMovimientos(true);
+    $numMovimientos = count($tabla);
     if ($login != 'daw') {
+
         $sql1 = "DELETE FROM usuarios WHERE login = '$login'";
-        $sql2 = "DELETE FROM movimientos WHERE loginUsu = '$login'";
         operacionesMySql($sql1);
-        operacionesMySql($sql2);
+        if ($numMovimientos > 0) {
+            $sql2 = "DELETE FROM movimientos WHERE loginUsu = '$login'";
+            operacionesMySql($sql2);
+        }
         $message = "<b>You have successfully deleted the user: $login</b>";
+        setcookie("del_message", $message, time() + 3600);
     } else {
         $message = "You can't delete the admin user";
+        setcookie("del_message", $message, time() + 3600);
     }
+    header("Location: delete_user.php");
+}
+
+if(isset($_POST['cancel'])){
+    header("Location: index.php");
+    setcookie("del_message", $message, time() - 3600);
 }
 ?>
 
@@ -46,7 +63,7 @@ if (isset($_POST['del'])) {
                 <a href="new_user.php?<?php  ?>">New user</a>
                 <a href="modify_user.php?<?php  ?>">Modify user</a>
                 <a href="delete_user.php?<?php  ?>">Delete user</a>
-                <a href="../">Exit</a>
+                <a href="../<?php setcookie('user', $user, time() - 3600); ?>">Exit</a>
             </div>
         </span>
         &gt; Delete user
@@ -74,11 +91,11 @@ if (isset($_POST['del'])) {
                 </select>
 
                 <input type='submit' name='del' id='del' onclick="return confirm('¿Estas seguro que quieres eliminar la venta?')" value='Delete'>
-                <input type="submit" value="Cancel">
+                <input type="submit" name='cancel' id='cancel' value="Cancel">
 
                 <?php
-                if (isset($message)) {
-                    echo "<div class='error'><b>$message</b></div>";
+                if (isset($_COOKIE['del_message'])) {
+                    echo "<b>" . $_COOKIE['del_message'] . "</b><br>";
                 }
                 ?>
             </form>

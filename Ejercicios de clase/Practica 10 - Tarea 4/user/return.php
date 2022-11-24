@@ -23,21 +23,23 @@ if (!isset($_SESSION['usuario'])) {
 $tabla = getMovimientos(true);
 if ($tabla) {
     $numMovimientos = count($tabla);
-}
-else{
+} else {
     $mensaje = "No hay movimientos";
+    setcookie("mensaje", "$mensaje", time() - 3600);
 }
 
 if (isset($_POST['return'])) {
     $codigoMov = $_POST['codMov'];
-    
+
     if (!devolverRecibo($codigoMov)) {
         $mensaje = "Movement deleted successfully";
+        setcookie("mensaje", $mensaje, time() + 3600);
     } else {
         $mensaje = "Error deleting movement";
+        setcookie("mensaje", $mensaje, time() + 3600);
     }
     //send variable $mensaje using header
-    header("Location: return.php?mensaje=$mensaje");
+    header("Location: return.php");
 }
 ?>
 
@@ -56,7 +58,7 @@ if (isset($_POST['return'])) {
                 <a href="deposit.php?<?php  ?>">Make a deposit</a>
                 <a href="expense.php?<?php  ?>">Record an Expense</a>
                 <a href="return.php?<?php  ?>">Return a movement</a>
-                <a href="../">Exit</a>
+                <a href="../<?php setcookie('user', $user, time() - 3600); ?>">Exit</a>
             </div>
         </span>
         &gt; Return a movement
@@ -90,13 +92,19 @@ if (isset($_POST['return'])) {
             </tbody>
             <tfoot>
                 <tr>
-                    <th><?php if(!empty($error))echo "<b>$error</b>"  ?></th>
+                    <th><?php if (!empty($error)) echo "<b>$error</b>"?></th>
                     <th colspan="3"></th>
                 </tr>
             </tfoot>
-            
+
         </table>
-        <?php if(!empty($mensaje))echo"<b>$mensaje</b>"  ?>
+        <?php if (isset($_COOKIE['mensaje'])) {
+            echo "<b>" . $_COOKIE['mensaje'] . "</b><br>";
+        }
+        if (!empty($mensaje)) {
+            
+            echo "<b>" . $mensaje . "</b>";
+        }  ?>
     </main>
 </body>
 

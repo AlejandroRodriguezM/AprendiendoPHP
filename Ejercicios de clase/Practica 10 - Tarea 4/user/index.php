@@ -33,7 +33,7 @@ if (!isset($_SESSION['usuario'])) {
             <a href="deposit.php?<?php  ?>">Make a deposit</a>
             <a href="expense.php?<?php  ?>">Record an Expense</a>
             <a href="return.php?<?php  ?>">Return a movement</a>
-            <a href="../">Exit</a>
+            <a href="../<?php session_destroy() ?>">Exit</a>
         </div>
     </main>
 </body>

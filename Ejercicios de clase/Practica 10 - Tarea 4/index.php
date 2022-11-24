@@ -7,11 +7,12 @@ if (isset($_POST['form_user_login'])) {
     //Obtenemos el password almacenado en la BD
     $password_bd = obtain_password($user);
     //Comprobamo las credenciales con la BD
-    //password_verify encripta el primer parametro y compara
+
     if (password_verify($password, $password_bd)) {
         session_start();
         $_SESSION['usuario'] = $user;
         $_SESSION['hora'] = date("H:i", time());
+        setcookie('user',$user, time() + 3600);
         header("Location: ./user/index.php");
     } else {
         //utilizamos una cookie para controlar el usuario y fallos
@@ -46,14 +47,11 @@ if (isset($_POST['form_user_login'])) {
     $password = $_POST['password'];
     //Obtenemos el password almacenado en la BD
     $password_bd = obtain_password($user);
-    //password_verify encripta el primer parametro y compara
-    
-    //Creamos una coockie para el admin
-
     if (password_verify($password, $password_bd)) {
         session_start();
         $_SESSION['usuario'] = $user;
         $_SESSION['hora'] = date("H:i", time());
+        setcookie('user',$user, time() + 3600);
         header("Location: ./admin/index.php");
     } else {
         $error = "Contraseña incorrecta en cuenta de administrador";
