@@ -6,8 +6,13 @@ if (!isset($_SESSION['usuario'])) {
     die("Error - You have to <a href='../index.php'>Log in</a>");
 }
 
-if (isset($_COOKIE['user'])) {
-    protegeAccesoAdmin($redirect = "../");
+if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
+    $user = $_COOKIE['user'];
+    $pass = $_COOKIE['pass'];
+    protectAcces($user,$pass);
+}
+else{
+	die("Error - You have to <a href='../index.php'>Log in</a>");
 }
 ?>
 <!DOCTYPE html>
@@ -33,6 +38,9 @@ if (isset($_POST['create'])) {
             $name = $_POST['user_name'];
             $bornDate = $_POST['born_date'];
             $budget = $_POST['budget'];
+            if($budget < 0){
+                $budget = 0;
+            }
             $sql = "INSERT INTO usuarios (login, password, nombre, fNacimiento, presupuesto) VALUES ('$login', '$pass_encrypted', '$name', '$bornDate', '$budget')";
             operacionesMySql($sql);
             $message = "<b>You have successfully created the user: $login</b>";
@@ -56,7 +64,7 @@ if (isset($_POST['cancel'])) {
     </header>
     <nav>
         <span class="desplegable">
-            <a href="index.php?<?php echo $fakeCookie; ?>">Manage users</a>
+            <a href="index.php?<?php ?>">Manage users</a>
             <div>
                 <a href="new_user.php?<?php  ?>">New user</a>
                 <a href="modify_user.php?<?php  ?>">Modify user</a>
@@ -66,6 +74,9 @@ if (isset($_POST['cancel'])) {
         </span>
         &gt; New user
     </nav>
+    <div id="nombre-usuario-cabecera">
+        <i>Welcome</i> <b><?php echo $_SESSION['usuario']; ?></b>
+    </div>
     <main>
         <fieldset class="mini-formulario">
             <legend>Data New User</legend>

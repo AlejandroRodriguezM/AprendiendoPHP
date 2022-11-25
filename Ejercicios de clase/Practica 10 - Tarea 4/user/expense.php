@@ -7,6 +7,14 @@ session_start();
 if (!isset($_SESSION['usuario'])) {
 	die("Error - You have to <a href='../index.php'>Log in</a>");
 }
+if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
+    $user = $_COOKIE['user'];
+    $pass = $_COOKIE['pass'];
+    protectAcces($user,$pass);
+}
+else{
+	die("Error - You have to <a href='../index.php'>Log in</a>");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,15 +43,18 @@ if (isset($_POST['payment'])) {
 		"cantidad" => $cantidad
 	);
 	if( $budgetUser <= 0){
-		$mensaje = "You don't have enough money to make this payment";
+		$mensaje = "<b>You don't have enough money to make this payment</b>";
 	}
 	else{
 		if (!guardarNuevoMovimiento($mov, true)) {
 			modifyBudgetUser($cantidad, true);
 		}
-		$mensaje = "Movement saved successfully";
+		$mensaje = "<b>Expense saved successfully</b>";
 	}
+}
 
+if (isset($_POST['cancel'])) {
+    header("Location: index.php");
 }
 ?>
 
@@ -85,13 +96,13 @@ if (isset($_POST['payment'])) {
 					<tr>
 						<td><label>Date:</label></td>
 						<td>
-							<input type="date" name="date" value="<?php  ?>" size="10" placeholder="aaaa-mm-dd" maxlength="10" required>
+							<input type="date" name="date" style="float: left;" size="10" placeholder="aaaa-mm-dd" maxlength="10" required>
 						</td>
 					</tr>
 					<tr>
 						<td><label>Concept:</label></td>
 						<td>
-							<input type="text" name="concept" value="<?php  ?>" size="20" placeholder="Description Movement" maxlength="20" required>
+							<input type="text" name="concept" style="float: left;" size="20" placeholder="Description Movement" maxlength="20" required>
 						</td>
 					</tr>
 					<tr>
@@ -104,6 +115,9 @@ if (isset($_POST['payment'])) {
 				</tbody>
 			</table>
 		</form>
+		<form method="post" class="formulario" action="?<?php  ?>">
+            <input type="submit" name='cancel' id='cancel' value="Cancel">
+        </form>
 	</main>
 </body>
 

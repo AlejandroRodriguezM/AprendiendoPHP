@@ -6,8 +6,13 @@ if (!isset($_SESSION['usuario'])) {
     die("Error - You have to <a href='../index.php'>Log in</a>");
 }
 
-if (isset($_COOKIE['user'])) {
-    protegeAccesoAdmin($redirect = "../");
+if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
+    $user = $_COOKIE['user'];
+    $pass = $_COOKIE['pass'];
+    protectAcces($user,$pass);
+}
+else{
+	die("Error - You have to <a href='../index.php'>Log in</a>");
 }
 
 ?>
@@ -24,39 +29,30 @@ if (isset($_COOKIE['user'])) {
 </head>
 <?php
 if (isset($_POST['del'])) {
-    $login = $_POST['select_login'];
-    $base = "conta2";
     $tabla = getMovimientos(true);
     $numMovimientos = count($tabla);
-    if ($login != 'daw') {
+    $login = $_POST['select_login'];
 
-        $sql1 = "DELETE FROM usuarios WHERE login = '$login'";
-        operacionesMySql($sql1);
-        if ($numMovimientos > 0) {
-            $sql2 = "DELETE FROM movimientos WHERE loginUsu = '$login'";
-            operacionesMySql($sql2);
-        }
+    if (deleteUser($login)) {
         $message = "<b>You have successfully deleted the user: $login</b>";
-        setcookie("del_message", $message, time() + 3600);
     } else {
-        $message = "You can't delete the admin user";
-        setcookie("del_message", $message, time() + 3600);
+        $message = "<b>You can't delete the admin user</b>";
     }
+    setcookie("del_message", $message, time() + 3600);
     header("Location: delete_user.php");
 }
 
-if(isset($_POST['cancel'])){
+if (isset($_POST['cancel'])) {
     header("Location: index.php");
-    setcookie("del_message", $message, time() - 3600);
 }
 ?>
 
 <body>
-
     <header>
         <h1 id="inicio">Personal expenses</h1>
     </header>
     <nav>
+
         <span class="desplegable">
             <a href="./?<?php echo $fakeCookie; ?>">Manage users</a>
             <div>
@@ -68,7 +64,9 @@ if(isset($_POST['cancel'])){
         </span>
         &gt; Delete user
     </nav>
-
+    <div id="nombre-usuario-cabecera">
+        <i>Welcome</i> <b><?php echo $_SESSION['usuario']; ?></b>
+    </div>
     <main>
         <fieldset class="mini-formulario">
             <legend>Delete User</legend>
@@ -95,7 +93,8 @@ if(isset($_POST['cancel'])){
 
                 <?php
                 if (isset($_COOKIE['del_message'])) {
-                    echo "<b>" . $_COOKIE['del_message'] . "</b><br>";
+                    echo "<b>" . $_COOKIE['del_message'] . "</b>";
+                    setcookie("del_message", '', time() - 3600);
                 }
                 ?>
             </form>

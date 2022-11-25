@@ -5,17 +5,18 @@ session_start();
 
 //comprobamos que el usuario existe
 if (!isset($_SESSION['usuario'])) {
-    die("Error - You have to <a href='../index.php'>Log in</a>");
+    die("Error - You are not an administrator,<a href='../index.php'>Log in as a user</a> ");
 }
 
-if (isset($_COOKIE['user'])) {
-    protegeAccesoAdmin($redirect = "../");
+if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
+    $user = $_COOKIE['user'];
+    $pass = $_COOKIE['pass'];
+    protectAcces($user,$pass);
+}
+else{
+	die("Error - You have to <a href='../index.php'>Log in</a>");
 }
 
-if(isset($_POST['exit'])){
-    session_destroy();
-    header("Location: ../index.php");
-}
 
 ?>
 <!DOCTYPE html>
@@ -41,7 +42,7 @@ if(isset($_POST['exit'])){
             <a href="new_user.php?<?php  ?>">New user</a>
             <a href="modify_user.php?<?php  ?>">Modify user</a>
             <a href="delete_user.php?<?php  ?>">Delete user</a>
-            <a href="../<?php  ?>"><input type="hidden" name="exit" id="exit" value="Exit"">Exit</a>
+            <a href="../logOut.php/<?php  ?>"><input type="hidden" name="exit" value ="exit"">Exit</a>
         </div>
     </main>
 </body>

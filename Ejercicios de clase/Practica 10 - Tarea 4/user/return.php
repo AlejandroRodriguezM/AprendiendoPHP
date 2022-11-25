@@ -7,6 +7,14 @@ session_start();
 if (!isset($_SESSION['usuario'])) {
     die("Error - You have to <a href='../index.php'>Log in</a>");
 }
+if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
+    $user = $_COOKIE['user'];
+    $pass = $_COOKIE['pass'];
+    protectAcces($user,$pass);
+}
+else{
+	die("Error - You have to <a href='../index.php'>Log in</a>");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,6 +48,10 @@ if (isset($_POST['return'])) {
     }
     //send variable $mensaje using header
     header("Location: return.php");
+}
+
+if (isset($_POST['cancel'])) {
+    header("Location: index.php");
 }
 ?>
 
@@ -92,7 +104,7 @@ if (isset($_POST['return'])) {
             </tbody>
             <tfoot>
                 <tr>
-                    <th><?php if (!empty($error)) echo "<b>$error</b>"?></th>
+                    <th><?php if (!empty($error)) echo "<b>$error</b>" ?></th>
                     <th colspan="3"></th>
                 </tr>
             </tfoot>
@@ -102,10 +114,13 @@ if (isset($_POST['return'])) {
             echo "<b>" . $_COOKIE['mensaje'] . "</b><br>";
         }
         if (!empty($mensaje)) {
-            
+
             echo "<b>" . $mensaje . "</b>";
         }  ?>
     </main>
+    <form method="post" class="formulario" action="?<?php  ?>">
+        <input type="submit" name='cancel' id='cancel' value="Cancel">
+    </form>
 </body>
 
 </html>

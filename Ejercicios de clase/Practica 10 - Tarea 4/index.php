@@ -1,20 +1,28 @@
 <?php
 include "inc/header.inc.php";
-//Comprobamos si ya se enviado el formulario
+
 if (isset($_POST['acces'])) {
-    echo "hola";
     $user = $_POST['user'];
-    $password = $_POST['password'];
+    $pass = $_POST['password'];
     $_SESSION['hora'] = date("H:i", time());
     //Obtenemos el password almacenado en la BD
     $password_bd = obtain_password($user);
-    if (password_verify($password, $password_bd)) {
+    if (password_verify($pass, $password_bd)) {
         session_start();
-        setcookie('user', $user, time() + 3600);
+        $_SESSION['usuario'] = $user;
+        $_SESSION['hora'] = date("H:i", time());
+        createCookieUser($user, $password_bd);
         if (isset($_POST['form_user_login'])) {
             header("Location: ./user/index.php");
         } else if (isset($_POST['form_admin_login'])) {
-            header("Location: ./admin/index.php");
+            $user = $_POST['user'];
+            if ($user == 'daw') {
+                createCookieAdmin($user);
+                header("Location: ./admin/index.php");
+            }
+            else{
+                $error = errorSesion($user);
+            }
         }
     } else {
         $error = errorSesion($user);
@@ -46,8 +54,8 @@ if (isset($_POST['acces'])) {
             if (isset($error)) {
                 echo "<div class='error'>$error</div>";
             }
-            if (empty($_COOKIE['error_admin'])) {
-                echo "<div class='error'>Usuario bloqueado</div>";
+            if (isset($_COOKIE['del_message'])) {
+                echo "<b>" . $_COOKIE['del_message'] . "</b><br>";
             }
             ?>
             <form method="post">
@@ -55,16 +63,14 @@ if (isset($_POST['acces'])) {
                     <label>User:</label>
                     <input type="text" name="user" required maxlength="10">
                 </div>
-
-
                 <div class="input-labeled">
                     <label>Password:</label>
                     <input type="password" name="password" required maxlength="20">
                 </div>
                 <hr>
                 <div class="left">
-                    <input class='button_gestion' type="submit" name="form_user_login" value="Gestion de cuenta">
-                    <input class='button_gestion' type="submit" name="form_admin_login" value="Gestionar Usuarios">
+                    <input class='login_button' type="submit" name="form_user_login" value="Manage account">
+                    <input class='login_button' type="submit" name="form_admin_login" value="Manage Users">
                     <input type="hidden" name="acces" id="acces">
                 </div>
             </form>

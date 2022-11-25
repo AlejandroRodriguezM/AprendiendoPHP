@@ -6,8 +6,13 @@ if (!isset($_SESSION['usuario'])) {
     die("Error - You have to <a href='../index.php'>Log in</a>");
 }
 
-if (isset($_COOKIE['user'])) {
-    protegeAccesoAdmin($redirect = "../");
+if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
+    $user = $_COOKIE['user'];
+    $pass = $_COOKIE['pass'];
+    protectAcces($user,$pass);
+}
+else{
+	die("Error - You have to <a href='../index.php'>Log in</a>");
 }
 ?>
 <!DOCTYPE html>
@@ -25,13 +30,19 @@ if (isset($_COOKIE['user'])) {
 include "../inc/header.inc.php";
 
 if (isset($_POST['select'])) {
-
-    $login = $_POST['select_login'];
-    $array = getUserData($login);
-    $name = $array['nombre'];
-    $bornDate = $array['fNacimiento'];
-    $budget = $array['presupuesto'];
-    $password = $array['password'];
+    if($_POST['select_login'] == "User name"){
+        $message = "<b>You have to select a user</b>";
+        setcookie("mod_message", $message, time() + 3600);
+        header("Location: modify_user.php");
+    }
+    else{
+        $login = $_POST['select_login'];
+        $array = getUserData($login);
+        $name = $array['nombre'];
+        $bornDate = $array['fNacimiento'];
+        $budget = $array['presupuesto'];
+        $password = $array['password'];
+    }
 } else {
     $login = "";
     $name = "";
@@ -47,16 +58,14 @@ if (isset($_POST['mod'])) {
     $rePassword = $_POST['repassword'];
     if (strcmp($password, $rePassword) === 0) {
         $pass_encrypted = password_hash($password, PASSWORD_DEFAULT);
-        $base = "conta2";
         $sql = "UPDATE usuarios SET password = '$pass_encrypted', nombre = '$name', fNacimiento = '$bornDate' WHERE login = '$login'";
-        operacionesMySql($sql, $base);
+        operacionesMySql($sql);
         $message = "<b>You have successfully modified the user: $login</b>";
-        setcookie("mod_message", $message, time() + 3600);
-        header("Location: modify_user.php");
     } else {
         $message = "Passwords don't match";
-        setcookie("mod_message", $message, time() + 3600);
     }
+    setcookie("mod_message", $message, time() + 3600);
+    header("Location: modify_user.php");
 }
 
 if (isset($_POST['cancel'])) {
@@ -82,6 +91,9 @@ if (isset($_POST['cancel'])) {
         </span>
         &gt; Modify user
     </nav>
+    <div id="nombre-usuario-cabecera">
+        <i>Welcome</i> <b><?php echo $_SESSION['usuario']; ?></b>
+    </div>
     <fieldset class="mini-formulario">
         <legend>Modify User Data</legend>
         <?php
@@ -96,7 +108,7 @@ if (isset($_POST['cancel'])) {
             <label>Select User</label>
             <select name='select_login' id='user_login'>
                 <?php
-                echo "<option name='select_login' value=''>User name</option>";
+                echo "<option name='select_login' value='User name'>User name</option>";
                 $listaLogin = getLoginsList();
                 foreach ($listaLogin as $loginUser) {
                     echo "<option name='select_login' value='$loginUser'>$loginUser</option>";
@@ -136,7 +148,8 @@ if (isset($_POST['cancel'])) {
             <input type="submit" name='cancel' id='cancel' value="Cancel">
             <?php
             if (isset($_COOKIE['mod_message'])) {
-                echo "<b>" . $_COOKIE['mod_message'] . "</b><br>";
+                echo "<b>" . $_COOKIE['mod_message'] . "</b>";
+                setcookie("mod_message", '', time() - 3600);
             }
             ?>
         </form>

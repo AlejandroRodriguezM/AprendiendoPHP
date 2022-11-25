@@ -7,6 +7,14 @@ session_start();
 if (!isset($_SESSION['usuario'])) {
     die("Error - You have to <a href='../index.php'>Log in</a>");
 }
+if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
+    $user = $_COOKIE['user'];
+    $pass = $_COOKIE['pass'];
+    protectAcces($user,$pass);
+}
+else{
+	die("Error - You have to <a href='../index.php'>Log in</a>");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,6 +37,10 @@ else{
 }
 
 $actualBudget = returnBudget();
+
+if (isset($_POST['cancel'])) {
+    header("Location: index.php");
+}
 ?>
 
 <body>
@@ -76,7 +88,6 @@ $actualBudget = returnBudget();
                     echo "<td>" . '?¿?¿?' . "</td>";
                     // echo "<td>" . $fila['saldo'] . "</td>";
                     echo "</tr>";
-
                 }
                 ?>
             </tbody>
@@ -89,7 +100,9 @@ $actualBudget = returnBudget();
                 </tr>
             </tfoot>
         </table>
-        <?php  ?>
+        <form method="post" class="formulario" action="?<?php  ?>">
+            <input type="submit" name='cancel' id='cancel' value="Cancel">
+        </form>
     </main>
 </body>
 

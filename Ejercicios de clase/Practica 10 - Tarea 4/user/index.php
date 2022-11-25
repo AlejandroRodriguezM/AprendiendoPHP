@@ -7,6 +7,16 @@ session_start();
 if (!isset($_SESSION['usuario'])) {
     die("Error - You have to <a href='../index.php'>Log in</a>");
 }
+
+if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
+    $user = $_COOKIE['user'];
+    $pass = $_COOKIE['pass'];
+    protectAcces($user,$pass);
+}
+else{
+	die("Error - You have to <a href='../index.php'>Log in</a>");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +43,7 @@ if (!isset($_SESSION['usuario'])) {
             <a href="deposit.php?<?php  ?>">Make a deposit</a>
             <a href="expense.php?<?php  ?>">Record an Expense</a>
             <a href="return.php?<?php  ?>">Return a movement</a>
-            <a href="../<?php ?>">Exit</a>
+            <a href="../logOut.php/<?php  ?>">Exit</a>
         </div>
     </main>
 </body>

@@ -7,6 +7,15 @@ session_start();
 if (!isset($_SESSION['usuario'])) {
     die("Error - You have to <a href='../index.php'>Log in</a>");
 }
+
+if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
+    $user = $_COOKIE['user'];
+    $pass = $_COOKIE['pass'];
+    protectAcces($user,$pass);
+}
+else{
+	die("Error - You have to <a href='../index.php'>Log in</a>");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +29,7 @@ if (!isset($_SESSION['usuario'])) {
     <title>Deposits</title>
 </head>
 <?php
-if(isset($_POST['deposit'])){
+if (isset($_POST['deposit'])) {
     $cantidad = $_POST['amount'];
     $concepto = $_POST['concept'];
     $fecha = $_POST['date'];
@@ -33,10 +42,14 @@ if(isset($_POST['deposit'])){
         "concepto" => $concepto,
         "cantidad" => $cantidad
     );
-    if(!guardarNuevoMovimiento($mov, false)){
-        modifyBudgetUser($cantidad,false);
+    if (!guardarNuevoMovimiento($mov, false)) {
+        modifyBudgetUser($cantidad, false);
     }
-    $mensaje = "Movement saved successfully";
+    $mensaje = "<b>Deposit saved successfully</b>";
+}
+
+if (isset($_POST['cancel'])) {
+    header("Location: index.php");
 }
 ?>
 
@@ -78,13 +91,13 @@ if(isset($_POST['deposit'])){
                     <tr>
                         <td><label>Date:</label></td>
                         <td>
-                            <input type="date" name="date" value="<?php  ?>" size="10" placeholder="aaaa-mm-dd" maxlength="10" required>
+                            <input type="date" name="date" style="float: left;" size="10" placeholder="aaaa-mm-dd" maxlength="10" required>
                         </td>
                     </tr>
                     <tr>
                         <td><label>Concept:</label></td>
                         <td>
-                            <input type="text" name="concept" value="<?php  ?>" size="20" placeholder="Description Movement" maxlength="20" required>
+                            <input type="text" name="concept" style="float: left;" size="20" placeholder="Description Movement" maxlength="20" required>
                         </td>
                     </tr>
                     <tr>
@@ -92,10 +105,14 @@ if(isset($_POST['deposit'])){
                         <td>
                             <input type="number" name="amount" value="<?php  ?>" min="0" step="0.01" required>
                             <input type="submit" name="deposit" value="Deposit">
+
                         </td>
                     </tr>
                 </tbody>
             </table>
+        </form>
+        <form method="post" class="formulario" action="?<?php  ?>">
+            <input type="submit" name='cancel' id='cancel' value="Cancel">
         </form>
     </main>
 </body>
