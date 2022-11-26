@@ -9,10 +9,9 @@ if (!isset($_SESSION['usuario'])) {
 if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
     $user = $_COOKIE['user'];
     $pass = $_COOKIE['pass'];
-    protectAcces($user,$pass);
-}
-else{
-	die("Error - You have to <a href='../index.php'>Log in</a>");
+    protectAcces($user, $pass);
+} else {
+    die("Error - You have to <a href='../index.php'>Log in</a>");
 }
 ?>
 <!DOCTYPE html>
@@ -30,12 +29,11 @@ else{
 include "../inc/header.inc.php";
 
 if (isset($_POST['select'])) {
-    if($_POST['select_login'] == "User name"){
+    if ($_POST['select_login'] == "User name") {
         $message = "<b>You have to select a user</b>";
-        setcookie("mod_message", $message, time() + 3600);
+        setcookie("mod_message", $message, time() + 3600,'/');
         header("Location: modify_user.php");
-    }
-    else{
+    } else {
         $login = $_POST['select_login'];
         $array = getUserData($login);
         $name = $array['nombre'];
@@ -43,11 +41,6 @@ if (isset($_POST['select'])) {
         $budget = $array['presupuesto'];
         $password = $array['password'];
     }
-} else {
-    $login = "";
-    $name = "";
-    $bornDate = "";
-    $budget = "";
 }
 
 if (isset($_POST['mod'])) {
@@ -58,20 +51,27 @@ if (isset($_POST['mod'])) {
     $rePassword = $_POST['repassword'];
     if (strcmp($password, $rePassword) === 0) {
         $pass_encrypted = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "UPDATE usuarios SET password = '$pass_encrypted', nombre = '$name', fNacimiento = '$bornDate' WHERE login = '$login'";
-        operacionesMySql($sql);
-        $message = "<b>You have successfully modified the user: $login</b>";
+        $datosUsuario = array(
+            'nombre' => $name,
+            'fNacimiento' => $bornDate,
+            'presupuesto' => $budget,
+            'password' => $pass_encrypted
+        );
+        if (updateUser($datosUsuario)) {
+            $message = "<b>You have successfully modified the user: $login</b>";
+        } else {
+            $message = "<b>There was an error modifying the user: $login</b>";
+        }
     } else {
-        $message = "Passwords don't match";
+        $message = "<b>The passwords do not match</b>";
     }
-    setcookie("mod_message", $message, time() + 3600);
+    setcookie("mod_message", $message, time() + 3600, '/');
     header("Location: modify_user.php");
 }
 
 if (isset($_POST['cancel'])) {
-    setcookie("user", $message, time() - 3600);
+    setcookie("mod_message", $message, time() - 3600, '/');
     header("Location: index.php");
-    
 }
 ?>
 
@@ -149,7 +149,7 @@ if (isset($_POST['cancel'])) {
             <?php
             if (isset($_COOKIE['mod_message'])) {
                 echo "<b>" . $_COOKIE['mod_message'] . "</b>";
-                setcookie("mod_message", '', time() - 3600);
+                setcookie("mod_message", '', time() - 3600, '/');
             }
             ?>
         </form>

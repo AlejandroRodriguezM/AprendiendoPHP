@@ -51,11 +51,8 @@ if (isset($_POST['acces'])) {
         <fieldset class="mini-formulario">
             <legend>Login</legend>
             <?php
-            if (isset($error)) {
-                echo "<div class='error'>$error</div>";
-            }
-            if (isset($_COOKIE['del_message'])) {
-                echo "<b>" . $_COOKIE['del_message'] . "</b><br>";
+            if (isset($_COOKIE['login'])) {
+                echo "<div class='error'>".$_COOKIE['errorLogin']."</div>";
             }
             ?>
             <form method="post">

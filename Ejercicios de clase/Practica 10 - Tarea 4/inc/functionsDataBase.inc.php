@@ -16,6 +16,9 @@ function protectAcces($user, $pass)
 				}
 			}
 		}
+		else{
+			errorSesion($user);
+		}
 	} else {
 		deleteCookie();
 		die("Error - You have to <a href='../index.php'>Log in</a>");
@@ -23,28 +26,7 @@ function protectAcces($user, $pass)
 }
 
 
-/**
- * Function that delete from database the user and the movements of the user
- *
- * @param [string] $movCode
- * @return boolean
- */
-function deleteUser($login)
-{
 
-	if ($login != 'daw') {
-		$sql1 = "DELETE FROM usuarios WHERE login = '$login'";
-		$sql2 = "DELETE FROM movimientos WHERE loginUsu = '$login'";
-		$movements = "SELECT * FROM movimientos WHERE loginUsu = '$login'";
-		operacionesMySql($sql1);
-		if (checkData($movements)) {
-			operacionesMySql($sql2);
-		}
-		return true;
-	} else {
-		return false;
-	}
-}
 
 /**
  * check a data inside a database and return a boolean if exist the data or not
@@ -302,5 +284,68 @@ function operacionesMySql($query)
 		$error_Code = $e->getCode();
 		$message = $e->getMessage();
 		die("Code: " . $error_Code . "\nMessage: " . $message);
+	}
+}
+
+function updateUser($datosUsuario){
+	$update = false;
+	try {
+		global $conexion;
+		$consulta = $conexion->prepare("UPDATE usuarios SET password = ?, nombre = ?, fNacimiento = ? WHERE login = ?");
+		$consulta->execute(array($datosUsuario['password'], $datosUsuario['nombre'], $datosUsuario['fNacimiento'], $datosUsuario['login']));
+		$update = true;
+	} catch (PDOException $e) {
+		$error_Code = $e->getCode();
+		$message = $e->getMessage();
+		die("Code: " . $error_Code . "\nMessage: " . $message);
+	}
+	return $update;
+}
+
+/**
+ * Function that delete from database the user and the movements of the user
+ *
+ * @param [string] $movCode
+ * @return boolean
+ */
+function deleteUser($login)
+{
+	$delete = false;
+	try {
+		if ($login != 'daw') {
+			$sql1 = "DELETE FROM usuarios WHERE login = '$login'";
+			operacionesMySql($sql1);
+			deleteMovement($login);
+			$delete = true;
+		}
+	}
+	catch (PDOException $e) {
+		$error_Code = $e->getCode();
+		$message = $e->getMessage();
+		die("Code: " . $error_Code . "\nMessage: " . $message);
+	}
+	return $delete;
+}
+
+function newUser($datosUsuario){
+	$insert = false;
+	try {
+		global $conexion;
+		$consulta = $conexion->prepare("INSERT INTO usuarios (login, password, nombre, fNacimiento, presupuesto) VALUES (?, ?, ?, ?, ?)");
+		$consulta->execute(array($datosUsuario['login'], $datosUsuario['password'], $datosUsuario['nombre'], $datosUsuario['fNacimiento']));
+		$insert = true;
+	} catch (PDOException $e) {
+		$error_Code = $e->getCode();
+		$message = $e->getMessage();
+		die("Code: " . $error_Code . "\nMessage: " . $message);
+	}
+	return $insert;
+}
+
+function deleteMovement($login){
+	$sql = "DELETE FROM movimientos WHERE loginUsu = '$login'";
+	$movements = "SELECT * FROM movimientos WHERE loginUsu = '$login'";
+	if (checkData($movements)) {
+		operacionesMySql($sql);
 	}
 }

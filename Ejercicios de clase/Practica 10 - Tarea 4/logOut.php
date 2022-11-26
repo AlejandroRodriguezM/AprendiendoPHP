@@ -13,6 +13,7 @@ if(isset($_COOKIE['user']) && isset($_COOKIE['pass'])){
     setcookie('pass', '', time() - 3600, '/');
 }
 
+
 header('Location: ../index.php');
 
 ?>

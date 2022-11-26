@@ -9,10 +9,9 @@ if (!isset($_SESSION['usuario'])) {
 if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
     $user = $_COOKIE['user'];
     $pass = $_COOKIE['pass'];
-    protectAcces($user,$pass);
-}
-else{
-	die("Error - You have to <a href='../index.php'>Log in</a>");
+    protectAcces($user, $pass);
+} else {
+    die("Error - You have to <a href='../index.php'>Log in</a>");
 }
 ?>
 <!DOCTYPE html>
@@ -32,24 +31,34 @@ if (isset($_POST['create'])) {
     $rePassword = $_POST['repassword'];
     if (strcmp($password, $rePassword) === 0) {
         $login = $_POST['login'];
-        $query = "select login from usuarios where login = '$login'";
-        if (checkData($query)) {
+        $userStatus = getUserData($login);
+        if (checkData($userStatus)) {
             $pass_encrypted = password_hash($password, PASSWORD_DEFAULT);
             $name = $_POST['user_name'];
             $bornDate = $_POST['born_date'];
             $budget = $_POST['budget'];
-            if($budget < 0){
+            if ($budget < 0) {
                 $budget = 0;
             }
-            $sql = "INSERT INTO usuarios (login, password, nombre, fNacimiento, presupuesto) VALUES ('$login', '$pass_encrypted', '$name', '$bornDate', '$budget')";
-            operacionesMySql($sql);
-            $message = "<b>You have successfully created the user: $login</b>";
+            $datosUsuario = array(
+                'login' => $login,
+                'nombre' => $name,
+                'fNacimiento' => $bornDate,
+                'presupuesto' => $budget,
+                'password' => $pass_encrypted
+            );
+            if (newUser($datosUsuario)) {
+                $message = "<b>You have successfully created the user: $login</b>";
+            } else {
+                $message = "<b>There was an error creating the user: $login</b>";
+            }
         } else {
             $message = "The user: $login Already exists";
         }
     } else {
         $message = "Passwords don't match";
     }
+    setcookie("newUser", $message, time() + 3600, '/');
 }
 
 if (isset($_POST['cancel'])) {
@@ -116,8 +125,9 @@ if (isset($_POST['cancel'])) {
                 <input type="submit" name="create" id='create' onclick="return confirm('Are you sure you want to add a new user?')" value="Create user">
                 <input type="submit" name='cancel' id='cancel' value="Cancel">
                 <?php
-                if (isset($message)) {
-                    echo "<div class='error'><b>$message</b></div>";
+                if (isset($_COOKIE['newUser'])) {
+                    echo "</div><b>" . $_COOKIE['newUser']. "</b></div>";
+                    setcookie("mod_message", '', time() - 3600, '/');
                 }
                 ?>
             </form>
