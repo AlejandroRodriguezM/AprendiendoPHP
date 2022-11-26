@@ -344,8 +344,9 @@ function newUser($datosUsuario)
 		$sql1 = "INSERT INTO usuarios (login, password, nombre, fNacimiento, presupuesto) VALUES ('$login', '$pass_encrypted', '$name', '$bornDate', '$budget')";
 		operacionesMySql($sql1);
 		$concepto = "Open account";
+		$actualDate = date("Y-m-d");
 		$codeMov = createRandomCodMov();
-		$sql2 = "INSERT INTO movimientos (codigoMov, loginUsu, fecha, concepto, cantidad) VALUES ('$codeMov', '$login', '$bornDate', '$concepto', '$budget')";
+		$sql2 = "INSERT INTO movimientos (codigoMov, loginUsu, fecha, concepto, cantidad) VALUES ('$codeMov', '$login', '$actualDate', '$concepto', '$budget')";
 		operacionesMySql($sql2);
 		$insert = true;
 	} catch (PDOException $e) {
