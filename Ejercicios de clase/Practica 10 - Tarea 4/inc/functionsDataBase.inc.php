@@ -11,7 +11,7 @@ function protectAcces($user, $pass)
 			if (isset($_COOKIE['admin'])) {
 				$admin = $_COOKIE['admin'];
 				if($admin != 'daw'){
-					deleteCookie();
+					deleteCookieUser();
 					die("Error - You are not an administrator,<a href='../index.php'>Log in as a user</a> ");
 				}
 			}
@@ -20,7 +20,7 @@ function protectAcces($user, $pass)
 			errorSesion($user);
 		}
 	} else {
-		deleteCookie();
+		deleteCookieUser();
 		die("Error - You have to <a href='../index.php'>Log in</a>");
 	}
 }
@@ -290,9 +290,12 @@ function operacionesMySql($query)
 function updateUser($datosUsuario){
 	$update = false;
 	try {
-		global $conexion;
-		$consulta = $conexion->prepare("UPDATE usuarios SET password = ?, nombre = ?, fNacimiento = ? WHERE login = ?");
-		$consulta->execute(array($datosUsuario['password'], $datosUsuario['nombre'], $datosUsuario['fNacimiento'], $datosUsuario['login']));
+		$login = $datosUsuario['login'];
+		$name = $datosUsuario['nombre'];
+		$pass_encrypted = $datosUsuario['password'];
+		$bornDate = $datosUsuario['fNacimiento'];
+		$sql = "UPDATE usuarios SET password = '$pass_encrypted', nombre = '$name', fNacimiento = '$bornDate' WHERE login = '$login'";
+		operacionesMySql($sql);
 		$update = true;
 	} catch (PDOException $e) {
 		$error_Code = $e->getCode();
@@ -330,9 +333,13 @@ function deleteUser($login)
 function newUser($datosUsuario){
 	$insert = false;
 	try {
-		global $conexion;
-		$consulta = $conexion->prepare("INSERT INTO usuarios (login, password, nombre, fNacimiento, presupuesto) VALUES (?, ?, ?, ?, ?)");
-		$consulta->execute(array($datosUsuario['login'], $datosUsuario['password'], $datosUsuario['nombre'], $datosUsuario['fNacimiento']));
+		$login = $datosUsuario['login'];
+		$pass_encrypted = $datosUsuario['password'];
+		$name = $datosUsuario['nombre'];
+		$bornDate = $datosUsuario['fNacimiento'];
+		$budget = $datosUsuario['presupuesto'];
+		$sql = "INSERT INTO usuarios (login, password, nombre, fNacimiento, presupuesto) VALUES ('$login', '$pass_encrypted', '$name', '$bornDate', '$budget')";
+        operacionesMySql($sql);
 		$insert = true;
 	} catch (PDOException $e) {
 		$error_Code = $e->getCode();

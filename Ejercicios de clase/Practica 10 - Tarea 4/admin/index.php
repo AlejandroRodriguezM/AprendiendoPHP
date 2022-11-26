@@ -11,6 +11,7 @@ if (!isset($_SESSION['usuario'])) {
 if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
     $user = $_COOKIE['user'];
     $pass = $_COOKIE['pass'];
+    deleteCookieLoginError();
     protectAcces($user,$pass);
 }
 else{

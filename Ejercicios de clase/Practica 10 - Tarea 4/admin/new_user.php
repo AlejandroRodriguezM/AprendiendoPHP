@@ -31,8 +31,8 @@ if (isset($_POST['create'])) {
     $rePassword = $_POST['repassword'];
     if (strcmp($password, $rePassword) === 0) {
         $login = $_POST['login'];
-        $userStatus = getUserData($login);
-        if (checkData($userStatus)) {
+        $selectUser = "SELECT login FROM usuarios WHERE login='$login'";
+        if (checkData($selectUser)) {
             $pass_encrypted = password_hash($password, PASSWORD_DEFAULT);
             $name = $_POST['user_name'];
             $bornDate = $_POST['born_date'];
@@ -127,7 +127,7 @@ if (isset($_POST['cancel'])) {
                 <?php
                 if (isset($_COOKIE['newUser'])) {
                     echo "</div><b>" . $_COOKIE['newUser']. "</b></div>";
-                    setcookie("mod_message", '', time() - 3600, '/');
+                    setcookie("newUser", '', time() - 3600, '/');
                 }
                 ?>
             </form>

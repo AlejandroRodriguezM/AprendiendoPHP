@@ -52,6 +52,7 @@ if (isset($_POST['mod'])) {
     if (strcmp($password, $rePassword) === 0) {
         $pass_encrypted = password_hash($password, PASSWORD_DEFAULT);
         $datosUsuario = array(
+            'login' => $login,
             'nombre' => $name,
             'fNacimiento' => $bornDate,
             'presupuesto' => $budget,

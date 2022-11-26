@@ -14,13 +14,13 @@ if (isset($_POST['acces'])) {
         createCookieUser($user, $password_bd);
         if (isset($_POST['form_user_login'])) {
             header("Location: ./user/index.php");
-        } else if (isset($_POST['form_admin_login'])) {
+        }
+        if (isset($_POST['form_admin_login'])) {
             $user = $_POST['user'];
             if ($user == 'daw') {
                 createCookieAdmin($user);
                 header("Location: ./admin/index.php");
-            }
-            else{
+            } else {
                 $error = errorSesion($user);
             }
         }
@@ -52,7 +52,7 @@ if (isset($_POST['acces'])) {
             <legend>Login</legend>
             <?php
             if (isset($_COOKIE['login'])) {
-                echo "<div class='error'>".$_COOKIE['errorLogin']."</div>";
+                echo "<div class='error'>" . $_COOKIE['errorLogin'] . "</div>";
             }
             ?>
             <form method="post">
