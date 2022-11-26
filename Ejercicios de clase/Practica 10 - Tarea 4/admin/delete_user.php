@@ -29,8 +29,6 @@ else{
 </head>
 <?php
 if (isset($_POST['del'])) {
-    $tabla = getMovimientos(true);
-    $numMovimientos = count($tabla);
     $login = $_POST['select_login'];
 
     if (deleteUser($login)) {
@@ -38,7 +36,7 @@ if (isset($_POST['del'])) {
     } else {
         $message = "<b>You can't delete the admin user</b>";
     }
-    setcookie("del_message", $message, time() + 3600);
+    setcookie("del_message", $message, time() + 3600, "/");
     header("Location: delete_user.php");
 }
 
@@ -94,7 +92,7 @@ if (isset($_POST['cancel'])) {
                 <?php
                 if (isset($_COOKIE['del_message'])) {
                     echo "<b>" . $_COOKIE['del_message'] . "</b>";
-                    setcookie("del_message", '', time() - 3600);
+                    setcookie("del_message", '', time() - 3600, "/");
                 }
                 ?>
             </form>

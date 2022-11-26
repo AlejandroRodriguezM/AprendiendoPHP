@@ -59,6 +59,7 @@ if (isset($_POST['create'])) {
         $message = "Passwords don't match";
     }
     setcookie("newUser", $message, time() + 3600, '/');
+    header("Location: new_user.php");
 }
 
 if (isset($_POST['cancel'])) {

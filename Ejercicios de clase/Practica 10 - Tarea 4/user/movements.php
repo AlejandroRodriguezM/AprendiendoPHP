@@ -28,7 +28,8 @@ else{
     <title>Movements</title>
 </head>
 <?php
-$tabla = getMovimientos(true);
+$login = $_SESSION['usuario'];
+$tabla = getMovimientos($login);
 if ($tabla) {
     $numMovimientos = count($tabla);
 }

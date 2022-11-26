@@ -10,13 +10,12 @@ function protectAcces($user, $pass)
 			unset($busqueda);
 			if (isset($_COOKIE['admin'])) {
 				$admin = $_COOKIE['admin'];
-				if($admin != 'daw'){
+				if ($admin != 'daw') {
 					deleteCookieUser();
 					die("Error - You are not an administrator,<a href='../index.php'>Log in as a user</a> ");
 				}
 			}
-		}
-		else{
+		} else {
 			errorSesion($user);
 		}
 	} else {
@@ -167,16 +166,13 @@ function getUserData($login)
  * @param boolean $soloRecibos
  * @return array
  */
-function getMovimientos($soloRecibos = false)
+function getMovimientos($login)
 {
 	global $conexion;
-	if ($soloRecibos) {
-		$login = $_SESSION['usuario'];
-		$consulta = $conexion->prepare("SELECT * FROM movimientos WHERE loginUsu = '$login' ORDER BY fecha ASC LIMIT 10");
-		$consulta->execute();
-		$movimientos = $consulta->fetchAll(PDO::FETCH_ASSOC);
-		return $movimientos;
-	}
+	$consulta = $conexion->prepare("SELECT * FROM movimientos WHERE loginUsu = '$login' ORDER BY fecha ASC LIMIT 10");
+	$consulta->execute();
+	$movimientos = $consulta->fetchAll(PDO::FETCH_ASSOC);
+	return $movimientos;
 }
 
 
@@ -287,7 +283,8 @@ function operacionesMySql($query)
 	}
 }
 
-function updateUser($datosUsuario){
+function updateUser($datosUsuario)
+{
 	$update = false;
 	try {
 		$login = $datosUsuario['login'];
@@ -315,14 +312,19 @@ function deleteUser($login)
 {
 	$delete = false;
 	try {
+		$tabla = getMovimientos($login);
+		$numMovimientos = count($tabla);
 		if ($login != 'daw') {
 			$sql1 = "DELETE FROM usuarios WHERE login = '$login'";
+
+			if ($numMovimientos > 0) {
+				$sql2 = "DELETE FROM movimientos WHERE loginUsu = '$login'";
+				operacionesMySql($sql2);
+			}
 			operacionesMySql($sql1);
-			deleteMovement($login);
-			$delete = true;
 		}
-	}
-	catch (PDOException $e) {
+		$delete = true;
+	} catch (PDOException $e) {
 		$error_Code = $e->getCode();
 		$message = $e->getMessage();
 		die("Code: " . $error_Code . "\nMessage: " . $message);
@@ -330,7 +332,8 @@ function deleteUser($login)
 	return $delete;
 }
 
-function newUser($datosUsuario){
+function newUser($datosUsuario)
+{
 	$insert = false;
 	try {
 		$login = $datosUsuario['login'];
@@ -338,8 +341,12 @@ function newUser($datosUsuario){
 		$name = $datosUsuario['nombre'];
 		$bornDate = $datosUsuario['fNacimiento'];
 		$budget = $datosUsuario['presupuesto'];
-		$sql = "INSERT INTO usuarios (login, password, nombre, fNacimiento, presupuesto) VALUES ('$login', '$pass_encrypted', '$name', '$bornDate', '$budget')";
-        operacionesMySql($sql);
+		$sql1 = "INSERT INTO usuarios (login, password, nombre, fNacimiento, presupuesto) VALUES ('$login', '$pass_encrypted', '$name', '$bornDate', '$budget')";
+		operacionesMySql($sql1);
+		$concepto = "Open account";
+		$codeMov = createRandomCodMov();
+		$sql2 = "INSERT INTO movimientos (codigoMov, loginUsu, fecha, concepto, cantidad) VALUES ('$codeMov', '$login', '$bornDate', '$concepto', '$budget')";
+		operacionesMySql($sql2);
 		$insert = true;
 	} catch (PDOException $e) {
 		$error_Code = $e->getCode();
@@ -347,12 +354,4 @@ function newUser($datosUsuario){
 		die("Code: " . $error_Code . "\nMessage: " . $message);
 	}
 	return $insert;
-}
-
-function deleteMovement($login){
-	$sql = "DELETE FROM movimientos WHERE loginUsu = '$login'";
-	$movements = "SELECT * FROM movimientos WHERE loginUsu = '$login'";
-	if (checkData($movements)) {
-		operacionesMySql($sql);
-	}
 }
