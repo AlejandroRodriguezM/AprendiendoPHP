@@ -237,3 +237,17 @@ div.input-labeled>label {
   text-decoration: underline;
   padding-left: 5px;
 }
+
+content {
+  position: relative;
+}
+img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30%;
+  height: 30%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}

@@ -43,7 +43,10 @@ if (isset($_POST['acces'])) {
 <body>
 
     <header>
-        <h1 id="inicio">Gastos personales</h1>
+        <div id="content">
+            <h1 id="inicio">Gastos personales</h1>
+            <img src="./img/ico-banck.png" alt="">
+        </div>
     </header>
     <nav>Contabilidad personal</nav>
     <main>

@@ -41,11 +41,11 @@ else{
     <i>Welcome</i> <b><?php echo $_SESSION['usuario']; ?></b>
     <main>
         <div id="menu">
-            <a href="movements.php?<?php  ?>">Last movements</a>
-            <a href="deposit.php?<?php  ?>">Make a deposit</a>
-            <a href="expense.php?<?php  ?>">Record an Expense</a>
-            <a href="return.php?<?php  ?>">Return a movement</a>
-            <a href="../logOut.php/<?php  ?>">Exit</a>
+            <a href="movements.php">Last movements</a>
+            <a href="deposit.php">Make a deposit</a>
+            <a href="expense.php">Record an Expense</a>
+            <a href="return.php">Return a movement</a>
+            <a href="../logOut.php">Exit</a>
         </div>
     </main>
 </body>

@@ -9,7 +9,6 @@
 </head>
 
 
-
 <body>
     <center>
         <video id="joke-video" controls width="500" autoplay muted controls loop>

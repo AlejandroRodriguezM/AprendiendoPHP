@@ -19,7 +19,6 @@ else{
 	die("Error - You have to <a href='../index.php'>Log in</a>");
 }
 
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,7 +46,7 @@ else{
             <a href="new_user.php?<?php  ?>">New user</a>
             <a href="modify_user.php?<?php  ?>">Modify user</a>
             <a href="delete_user.php?<?php  ?>">Delete user</a>
-            <a href="../logOut.php/<?php  ?>">Exit</a>
+            <a href="../logOut.php">Exit</a>
         </div>
     </main>
 </body>
