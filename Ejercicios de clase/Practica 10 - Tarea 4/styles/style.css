@@ -123,9 +123,6 @@ table .primera_fila {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 50%;
-  text-align: center;
-  font-size: 35px;
 }
 
 
@@ -134,9 +131,6 @@ table .primera_fila {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 50%;
-  text-align: center;
-  font-size: 30px;
 }
 
 /* @@@@ ESTILOS PARA FORMULARIO VERTICAL DE TAMAÑO REDUCIDO @@@*/

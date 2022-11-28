@@ -11,10 +11,9 @@ if (!isset($_SESSION['usuario'])) {
 if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
     $user = $_COOKIE['user'];
     $pass = $_COOKIE['pass'];
-    protectAcces($user,$pass);
-}
-else{
-	die("Error - You have to <a href='../index.php'>Log in</a>");
+    protectAcces($user, $pass);
+} else {
+    die("Error - You have to <a href='../index.php'>Log in</a>");
 }
 ?>
 <!DOCTYPE html>
@@ -25,32 +24,47 @@ else{
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/style.css">
-    <link rel="shortcut icon" href="img/ico.png">
+    <link rel="shortcut icon" href="../img/ico.png">
     <title>Deposits</title>
 </head>
 <?php
 if (isset($_POST['deposit'])) {
-    $cantidad = $_POST['amount'];
+    $reservedWords = reservedWords();
     $concepto = $_POST['concept'];
-    $fecha = $_POST['date'];
-    $usuario = $_SESSION['usuario'];
-    $codigo = createRandomUserCodeMove();
-    $mov = array(
-        "codigoMov" => $codigo,
-        "loginUsu" => $usuario,
-        "fecha" => $fecha,
-        "concepto" => $concepto,
-        "cantidad" => $cantidad
-    );
-    if (!guardarNuevoMovimiento($mov, false)) {
-        modifyBudgetUser($cantidad, false);
+
+    if(in_array($concepto,$reservedWords)){
+        $message = "Error - You can't use reserved words";
     }
-    $mensaje = "<b>Deposit saved successfully</b>";
+    else{
+        $cantidad = $_POST['amount'];
+        $fecha = $_POST['date'];
+        $usuario = $_SESSION['usuario'];
+        $codigo = createRandomUserCodeMove();
+        $mov = array(
+            "codigoMov" => $codigo,
+            "loginUsu" => $usuario,
+            "fecha" => $fecha,
+            "concepto" => $concepto,
+            "cantidad" => $cantidad
+        );
+        if ($cantidad <= 0) {
+            $message = "<div class='mens_error'><b>You can't deposit a negative amount</b></div>";
+        } else {
+            if (!guardarNuevoMovimiento($mov, false)) {
+                modifyBudgetUser($cantidad, false);
+            }
+            $message = "<div class='mens_ok'><b>Deposit saved successfully</b></div>";
+        }
+        setcookie("deposit_mess", $message, time() + 3600, "/");
+        header("Location: deposit.php");
+    }
+
 }
 
 if (isset($_POST['cancel'])) {
     header("Location: index.php");
 }
+
 ?>
 
 <body>
@@ -62,28 +76,29 @@ if (isset($_POST['cancel'])) {
     </header>
     <nav>
         <span class="desplegable">
-            <a href="./?<?php  ?>">My account</a>
+            <a href="./">My account</a>
             <div>
-                <a href="movements.php?<?php  ?>">Last movements</a>
-                <a href="deposit.php?<?php  ?>">Make a deposit</a>
-                <a href="expense.php?<?php  ?>">Record an Expense</a>
-                <a href="return.php?<?php  ?>">Return a movement</a>
-                <a href="../<?php ?>">Exit</a>
+                <a href="movements.php?">Last movements</a>
+                <a href="deposit.php?">Make a deposit</a>
+                <a href="expense.php?">Record an Expense</a>
+                <a href="return.php?">Return a movement</a>
+                <a href="../logOut.php">Exit</a>
             </div>
         </span>
         &gt; Make a deposit
     </nav>
     <main>
-        <form method="post" class="formulario" action="?<?php  ?>">
+        <form method="post" class="formulario" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);  ?>">
             <table>
                 <tfoot>
                     <?php
-                    if (!empty($mensaje)) {
+                    if (isset($_COOKIE['deposit_mess'])) {
                         echo "<tr>";
                         echo "<td colspan='2'>";
-                        echo '<div><b>!</b>' . $mensaje . '</div>';
+                        echo $_COOKIE['deposit_mess'];
                         echo "</td>";
                         echo "</tr>";
+                        setcookie("deposit_mess", "", time() - 3600, "/");
                     }
                     ?>
                 </tfoot>
@@ -91,7 +106,7 @@ if (isset($_POST['cancel'])) {
                     <tr>
                         <td><label>Date:</label></td>
                         <td>
-                            <input type="date" name="date" style="float: left;" size="10" placeholder="aaaa-mm-dd" maxlength="10" required>
+                            <input type="date" name="date" style="float: left;" size="10" placeholder="aaaa-mm-dd" value="" min="<?php echo date("Y-m-d");  ?>" max="<?php echo $_SESSION['hora']; ?>" required>
                         </td>
                     </tr>
                     <tr>
@@ -111,8 +126,8 @@ if (isset($_POST['cancel'])) {
                 </tbody>
             </table>
         </form>
-        <form method="post" class="formulario" action="?<?php  ?>">
-            <input type="submit" name='cancel' id='cancel' value="Cancel">
+        <form method="post" class="formulario" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);  ?>">
+            <input type="submit" name='cancel' id='cancel' value="Return to menu">
         </form>
     </main>
 </body>

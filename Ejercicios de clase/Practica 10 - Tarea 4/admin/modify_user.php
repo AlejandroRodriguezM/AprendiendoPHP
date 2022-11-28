@@ -6,7 +6,7 @@ if (!isset($_SESSION['usuario'])) {
     die("Error - You have to <a href='../index.php'>Log in</a>");
 }
 
-if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
+if (isset($_COOKIE['user']) && isset($_COOKIE['pass']) && isset($_COOKIE['admin'])) {
     $user = $_COOKIE['user'];
     $pass = $_COOKIE['pass'];
     protectAcces($user, $pass);
@@ -22,7 +22,7 @@ if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/style.css">
-    <link rel="shortcut icon" href="img/ico.png">
+    <link rel="shortcut icon" href="../img/ico.png">
     <title>Pagina principal</title>
 </head>
 <?php
@@ -59,12 +59,12 @@ if (isset($_POST['mod'])) {
             'password' => $pass_encrypted
         );
         if (updateUser($datosUsuario)) {
-            $message = "<b>You have successfully modified the user: $login</b>";
+            $message = "<div class='mens_ok'><b>You have successfully modified the user: $login</b></div>";
         } else {
-            $message = "<b>There was an error modifying the user: $login</b>";
+            $message = "<div class='mens_error'><b>There was an error modifying the user: $login</b></div>";
         }
     } else {
-        $message = "<b>The passwords do not match</b>";
+        $message = "<div class='mens_error'><b>The passwords do not match</b></div>";
     }
     setcookie("mod_message", $message, time() + 3600, '/');
     header("Location: modify_user.php");
@@ -79,15 +79,18 @@ if (isset($_POST['cancel'])) {
 <body>
     <header>
         <h1 id="inicio">Personal Budget</h1>
+        <div id="nombre-usuario-cabecera">
+            <i>Welcome</i> <b><?php echo $_SESSION['usuario']; ?></b>
+        </div>
     </header>
     <nav>
         <span class="desplegable">
             <a href="./?<?php ?>">Manage users</a>
             <div>
-                <a href="new_user.php?<?php  ?>">New user</a>
-                <a href="modify_user.php?<?php  ?>">Modify user</a>
-                <a href="delete_user.php?<?php  ?>">Delete user</a>
-                <a href="../<?php ?>">Exit</a>
+                <a href="new_user.php?">New user</a>
+                <a href="modify_user.php?">Modify user</a>
+                <a href="delete_user.php?">Delete user</a>
+                <a href="../logOut.php">Exit</a>
             </div>
         </span>
         &gt; Modify user
@@ -97,14 +100,6 @@ if (isset($_POST['cancel'])) {
     </div>
     <fieldset class="mini-formulario">
         <legend>Modify User Data</legend>
-        <?php
-        if (!empty($error)) {
-            echo "<div class='error'><b>!</b>$error</div>";
-        }
-        if (!empty($correcto)) {
-            echo "<div class='correcto'><b>!</b>$correcto</div>";
-        }
-        ?>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <label>Select User</label>
             <select name='select_login' id='user_login'>
@@ -137,19 +132,19 @@ if (isset($_POST['cancel'])) {
                     <input type="password" name="repassword" placeholder="**********" maxlength="20" value="">
                 </div>
                 <div class="input-labeled">
-                    <label>Name:</label>
-                    <input type="text" name="user_name" required maxlength="30" value="<?php echo $name  ?>">
+                <label>Name:</label>
+                    <input type="text" name="user_name" maxlength="30" pattern="[a-zA-Z]+" required value="<?php echo $name ?>"">
                 </div>
                 <div class="input-labeled">
                     <label>Born date:</label>
-                    <input type="date" name="born_date" placeholder="aaaa-mm-dd" required maxlength="10" value="<?php echo $bornDate  ?>">
+                    <input type="date" name="born_date" placeholder="aaaa-mm-dd" min="1932-01-01" max="2006-01-01" maxlength="10" value="<?php echo $bornDate  ?>" required">
                 </div>
                 <input type="submit" name="mod" id="mod" value="Guardar">
             <?php  } ?>
-            <input type="submit" name='cancel' id='cancel' value="Cancel">
+            <input type="submit" name='cancel' id='cancel' value="Return to menu">
             <?php
             if (isset($_COOKIE['mod_message'])) {
-                echo "<b>" . $_COOKIE['mod_message'] . "</b>";
+                echo $_COOKIE['mod_message'];
                 setcookie("mod_message", '', time() - 3600, '/');
             }
             ?>

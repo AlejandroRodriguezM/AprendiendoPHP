@@ -8,13 +8,14 @@ if (!isset($_SESSION['usuario'])) {
     die("Error - You are not an administrator,<a href='../index.php'>Log in as a user</a> ");
 }
 
-if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
+if (isset($_COOKIE['user']) && isset($_COOKIE['pass']) && isset($_COOKIE['admin'])) {
     $user = $_COOKIE['user'];
     $pass = $_COOKIE['pass'];
     deleteCookieLoginError();
     protectAcces($user,$pass);
 }
 else{
+    deleteCookieLoginError();
 	die("Error - You have to <a href='../index.php'>Log in</a>");
 }
 
@@ -28,7 +29,7 @@ else{
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/style.css">
-    <link rel="shortcut icon" href="img/ico.png">
+    <link rel="shortcut icon" href="../img/ico.png">
     <title>Index accounts</title>
 </head>
 
@@ -36,6 +37,9 @@ else{
 
     <header>
         <h1 id="inicio">Account manage</h1>
+        <div id="nombre-usuario-cabecera">
+            <i>Welcome</i> <b><?php echo $_SESSION['usuario']; ?></b>
+        </div>
     </header>
     <nav>Contabilidad personal</nav>
     <main>
@@ -43,7 +47,7 @@ else{
             <a href="new_user.php?<?php  ?>">New user</a>
             <a href="modify_user.php?<?php  ?>">Modify user</a>
             <a href="delete_user.php?<?php  ?>">Delete user</a>
-            <a href="../logOut.php/<?php  ?>"><input type="hidden" name="exit" value ="exit"">Exit</a>
+            <a href="../logOut.php/<?php  ?>">Exit</a>
         </div>
     </main>
 </body>

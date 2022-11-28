@@ -10,10 +10,9 @@ if (!isset($_SESSION['usuario'])) {
 if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
     $user = $_COOKIE['user'];
     $pass = $_COOKIE['pass'];
-    protectAcces($user,$pass);
-}
-else{
-	die("Error - You have to <a href='../index.php'>Log in</a>");
+    protectAcces($user, $pass);
+} else {
+    die("Error - You have to <a href='../index.php'>Log in</a>");
 }
 ?>
 <!DOCTYPE html>
@@ -24,20 +23,22 @@ else{
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/style.css">
-    <link rel="shortcut icon" href="img/ico.png">
+    <link rel="shortcut icon" href="../img/ico.png">
     <title>Movements</title>
 </head>
 <?php
 $login = $_SESSION['usuario'];
 $tabla = getMovimientos($login);
+$reservedWords = reservedWords();
+
 if ($tabla) {
     $numMovimientos = count($tabla);
-}
-else{
+} else {
     $numMovimientos = 0;
 }
 
 $actualBudget = returnBudget();
+$tempBudget = 0;
 
 if (isset($_POST['cancel'])) {
     header("Location: index.php");
@@ -51,14 +52,14 @@ if (isset($_POST['cancel'])) {
         </div>
     </header>
     <nav>
-	<span class="desplegable">
-            <a href="./?<?php  ?>">My account</a>
+        <span class="desplegable">
+            <a href="./?">My account</a>
             <div>
-                <a href="movements.php?<?php  ?>">Latest movements</a>
-                <a href="deposit.php?<?php  ?>">Make a deposit</a>
-                <a href="expense.php?<?php  ?>">Record an Expense</a>
-                <a href="return.php?<?php  ?>">Return a movement</a>
-                <a href="../<?php ?>">Exit</a>
+                <a href="movements.php?">Latest movements</a>
+                <a href="deposit.php?">Make a deposit</a>
+                <a href="expense.php?">Record an Expense</a>
+                <a href="return.php?">Return a movement</a>
+                <a href="../logOut.php/">Exit</a>
             </div>
         </span>
         &gt; Latest movements
@@ -85,9 +86,13 @@ if (isset($_POST['cancel'])) {
                     echo "<td>" . $fila['codigoMov'] . "</td>";
                     echo "<td>" . $fila['fecha'] . "</td>";
                     echo "<td>" . $fila['concepto'] . "</td>";
+                    if (in_array($fila['concepto'], $reservedWords)) {
+                        $tempBudget = $actualBudget;
+                    } else {
+                        $tempBudget += $fila['cantidad'];
+                    }
                     echo "<td>" . $fila['cantidad'] . "</td>";
-                    echo "<td>" . '?¿?¿?' . "</td>";
-                    // echo "<td>" . $fila['saldo'] . "</td>";
+                    echo "<td>" . $tempBudget . "</td>";
                     echo "</tr>";
                 }
                 ?>
@@ -97,12 +102,12 @@ if (isset($_POST['cancel'])) {
                     <th>Nº Mov</th>
                     <th><?php echo $numMovimientos ?></th>
                     <th colspan="2">Current balance:</th>
-                    <th><?php echo $actualBudget?></th>
+                    <th><?php echo $actualBudget ?></th>
                 </tr>
             </tfoot>
         </table>
-        <form method="post" class="formulario" action="?<?php  ?>">
-            <input type="submit" name='cancel' id='cancel' value="Cancel">
+        <form method="post" class="formulario" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            <input type="submit" name='cancel' id='cancel' value="Return to menu">
         </form>
     </main>
 </body>

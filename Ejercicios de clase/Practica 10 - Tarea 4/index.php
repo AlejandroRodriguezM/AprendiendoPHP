@@ -16,16 +16,15 @@ if (isset($_POST['acces'])) {
             header("Location: ./user/index.php");
         }
         if (isset($_POST['form_admin_login'])) {
-            $user = $_POST['user'];
-            if ($user == 'daw') {
-                createCookieAdmin($user);
+            createCookieAdmin($user);
+            if (checkUserAdmin($user, $password_bd)) {
                 header("Location: ./admin/index.php");
             } else {
-                $error = errorSesion($user);
+                errorSesion($user);
             }
         }
     } else {
-        $error = errorSesion($user);
+        errorSesion($user);
     }
 }
 ?>
@@ -51,9 +50,14 @@ if (isset($_POST['acces'])) {
         <fieldset class="mini-formulario">
             <legend>Login</legend>
             <?php
-            if (isset($_COOKIE['login'])) {
-                echo "<div class='error'>" . $_COOKIE['errorLogin'] . "</div>";
+            if (isset($_COOKIE['errorAdmin'])) {
+                echo "<div class='mens_error'>" . $_COOKIE['errorAdmin'] . "</div>";
+                setcookie('errorAdmin', '', time() - 3600,"/");
             }
+            if (isset($_COOKIE['login'])) {
+                echo "<div class='mens_error'>" . $_COOKIE['errorLogin'] . "</div>";
+            }
+
             ?>
             <form method="post">
                 <div class="input-labeled">

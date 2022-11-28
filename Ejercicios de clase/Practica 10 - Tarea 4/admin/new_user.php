@@ -6,7 +6,7 @@ if (!isset($_SESSION['usuario'])) {
     die("Error - You have to <a href='../index.php'>Log in</a>");
 }
 
-if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
+if (isset($_COOKIE['user']) && isset($_COOKIE['pass']) && isset($_COOKIE['admin'])) {
     $user = $_COOKIE['user'];
     $pass = $_COOKIE['pass'];
     protectAcces($user, $pass);
@@ -22,7 +22,7 @@ if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../styles/style.css">
-    <link rel="shortcut icon" href="img/ico.png">
+    <link rel="shortcut icon" href="../img/ico.png">
     <title>Create new user</title>
 </head>
 <?php
@@ -48,15 +48,15 @@ if (isset($_POST['create'])) {
                 'password' => $pass_encrypted
             );
             if (newUser($datosUsuario)) {
-                $message = "<b>You have successfully created the user: $login</b>";
+                $message = "<div class='mens_ok'><b>You have successfully created the user: $login</b></div>";
             } else {
-                $message = "<b>There was an error creating the user: $login</b>";
+                $message = "<div class='mens_error'><b>There was an error creating the user: $login</b></div>";
             }
         } else {
-            $message = "The user: $login Already exists";
+            $message = "<div class='mens_error'><b>The user: $login Already exists</b></div>";
         }
     } else {
-        $message = "Passwords don't match";
+        $message = "<div class='mens_error'><b>Passwords don't match</b></div>";
     }
     setcookie("newUser", $message, time() + 3600, '/');
     header("Location: new_user.php");
@@ -71,15 +71,18 @@ if (isset($_POST['cancel'])) {
 
     <header>
         <h1 id="inicio">Creating new Users</h1>
+        <div id="nombre-usuario-cabecera">
+            <i>Welcome</i> <b><?php echo $_SESSION['usuario']; ?></b>
+        </div>
     </header>
     <nav>
         <span class="desplegable">
-            <a href="index.php?<?php ?>">Manage users</a>
+            <a href="index.php?">Manage users</a>
             <div>
-                <a href="new_user.php?<?php  ?>">New user</a>
-                <a href="modify_user.php?<?php  ?>">Modify user</a>
-                <a href="delete_user.php?<?php  ?>">Delete user</a>
-                <a href="../<?php ?>">Exit</a>
+                <a href="new_user.php?">New user</a>
+                <a href="modify_user.php?">Modify user</a>
+                <a href="delete_user.php?">Delete user</a>
+                <a href="../logOut.php">Exit</a>
             </div>
         </span>
         &gt; New user
@@ -90,18 +93,10 @@ if (isset($_POST['cancel'])) {
     <main>
         <fieldset class="mini-formulario">
             <legend>Data New User</legend>
-            <?php
-            if (!empty($error)) {
-                echo "<div class='error'><b>!</b>$error</div>";
-            }
-            if (!empty($correcto)) {
-                echo "<div class='correcto'><b>!</b>$correcto</div>";
-            }
-            ?>
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <div class="input-labeled">
                     <label>Login:</label>
-                    <input type="text" name="login" maxlength="20" value="<?php ?>">
+                    <input type="text" name="login" maxlength="20" pattern="[a-zA-Z]+" required">
                 </div>
                 <div class="input-labeled">
                     <label>New password:</label>
@@ -113,21 +108,21 @@ if (isset($_POST['cancel'])) {
                 </div>
                 <div class="input-labeled">
                     <label>Name:</label>
-                    <input type="text" name="user_name" maxlength="30" value="<?php  ?>">
+                    <input type="text" name="user_name" maxlength="30" pattern="[a-zA-Z]+" required">
                 </div>
                 <div class="input-labeled">
                     <label>Fecha Nacimiento:</label>
-                    <input type="date" name="born_date" placeholder="aaaa-mm-dd" maxlength="10" value="<?php  ?>">
+                    <input type="date" name="born_date" placeholder="aaaa-mm-dd" min="1932-01-01" max="2006-01-01" maxlength="10" required">
                 </div>
                 <div class="input-labeled">
                     <label>Budget:</label>
-                    <input type="number" name="budget" maxlength="30" value="<?php  ?>">
+                    <input type="number" name="budget" maxlength="30" min="0" max="999999999" ">
                 </div>
                 <input type="submit" name="create" id='create' onclick="return confirm('Are you sure you want to add a new user?')" value="Create user">
-                <input type="submit" name='cancel' id='cancel' value="Cancel">
+                <input type="submit" name='cancel' id='cancel' value="Return to menu">
                 <?php
                 if (isset($_COOKIE['newUser'])) {
-                    echo "</div><b>" . $_COOKIE['newUser']. "</b></div>";
+                    echo $_COOKIE['newUser'];
                     setcookie("newUser", '', time() - 3600, '/');
                 }
                 ?>

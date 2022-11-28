@@ -24,9 +24,6 @@ function protectAcces($user, $pass)
 	}
 }
 
-
-
-
 /**
  * check a data inside a database and return a boolean if exist the data or not
  *
@@ -194,7 +191,7 @@ function guardarNuevoMovimiento($mov, $pago = false)
 		$consulta = $conexion->prepare("INSERT INTO movimientos (codigoMov, loginUsu, fecha, concepto, cantidad) VALUES (?, ?, ?, ?, ?)");
 		// Ejecutamos la consulta
 		$consulta->execute(array($mov['codigoMov'], $mov['loginUsu'], $mov['fecha'], $mov['concepto'], $mov['cantidad']));
-
+		
 		// Si es un pago, convertimos la cantidad a negativo
 		if ($pago) {
 			$consulta = $conexion->prepare("UPDATE movimientos SET cantidad = -cantidad WHERE codigoMov = ?");
@@ -235,6 +232,20 @@ function devolverRecibo($codigoMov)
 ///////////////////////////////////////////
 ///     Funciones creadas por ARM       ///
 ///////////////////////////////////////////
+
+function createReturnReceipt($mov)
+{
+	global $conexion;
+	try {
+		$consulta = $conexion->prepare("INSERT INTO movimientos (codigoMov, loginUsu, fecha, concepto, cantidad) VALUES (?, ?, ?, ?, ?)");
+		// Ejecutamos la consulta
+		$consulta->execute(array($mov['codigoMov'], $mov['loginUsu'], $mov['fecha'], "receipt return", $mov['cantidad']));
+	} catch (PDOException $e) {
+		$error_Code = $e->getCode();
+		$message = $e->getMessage();
+		die("Code: " . $error_Code . "\nMessage: " . $message);
+	}
+}
 
 /**
  * Return the password from a user using loggin
@@ -355,4 +366,21 @@ function newUser($datosUsuario)
 		die("Code: " . $error_Code . "\nMessage: " . $message);
 	}
 	return $insert;
+}
+
+function checkUserAdmin($login, $pass)
+{
+	$admin = false;
+	global $conexion;
+	$sql = "SELECT * FROM usuarios WHERE login = '$login' AND password = '$pass'";
+	$busqueda = $conexion->query($sql);
+	if ($busqueda->fetchColumn()) {
+		if ($login == 'daw') {
+			$admin = true;
+		} else {
+			$errorAdmin = "Error. You are not the administrator.<br>";
+			setcookie("errorAdmin", $errorAdmin, time() + 3600, "/");
+		}
+	}
+	return $admin;
 }
