@@ -134,10 +134,13 @@ if (isset($_POST['cancel'])) {
             // setcookie('return_mens', '', time() - 3600, '/');
         }
         ?>
+
+
     </main>
     <form method="post" class="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);  ?>">
         <input type="submit" name='cancel' id='cancel' value="Return to menu">
     </form>
+    
 </body>
 
 </html>
