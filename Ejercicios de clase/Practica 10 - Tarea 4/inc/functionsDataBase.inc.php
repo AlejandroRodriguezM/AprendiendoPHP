@@ -157,8 +157,7 @@ function getUserData($login)
 	global $conexion;
 	$sql = "SELECT * FROM usuarios WHERE login='$login'";
 	$resultado = $conexion->query($sql);
-	$user
- = $resultado->fetch(PDO::FETCH_ASSOC);
+	$user = $resultado->fetch(PDO::FETCH_ASSOC);
 	// Devolvemos los datos del usuario
 	return $user
 ;
