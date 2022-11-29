@@ -38,7 +38,7 @@ select, input, button {
 
 
 /* @@@@ ESTILOS PARA EL NOMBRE DEL USUARIO EN LA CABECERA @@@@ */
-#name-user-header {
+#nombre-usuario-cabecera {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -63,15 +63,13 @@ div.input-labeled>label {
 
 
 /* @@@@ ESTILOS PARA FORMULARIO VERTICAL DE TAMAÑO REDUCIDO @@@*/
-fieldset.mini-form
- {
+fieldset.mini-formulario {
     width: 300px;
     margin: auto;
     background: rgba(200, 255, 200, 0.6);
 }
 
-fieldset.mini-form
->legend {
+fieldset.mini-formulario>legend {
     background: #060;
     color: white;
     font-weight: bold;
@@ -79,10 +77,8 @@ fieldset.mini-form
     border-radius: 10px;
 }
 
-fieldset.mini-form
- select,
-fieldset.mini-form
- input {
+fieldset.mini-formulario select,
+fieldset.mini-formulario input {
     display: block;
     width: 100%
 }
@@ -112,75 +108,69 @@ fieldset.mini-form
 }
 
 
-/* @@@@ ESTILOS PARA HACER UN BOTON dropdown_menu
- @@@@ */
-.dropdown_menu
- {
+/* @@@@ ESTILOS PARA HACER UN BOTON DESPLEGABLE @@@@ */
+.desplegable {
     background: inherit;
     display: inline-block;
 }
 
-.dropdown_menu
->div {
+.desplegable>div {
     display: none;
     background: inherit;
     margin: 0 -5px;
 }
 
-.dropdown_menu
-:hover>div {
+.desplegable:hover>div {
     display: block;
     position: absolute;
 }
 
-.dropdown_menu
->div>a {
+.desplegable>div>a {
     display: block;
     padding: 5px;
     text-decoration: none;
 }
 
-.dropdown_menu
->div>a:hover {
+.desplegable>div>a:hover {
     background: yellowgreen;
 }
 
 
 /* @@@@ ESTILOS PARA FORMULARIO EN LINEA DENTRO DE UNA TABLA @@@@ */
-.form table {
+.formulario table {
     margin: auto;
     border: double blue;
     background-color: lightgoldenrodyellow;
     padding: 10px;
 }
 
-.form td {
+.formulario td {
     padding: 5px;
 }
 
-.form tbody td:first-child {
+.formulario tbody td:first-child {
     text-align: right;
 }
 
-.form input {
+.formulario input {
     padding: 4px;
     border: solid black 1px;
     border-radius: 5px;
     font-size: large;
 }
 
-.form input[type=submit] {
+.formulario input[type=submit] {
     font-weight: bold;
     padding: 2px 16px;
     margin-left: 8px;
     cursor: pointer;
 }
 
-.form input[type=submit]:hover {
+.formulario input[type=submit]:hover {
     background-color: cornflowerblue;
 }
 
-.form label {
+.formulario label {
     font-size: x-large;
 }
 

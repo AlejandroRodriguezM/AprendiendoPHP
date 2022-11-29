@@ -11,8 +11,7 @@
 <body id="pagina-login">
 	<header><h1>Creación de Usuarios</h1></header>
 	<nav>
-		<span class="dropdown_menu
-">
+		<span class="desplegable">
 			<a href="./?<?php echo $fakeCookie; ?>">Administrar Usuarios</a>
 			<div>
 				<a href="nuevo_usuario.php?<?php  ?>">Nuevo Usuario</a>
@@ -24,8 +23,7 @@
 		&gt; Nuevo Usuario
 	</nav>
 	<main>
-		<fieldset class="mini-form
-"><legend>Datos Nuevo Usuario</legend>
+		<fieldset class="mini-formulario"><legend>Datos Nuevo Usuario</legend>
 			<?php
 			if (!empty($error)) {echo "<div class='error'><b>!</b>$error</div>";}
 			if (!empty($correcto)) {echo "<div class='correcto'><b>!</b>$correcto</div>";}

@@ -11,8 +11,7 @@
 <body id="pagina-login">
 	<header><h1>Modificar usuarios</h1></header>
 	<nav>
-		<span class="dropdown_menu
-">
+		<span class="desplegable">
 			<a href="./?<?php  ?>">Administrar Usuarios</a>
 			<div>
 				<a href="nuevo_usuario.php?<?php  ?>">Nuevo Usuario</a>
@@ -26,8 +25,7 @@
 		&gt; Modificar Usuario
 	</nav>
 	<main>
-		<fieldset class="mini-form
-"><legend>Modificar Datos Usuario</legend>
+		<fieldset class="mini-formulario"><legend>Modificar Datos Usuario</legend>
 			<?php
 			if (!empty($error)) {echo "<div class='error'><b>!</b>$error</div>";}
 			if (!empty($correcto)) {echo "<div class='correcto'><b>!</b>$correcto</div>";}

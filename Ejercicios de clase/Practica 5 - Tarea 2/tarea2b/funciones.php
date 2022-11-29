@@ -1,21 +1,19 @@
 <?php
 
-//Busca un nombre en el array y devuelve la posiciï¿½n o false si no lo encuentra
+//Busca un nombre en el array y devuelve la posición o false si no lo encuentra
 function existe($miarray,$miNombre){
         $posicion=array_search($miNombre,$miarray,false);
         return $posicion;
        }
-//Agrega un telefono a partir de la posiciï¿½n pos
-function agregar($array,$nom,$budget
-,$precio,$pos){
+//Agrega un telefono a partir de la posición pos
+function agregar($array,$nom,$cantidad,$precio,$pos){
     $array[$pos]=$nom;
-    $array[$pos+1]=$budget
-;
+    $array[$pos+1]=$cantidad;
 	$array[$pos+2]=$precio;
-    echo "<div class='altoDch1'>DATO Aï¿½ADIDO</div>";
+    echo "<div class='altoDch1'>DATO AÑADIDO</div>";
 	return $array;
 }
-//Si no estï¿½n vacios el nombre y el telefono y no estï¿½ en el array se puede insertar	
+//Si no están vacios el nombre y el telefono y no está en el array se puede insertar	
 function validarInsertar($array,$nom){
 	if(!empty($nom)){
         $si=existe($array,$nom);
@@ -26,13 +24,13 @@ function validarInsertar($array,$nom){
 			 return false;
 		  }
         }else{
-		   //Si estï¿½ vacio el nombre
+		   //Si está vacio el nombre
 				echo "<div class='altoDch2'><p>FALTA EL NOMBRE</p></div>";
 				return false;
 			}
 	   }
 
-//Si el nombre estï¿½ lo borra
+//Si el nombre está lo borra
 function borrar($array,$nom){
 	if(!empty($nom)){
         $si=existe($array,$nom);
@@ -46,27 +44,25 @@ function borrar($array,$nom){
 			 echo "<div class='altoDch1'><p>EL REGISTRO NO EXISTE</p></div>"; 
 		  }
         }else{
-		   //Si estï¿½ vacio el nombre
+		   //Si está vacio el nombre
 				echo "<div class='altoDch2'><p>FALTA EL NOMBRE</p></div>";
 			}
 		return $array;
 }
 
 //Modificar el registro
-function modificar($array,$nom,$budget
-,$precio){
+function modificar($array,$nom,$cantidad,$precio){
 	if(!empty($nom)){
         $si=existe($array,$nom);
         if (!($si || $si===0)){
-            echo "<div class='altoDch1'><p>EL REGISTRO NO EXISTE</p></div>";   //el dato estï¿½ agregado
+            echo "<div class='altoDch1'><p>EL REGISTRO NO EXISTE</p></div>";   //el dato está agregado
           }else{
 			 echo "<div class='altoDch1'><p>DATO MODIFICADO</p></div>"; 
-			 $array[$si+1]=$budget
-;
+			 $array[$si+1]=$cantidad;
 			 $array[$si+2]=$precio;
 		  }
         }else{
-             //Si estï¿½ vacio el nombre
+             //Si está vacio el nombre
 			echo "<div class='altoDch2'><p>FALTA EL NOMBRE</p></div>";
 			}
 			return $array;

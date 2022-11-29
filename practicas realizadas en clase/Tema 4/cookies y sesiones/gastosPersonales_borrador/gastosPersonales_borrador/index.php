@@ -16,8 +16,7 @@
 	</header>
 	<nav>Contabilidad personal</nav>
 	<main>
-		<fieldset class="mini-form
-">
+		<fieldset class="mini-formulario">
 			<legend>Iniciar Sesión</legend>
 			<?php
 			if (isset($error)) {

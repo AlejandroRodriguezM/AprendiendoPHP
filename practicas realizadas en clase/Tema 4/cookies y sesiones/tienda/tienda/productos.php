@@ -6,8 +6,7 @@
 		$_SESSION['cesta']=null;
 	
     // Y comprobamos que el usuario se haya autentificado
-    if (!isset($_SESSION['user']
-)) {
+    if (!isset($_SESSION['usuario'])) {
         die("Error - debe <a href='login.php'>identificarse</a>.<br />");
     }
 ?>
@@ -113,8 +112,7 @@ SQL;
   <br class="divisor" />
   <div id="pie">
     <form action='logoff.php' method='post'>
-        <input type='submit' name='desconectar' value='Desconectar usuario <?php echo $_SESSION['user']
-; ?>'/>
+        <input type='submit' name='desconectar' value='Desconectar usuario <?php echo $_SESSION['usuario']; ?>'/>
     </form>        
 <?php
     if (isset($error)) {

@@ -27,13 +27,11 @@
   //Si he pulsado ingresar
   if (isset($_POST["ingresar"])) {
     $nom = $_POST["nombre"];
-    $budget
- = $_POST["cantidad"];
+    $cantidad = $_POST["cantidad"];
     $precio = $_POST["precio"];
 
     if (validarInsertar($array, $nom)) {
-      $array = agregar($array, $nom, $budget
-, $precio, $pos);
+      $array = agregar($array, $nom, $cantidad, $precio, $pos);
     }
     mostrarTabla($array);
   }
@@ -48,11 +46,9 @@
   //Si he pulsado modificar
   if (isset($_POST["modificar"])) {
     $nom = $_POST["nombre"];
-    $budget
- = $_POST["cantidad"];
+    $cantidad = $_POST["cantidad"];
     $precio = $_POST["precio"];
-    $array = modificar($array, $nom, $budget
-, $precio);
+    $array = modificar($array, $nom, $cantidad, $precio);
     mostrarTabla($array);
   }
 

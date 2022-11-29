@@ -27,8 +27,7 @@
                 $fila = $resultado->fetch();
                 if ($fila != null) {
                     session_start();
-                    $_SESSION['user']
-=$usuario;
+                    $_SESSION['usuario']=$usuario;
                     header("Location: productos.php");                    
                 }
                 else {

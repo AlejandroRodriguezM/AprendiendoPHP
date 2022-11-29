@@ -44,8 +44,7 @@
             //comprobamos si el nombre existe en la array
             $si = existe($array, $nombre);
             //almacenamos la cantidad
-            $budget
- = $_POST['cantidad'];
+            $cantidad = $_POST['cantidad'];
             //almacenamos el precio
             $precio = $_POST['precio'];
             //si el nombre no existe
@@ -54,16 +53,14 @@
                 //almacenamos el nombre en la array
                 $array[$pos] = $nombre;
                 //almacenamos la cantidad en la array
-                $array[$pos + 1] = $budget
-;
+                $array[$pos + 1] = $cantidad;
                 //almacenamos el precio en la array
                 $array[$pos + 2] = $precio;
                 //aumentamos la posicion
                 $pos += 3;
             } else {
                 //si el nombre existe almacenamos y suma a la existente cantidad en la array
-                $array[$si + 1] += $budget
-;
+                $array[$si + 1] += $cantidad;
             }
             mostrarTabla($array);
         } else {
@@ -125,15 +122,13 @@
             //comprobamos si el nombre existe en la array
             $si = existe($array, $nombre);
             //almacenamos la cantidad
-            $budget
- = $_POST['cantidad'];
+            $cantidad = $_POST['cantidad'];
             //almacenamos el precio
             $precio = $_POST['precio'];
             //si el nombre existe
             if ($si || $si === 0) {
                 //almacenamos cantidad en la posicion 1
-                $array[$si + 1] = $budget
-;
+                $array[$si + 1] = $cantidad;
                 //almacenamos precio en la posicion 2
                 $array[$si + 2] = $precio;
                 //mostramos el array

@@ -21,8 +21,7 @@
                 //Si el usuario no está bloqueado inicio la sesión
                 if(!usuario_bloqueado($login, $con)){
                     session_start();
-                    $_SESSION['user']
-=$login;
+                    $_SESSION['usuario']=$login;
                     $_SESSION['hora']=date("H:i",time());
                     //usar getDate o Date
                     header("Location:usuario.php");

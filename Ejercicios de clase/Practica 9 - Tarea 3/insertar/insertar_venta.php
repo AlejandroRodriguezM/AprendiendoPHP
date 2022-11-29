@@ -21,18 +21,14 @@
         if (!empty($_POST['cod']) && !empty($_POST['ref']) && !empty($_POST['cant']) && !empty($_POST['fecha'])) {
             $codigo = $_POST['cod'];
             $referencia = $_POST['ref'];
-            $budget
- = $_POST['cant'];
-            if ($budget
- == 0) {
-                $budget
- = 1;
+            $cantidad = $_POST['cant'];
+            if ($cantidad == 0) {
+                $cantidad = 1;
             }
             $fecha = $_POST['fecha'];
             $fecha = date('Y-m-d', strtotime(str_replace('-', '/', $fecha)));
             $base = "ventas_comerciales";
-            $query = "INSERT INTO ventas(codComercial,refProducto,cantidad,fecha) values('$codigo','$referencia','$budget
-','$fecha')";
+            $query = "INSERT INTO ventas(codComercial,refProducto,cantidad,fecha) values('$codigo','$referencia','$cantidad','$fecha')";
             operacionesMySql($query, $base);
             header("Location:insertar_venta.php");
         } else {

@@ -11,13 +11,12 @@
 <body>
 	<header>
 		<h1>Gestión Personal: Movimientos</h1>
-		<div id="name-user-header">
+		<div id="nombre-usuario-cabecera">
 			<i>Bienvenid@</i> <b><?php  ?></b>
 		</div>
 	</header>
 	<nav>
-		<span class="dropdown_menu
-">
+		<span class="desplegable">
 			<a href="./?<?php  ?>">Mi Cuenta</a>
 			<div>
 				<a href="movimientos.php?<?php  ?>">Ultimos Movimientos</a>
