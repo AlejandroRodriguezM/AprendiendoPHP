@@ -82,30 +82,44 @@ if (isset($_POST['cancel'])) {
         <i>Welcome</i> <b><?php echo $_SESSION['user']; ?></b>
     </div>
     <main>
-        <table class="tabla">
-            <thead>
+        <form method='post' action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            <table class="tabla">
+
+                <thead>
+                <tfoot>
+                    <?php
+                    if (isset($_COOKIE['return_mens'])) {
+                        echo "<tr>";
+                        echo "<td colspan='3'>";
+                        echo $_COOKIE['return_mens'];
+                        echo "</td>";
+                        echo "</tr>";
+                        setcookie("return_mens", "", time() - 3600, "/");
+                    }
+                    ?>
+                </tfoot>
                 <tr>
                     <th>Date</th>
                     <th>Concept</th>
                     <th>Total</th>
                     <th></th>
                 </tr>
-            </thead>
-            <tbody>
-                <?php
-                foreach ($tabla as $fila) {
-                ?>
-                    <tr>
-                        <td><?php echo $fila['fecha'] ?></td>
-                        <td><?php
-                            if (in_array($fila['concepto'], $reservedWords)) {
-                                echo "<b style='color:red';>" . $fila['concepto'] . "</b>";
-                            } else {
-                                echo $fila['concepto'];
-                            }
-                            ?></td>
-                        <td><?php echo $fila['cantidad'] ?></td>
-                        <form method='post' action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                </thead>
+                <tbody>
+                    <?php
+                    foreach ($tabla as $fila) {
+                    ?>
+                        <tr>
+                            <td><?php echo $fila['fecha'] ?></td>
+                            <td><?php
+                                if (in_array($fila['concepto'], $reservedWords)) {
+                                    echo "<b style='color:red';>" . $fila['concepto'] . "</b>";
+                                } else {
+                                    echo $fila['concepto'];
+                                }
+                                ?></td>
+                            <td><?php echo $fila['cantidad'] ?></td>
+
                             <?php
                             if (in_array($fila['concepto'], $reservedWords) || $fila['cantidad'] == 0) {
                                 echo "<td><input type='submit' name='returnInvalid' value='Return'></td>";
@@ -118,29 +132,23 @@ if (isset($_POST['cancel'])) {
                             <?php
                             }
                             ?>
-                        </form>
-                    </tr>
-                <?php
-                }
-                ?>
-            </tbody>
-            <tfoot>
-            </tfoot>
-        </table>
-        <?php
-        if (isset($_COOKIE['return_mens'])) {
-            echo $_COOKIE['return_mens'];
-            setcookie("return_mens", "", time() - 3600, "/");
-            // setcookie('return_mens', '', time() - 3600, '/');
-        }
-        ?>
+        </form>
+        </tr>
+    <?php
+                    }
+    ?>
+    </tbody>
+    <tfoot>
+    </tfoot>
+    </table>
+
 
 
     </main>
     <form method="post" class="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);  ?>">
         <input type="submit" name='cancel' id='cancel' value="Return to menu">
     </form>
-    
+
 </body>
 
 </html>
