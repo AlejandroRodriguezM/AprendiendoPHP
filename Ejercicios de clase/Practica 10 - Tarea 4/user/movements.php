@@ -3,17 +3,7 @@ include "../inc/header.inc.php";
 //Recuperar la sesión
 session_start();
 
-//comprobamos que el usuario existe
-if (!isset($_SESSION['usuario'])) {
-    die("Error - You have to <a href='../index.php'>Log in</a>");
-}
-if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
-    $user = $_COOKIE['user'];
-    $pass = $_COOKIE['pass'];
-    protectAcces($user, $pass);
-} else {
-    die("Error - You have to <a href='../index.php'>Log in</a>");
-}
+checkSessionUser();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,13 +17,15 @@ if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
     <title>Movements</title>
 </head>
 <?php
-$login = $_SESSION['usuario'];
-$tabla = getMovimientos($login);
+$login = $_SESSION['user'];
+$table = getMovimientos($login);
 $reservedWords = reservedWords();
 
-if ($tabla) {
-    $numMovimientos = count($tabla);
+if ($table) {
+    $numMovimientos = count($table);
 } else {
+    $message = "<div class='mens_error'>There are no movements</b></div>";
+    setcookie("movement_mens", $message, time() + 3600, "/");
     $numMovimientos = 0;
 }
 
@@ -48,23 +40,23 @@ if (isset($_POST['cancel'])) {
 <body>
     <header>
         <h1>Last movements</h1>
-        <div id="nombre-usuario-cabecera">
-        </div>
     </header>
     <nav>
-        <span class="desplegable">
+        <span class="dropdown_menu">
             <a href="./?">My account</a>
             <div>
-                <a href="movements.php?">Latest movements</a>
-                <a href="deposit.php?">Make a deposit</a>
-                <a href="expense.php?">Record an Expense</a>
-                <a href="return.php?">Return a movement</a>
-                <a href="../logOut.php/">Exit</a>
+                <a href="movements.php">Last movements</a>
+                <a href="deposit.php">Make a deposit</a>
+                <a href="expense.php">Record an Expense</a>
+                <a href="return.php">Return a movement</a>
+                <a href="../logOut.php">Exit</a>
             </div>
         </span>
         &gt; Latest movements
     </nav>
-    <i>Welcome</i> <b><?php echo $_SESSION['usuario']; ?></b>
+    <div id="name-user-header">
+        <i>Welcome</i> <b><?php echo $_SESSION['user']; ?></b>
+    </div>
     <main>
         <?php
 
@@ -81,17 +73,17 @@ if (isset($_POST['cancel'])) {
             </thead>
             <tbody>
                 <?php
-                foreach ($tabla as $fila) {
+                foreach ($table as $row) {
                     echo "<tr>";
-                    echo "<td>" . $fila['codigoMov'] . "</td>";
-                    echo "<td>" . $fila['fecha'] . "</td>";
-                    echo "<td>" . $fila['concepto'] . "</td>";
-                    if (in_array($fila['concepto'], $reservedWords)) {
+                    echo "<td>" . $row['codigoMov'] . "</td>";
+                    echo "<td>" . $row['fecha'] . "</td>";
+                    echo "<td>" . $row['concepto'] . "</td>";
+                    if (in_array($row['concepto'], $reservedWords)) {
                         $tempBudget = $actualBudget;
                     } else {
-                        $tempBudget += $fila['cantidad'];
+                        $tempBudget += $row['cantidad'];
                     }
-                    echo "<td>" . $fila['cantidad'] . "</td>";
+                    echo "<td>" . $row['cantidad'] . "</td>";
                     echo "<td>" . $tempBudget . "</td>";
                     echo "</tr>";
                 }
@@ -106,7 +98,13 @@ if (isset($_POST['cancel'])) {
                 </tr>
             </tfoot>
         </table>
-        <form method="post" class="formulario" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <?php if (isset($_COOKIE['movement_mens'])) {
+            echo $_COOKIE['movement_mens'];
+            setcookie("movement_mens", "", time() - 3600, "/");
+            
+        }
+        ?>
+        <form method="post" class="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <input type="submit" name='cancel' id='cancel' value="Return to menu">
         </form>
     </main>

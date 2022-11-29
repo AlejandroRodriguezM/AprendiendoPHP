@@ -121,7 +121,8 @@ function getMovimientos($soloRecibos = false)
  *	con lo que convertirá la cantidad a un numero negativo.
  * Devuelve FALSE si todo ha ido bien, o el mensaje de error si no ha ido bien.
  */
-function guardarNuevoMovimiento($mov, $pago=false)
+function saveNewMovement
+($mov, $pago=false)
 {
 	
 }
@@ -130,7 +131,7 @@ function guardarNuevoMovimiento($mov, $pago=false)
  * Recibe el codigo del recibo.
  * Devuelve FALSE si todo ha ido bien o el mensaje de error si no ha ido bien.
 */
-function devolverRecibo($codigoMov)
+function devolverRecibo($moveCodeMov)
 {
 	
 }
@@ -151,8 +152,14 @@ function errorValidarNuevoMovimiento($fValue)
     if ( empty($fValue['fecha']) ) {
         return 'Debe indicar la fecha.';
     }
-    $fecha = explode("-", $fValue['fecha']);
-    if ( count($fecha) != 3 || !checkdate($fecha[1], $fecha[2], $fecha[0]) || $fecha[0] < 2000 ) {
+    $date
+ = explode("-", $fValue['fecha']);
+    if ( count($date
+) != 3 || !checkdate($date
+[1], $date
+[2], $date
+[0]) || $date
+[0] < 2000 ) {
         return 'Fecha inválida';
     }
     
@@ -178,14 +185,17 @@ function errorValidarNuevoMovimiento($fValue)
  * con la cantidad formateada como moneda y 
  * una clase que indica si es positiva o negativa.
  */
-function htmlSpanMoneda($cantidad)
+function htmlSpanMoneda($budget
+)
 {
-    if ( $cantidad < 0 ) {
+    if ( $budget
+ < 0 ) {
         $span = '<span class="negativo">';
     } else {
         $span = '<span class="positivo">';
     }
-    $span .= number_format($cantidad, 2) . ' €</span>';
+    $span .= number_format($budget
+, 2) . ' €</span>';
     
     return $span;
 }
@@ -196,9 +206,11 @@ function htmlSpanMoneda($cantidad)
  * antes de el movimiento, de forma que actualiza su valor por referencia.
  * Tambien devuelve el saldocontable formateado con la funcion htmlSpanMoneda.
  */
-function calcularSaldoContable($cantidad, &$saldoContable)
+function calcularSaldoContable($budget
+, &$saldoContable)
 {
-    $saldoContable += $cantidad;
+    $saldoContable += $budget
+;
     
     return htmlSpanMoneda($saldoContable);
 }

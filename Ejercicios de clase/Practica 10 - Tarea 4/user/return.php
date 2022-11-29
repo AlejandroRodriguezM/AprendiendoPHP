@@ -1,19 +1,8 @@
 <?php
 include "../inc/header.inc.php";
-//Recuperar la sesión
 session_start();
 
-//comprobamos que el usuario existe
-if (!isset($_SESSION['usuario'])) {
-    die("Error - You have to <a href='../index.php'>Log in</a>");
-}
-if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
-    $user = $_COOKIE['user'];
-    $pass = $_COOKIE['pass'];
-    protectAcces($user, $pass);
-} else {
-    die("Error - You have to <a href='../index.php'>Log in</a>");
-}
+checkSessionUser();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,40 +16,40 @@ if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
     <title>Returns</title>
 </head>
 <?php
-$login = $_SESSION['usuario'];
+$login = $_SESSION['user'];
 $tabla = getMovimientos($login);
 $reservedWords = reservedWords();
 if ($tabla) {
     $numMovimientos = count($tabla);
 } else {
-    $message = "There are no movements";
+    $message = "<div class='mens_error'>There are no movements</b></div>";
 }
 
 if (isset($_POST['return'])) {
     $codigoMov = $_POST['codMov'];
     $concepto = $_POST['concepto'];
-    $cantidad = $_POST['cantidad'];
+    $budget = $_POST['cantidad'];
     $codigo = createRandomUserCodeMove();
     $mov = array(
         "codigoMov" => $codigoMov,
         "loginUsu" => $login,
         "fecha" => date("Y-m-d"),
         "concepto" => $concepto,
-        "cantidad" => $cantidad
+        "cantidad" => $budget
+
     );
     if (!devolverRecibo($codigoMov)) {
         createReturnReceipt($mov);
-        $message = "Receipt returned successfully";
+        $message = "<div class='mens_ok'><b>Receipt returned successfully</b></div>";
     } else {
-        $message = "Error returning receipt";
+        $message = "<div class='mens_error'><b>Error returning receipt</b></div>";
     }
-
     setcookie("return_mens", $message, time() + 3600, "/");
     header("Location: return.php");
 }
 
 if (isset($_POST['returnInvalid'])) {
-    $message = "Invalid receipt. You can`t return this receipt";
+    $message = "<div class='mens_error'><b>Invalid receipt. You can`t return this receipt</b></div>";
     setcookie("return_mens", $message, time() + 3600, "/");
     header("Location: return.php");
 }
@@ -74,30 +63,31 @@ if (isset($_POST['cancel'])) {
 <body>
     <header>
         <h1>Returns</h1>
-        <div id="nombre-usuario-cabecera">
-        </div>
     </header>
 
     <nav>
-        <span class="desplegable">
-            <a href="./?<?php  ?>">My account</a>
+        <span class="dropdown_menu">
+            <a href="./">My account</a>
             <div>
-                <a href="movements.php?<?php  ?>">Latest movements</a>
-                <a href="deposit.php?<?php  ?>">Make a deposit</a>
-                <a href="expense.php?<?php  ?>">Record an Expense</a>
-                <a href="return.php?<?php  ?>">Return a movement</a>
-                <a href="../logOut.php/<?php  ?>">Exit</a>
+                <a href="movements.php">Last movements</a>
+                <a href="deposit.php">Make a deposit</a>
+                <a href="expense.php">Record an Expense</a>
+                <a href="return.php">Return a movement</a>
+                <a href="../logOut.php">Exit</a>
             </div>
         </span>
         &gt; Return a movement
     </nav>
+    <div id="name-user-header">
+        <i>Welcome</i> <b><?php echo $_SESSION['user']; ?></b>
+    </div>
     <main>
         <table class="tabla">
             <thead>
                 <tr>
-                    <th>Fecha</th>
-                    <th>Concepto</th>
-                    <th>Cantidad</th>
+                    <th>Date</th>
+                    <th>Concept</th>
+                    <th>Total</th>
                     <th></th>
                 </tr>
             </thead>
@@ -137,13 +127,15 @@ if (isset($_POST['cancel'])) {
             <tfoot>
             </tfoot>
         </table>
-        <?php if (isset($_COOKIE['return_mens'])) {
-            echo "<b>" . $_COOKIE['return_mens'] . "</b><br>";
+        <?php
+        if (isset($_COOKIE['return_mens'])) {
+            echo $_COOKIE['return_mens'];
             setcookie("return_mens", "", time() - 3600, "/");
+            // setcookie('return_mens', '', time() - 3600, '/');
         }
         ?>
     </main>
-    <form method="post" class="formulario" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);  ?>">
+    <form method="post" class="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);  ?>">
         <input type="submit" name='cancel' id='cancel' value="Return to menu">
     </form>
 </body>

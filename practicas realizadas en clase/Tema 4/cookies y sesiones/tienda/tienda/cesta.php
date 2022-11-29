@@ -3,7 +3,8 @@
     session_start();
     
     // Y comprobamos que el usuario se haya autentificado
-    if (!isset($_SESSION['usuario'])) {
+    if (!isset($_SESSION['user']
+)) {
         die("Error - debe <a href='login.php'>identificarse</a>.<br />");
     }
 ?>
@@ -47,7 +48,8 @@
   <br class="divisor" />
   <div id="pie">
     <form action='logoff.php' method='post'>
-        <input type='submit' name='desconectar' value='Desconectar usuario <?php echo $_SESSION['usuario']; ?>'/>
+        <input type='submit' name='desconectar' value='Desconectar usuario <?php echo $_SESSION['user']
+; ?>'/>
     </form>        
   </div>
 </div>

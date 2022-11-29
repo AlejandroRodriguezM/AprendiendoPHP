@@ -11,10 +11,12 @@ function calcular_Precio_Total_Compra($lista)
 }
 
 // Funcion que calcula el precio total de un producto
-function calcular_Precio_Total_Producto($cantidad, $precio)
+function calcular_Precio_Total_Producto($budget
+, $precio)
 {
 
-    return $cantidad * $precio;
+    return $budget
+ * $precio;
 }
 
 //Funcion que comprueba si existe el producto a insertar

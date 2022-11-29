@@ -4,7 +4,8 @@
    session_start();
 
    //Comprobamos que el usuario se ha autentificado
-   if(!isset($_SESSION['usuario'])){
+   if(!isset($_SESSION['user']
+)){
      die("Error -debe <a href='index.php'>identificarse</a>");
    }
    //Si hacemos clic en publicar
@@ -17,7 +18,8 @@
       if(strlen($_POST['textarea'])>500){
         $error="El contenido debe ser menor de 500 caracteres";
       }else{
-        $autor=$_SESSION['usuario'];
+        $autor=$_SESSION['user']
+;
         $contenido=$_POST['textarea'];
         $moroso=$_POST['moroso'];
         $fecha=date('Y-m-d',time());
@@ -68,7 +70,8 @@
         <li><a href="logoff.php">Salir</a></li>
     </ul>
        <div class="sesion"><p>Hora de conexión: <?php echo $_SESSION['hora']; ?></p></div>
-       <div class="sesion"><p>Bienvenido <?php echo $_SESSION['usuario']; ?></p></div>        
+       <div class="sesion"><p>Bienvenido <?php echo $_SESSION['user']
+; ?></p></div>        
   </div>
   <div id="publicar_anuncio">
   <form action='anuncio.php' method='post'>

@@ -59,22 +59,26 @@
     if (!isset($_POST['bot_actualizar'])) {
         $conComercial = $_GET['codComercial'];
         $refProducto = $_GET['refProducto'];
-        $cantidad = $_GET['cantidad'];
+        $budget
+ = $_GET['cantidad'];
         $fecha = $_GET['fecha'];
     } else {
         if (!empty($_POST['cod']) && !empty($_POST['ref']) && !empty($_POST['fecha'])) {
             $conComercial = $_POST['codComercial'];
             $refProducto = $_POST['refProducto'];
-            $cantidad = $_POST['cantidad'];
+            $budget
+ = $_POST['cantidad'];
             $fecha = $_POST['fecha'];
-            $sql = "UPDATE ventas SET codComercial='$conComercial', refProducto='$refProducto', cantidad='$cantidad', fecha='$fecha' WHERE codComercial='$conComercial'";
+            $sql = "UPDATE ventas SET codComercial='$conComercial', refProducto='$refProducto', cantidad='$budget
+', fecha='$fecha' WHERE codComercial='$conComercial'";
             operacionesMySql($query, $base);
             header("Location:modificar_venta.php");
         }
         else{
             $conComercial = $_GET['codComercial'];
             $refProducto = $_GET['refProducto'];
-            $cantidad = $_GET['cantidad'];
+            $budget
+ = $_GET['cantidad'];
             $fecha = $_GET['fecha'];
             $mensaje = "ERROR. No se han introducido todos los datos";
         }
@@ -133,7 +137,8 @@
             <tr>
                 <td>cantidad</td>
                 <td><label for="cantidad"></label>
-                    <input type="number" name="cantidad" id="cantidad" value="<?php echo $cantidad ?> min="0" step="1"">
+                    <input type="number" name="cantidad" id="cantidad" value="<?php echo $budget
+ ?> min="0" step="1"">
                 </td>
             </tr>
             <tr>

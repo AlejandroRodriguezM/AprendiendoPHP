@@ -11,7 +11,7 @@
 <body>
 	<header>
 		<h1>Gestión Personal</h1>
-		<div id="nombre-usuario-cabecera">
+		<div id="name-user-header">
 			<i>Bienvenid@</i> <b><?php  ?></b>
 		</div>
 	</header>

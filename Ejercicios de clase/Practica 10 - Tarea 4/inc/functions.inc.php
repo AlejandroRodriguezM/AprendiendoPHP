@@ -106,6 +106,27 @@ function reservedWords()
 		"xp_filelist", "xp_cmdshell", "xp_regread", "xp_regwrite", "xp_fileexist", "xp_dirtree", "xp_filelist", "xp_cmdshell",
 		"xp_regread", "xp_regwrite", "xp_fileexist", "xp_dirtree", "xp_filelist", "xp_cmdshell", "xp_regread", "xp_regwrite",
 		"xp_fileexist", "xp_dirtree", "xp_filelist", "xp_cmdshell", "xp_regread", "xp_regwrite", "xp_fileexist", "xp_dirtree",
-		"xp_filelist", "xp_cmdshell", "xp_regread", "xp_regwrite", "xp_fileexist", "xp_dirtree", "xp_filelist", "withdrawal","receipt return");
+		"xp_filelist", "xp_cmdshell", "xp_regread", "xp_regwrite", "xp_fileexist", "xp_dirtree", "xp_filelist", "withdrawal", "receipt return"
+	);
 	return $palabras;
+}
+
+function checkSessionUser()
+{
+	//comprobamos que el usuario existe
+	if (!isset(
+		$_SESSION['user']
+	)) {
+		die("Error - You have to <a href='../index.php'>Log in</a>");
+	}
+
+	if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
+		$user = $_COOKIE['user'];
+		$pass = $_COOKIE['pass'];
+		protectAcces($user, $pass);
+	} else {
+		deleteCookieUser();
+		deleteCookieLoginError();
+		die("Error - You have to <a href='../index.php'>Log in</a>");
+	}
 }

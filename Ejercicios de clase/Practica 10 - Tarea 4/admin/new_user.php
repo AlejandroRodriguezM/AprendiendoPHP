@@ -1,15 +1,9 @@
 <?php
 include "../inc/header.inc.php";
 session_start();
-//comprobamos que el usuario existe
-if (!isset($_SESSION['usuario'])) {
-    die("Error - You have to <a href='../index.php'>Log in</a>");
-}
 
-if (isset($_COOKIE['user']) && isset($_COOKIE['pass']) && isset($_COOKIE['admin'])) {
-    $user = $_COOKIE['user'];
-    $pass = $_COOKIE['pass'];
-    protectAcces($user, $pass);
+if (isset($_COOKIE['admin'])) {
+    checkSessionUser();
 } else {
     die("Error - You have to <a href='../index.php'>Log in</a>");
 }
@@ -27,42 +21,51 @@ if (isset($_COOKIE['user']) && isset($_COOKIE['pass']) && isset($_COOKIE['admin'
 </head>
 <?php
 if (isset($_POST['create'])) {
+    $login = $_POST['login'];
     $password = $_POST['password'];
     $rePassword = $_POST['repassword'];
-    if (strcmp($password, $rePassword) === 0) {
-        $login = $_POST['login'];
-        $selectUser = "SELECT login FROM usuarios WHERE login='$login'";
-        if (checkData($selectUser)) {
-            $pass_encrypted = password_hash($password, PASSWORD_DEFAULT);
-            $name = $_POST['user_name'];
-            $bornDate = $_POST['born_date'];
-            $budget = $_POST['budget'];
-            if ($budget < 0) {
-                $budget = 0;
-            }
-            $datosUsuario = array(
-                'login' => $login,
-                'nombre' => $name,
-                'fNacimiento' => $bornDate,
-                'presupuesto' => $budget,
-                'password' => $pass_encrypted
-            );
-            if (newUser($datosUsuario)) {
-                $message = "<div class='mens_ok'><b>You have successfully created the user: $login</b></div>";
+    $name = $_POST['user_name'];
+    $bornDate = $_POST['born_date'];
+    $budget = $_POST['budget'];
+    if (!empty($login) && !empty($password) && !empty($rePassword) && !empty($name) && !empty($bornDate)) {
+        if (strcmp($password, $rePassword) === 0) {
+
+            $selectUser = "SELECT login FROM usuarios WHERE login='$login'";
+            if (checkData($selectUser)) {
+                $pass_encrypted = password_hash($password, PASSWORD_DEFAULT);
+
+                if ($budget < 0 || $budget = "") {
+                    $budget = 0;
+                }
+                $datosUsuario = array(
+                    'login' => $login,
+                    'nombre' => $name,
+                    'fNacimiento' => $bornDate,
+                    'presupuesto' => $budget,
+                    'password' => $pass_encrypted
+                );
+                if (newUser($datosUsuario)) {
+                    $message = "<div class='mens_ok'><b>You have successfully created the user: $login</b></div>";
+                } else {
+                    $message = "<div class='mens_error'><b>There was an error creating the user: $login</b></div>";
+                }
             } else {
-                $message = "<div class='mens_error'><b>There was an error creating the user: $login</b></div>";
+                $message = "<div class='mens_error'><b>The user: $login Already exists</b></div>";
             }
         } else {
-            $message = "<div class='mens_error'><b>The user: $login Already exists</b></div>";
+            $message = "<div class='mens_error'><b>Passwords don't match</b></div>";
         }
-    } else {
-        $message = "<div class='mens_error'><b>Passwords don't match</b></div>";
+        setcookie("newUser", $message, time() + 3600, '/');
+        header("Location: new_user.php");
     }
-    setcookie("newUser", $message, time() + 3600, '/');
-    header("Location: new_user.php");
+    else{
+        $message = "<div class='mens_error'><b>Fill in all the fields</b></div>";
+        setcookie("newUser", $message, time() + 3600, '/');
+        header("Location: new_user.php");
+    }
 }
 
-if (isset($_POST['cancel'])) {
+if (isset($_POST['return'])) {
     header("Location: index.php");
 }
 ?>
@@ -71,27 +74,25 @@ if (isset($_POST['cancel'])) {
 
     <header>
         <h1 id="inicio">Creating new Users</h1>
-        <div id="nombre-usuario-cabecera">
-            <i>Welcome</i> <b><?php echo $_SESSION['usuario']; ?></b>
-        </div>
     </header>
     <nav>
-        <span class="desplegable">
+        <span class="dropdown_menu">
             <a href="index.php?">Manage users</a>
             <div>
-                <a href="new_user.php?">New user</a>
-                <a href="modify_user.php?">Modify user</a>
-                <a href="delete_user.php?">Delete user</a>
+                <a href="new_user.php">New user</a>
+                <a href="modify_user.php">Modify user</a>
+                <a href="delete_user.php">Delete user</a>
                 <a href="../logOut.php">Exit</a>
             </div>
         </span>
         &gt; New user
     </nav>
-    <div id="nombre-usuario-cabecera">
-        <i>Welcome</i> <b><?php echo $_SESSION['usuario']; ?></b>
+    <div id="name-user-header">
+        <i>Welcome</i> <b><?php echo $_SESSION['user']; ?></b>
     </div>
     <main>
-        <fieldset class="mini-formulario">
+        <fieldset class="mini-form
+">
             <legend>Data New User</legend>
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <div class="input-labeled">
@@ -100,11 +101,11 @@ if (isset($_POST['cancel'])) {
                 </div>
                 <div class="input-labeled">
                     <label>New password:</label>
-                    <input type="password" name="password" maxlength="128" value="<?php ?>">
+                    <input type="password" name="password" maxlength="128" required">
                 </div>
                 <div class="input-labeled">
                     <label>Repite new password:</label>
-                    <input type="password" name="repassword" maxlength="128" value="<?php ?>">
+                    <input type="password" name="repassword" maxlength="128" required">
                 </div>
                 <div class="input-labeled">
                     <label>Name:</label>
@@ -119,13 +120,13 @@ if (isset($_POST['cancel'])) {
                     <input type="number" name="budget" maxlength="30" min="0" max="999999999" ">
                 </div>
                 <input type="submit" name="create" id='create' onclick="return confirm('Are you sure you want to add a new user?')" value="Create user">
-                <input type="submit" name='cancel' id='cancel' value="Return to menu">
-                <?php
-                if (isset($_COOKIE['newUser'])) {
-                    echo $_COOKIE['newUser'];
-                    setcookie("newUser", '', time() - 3600, '/');
-                }
-                ?>
+                    <input type="submit" name='return' id='return' value="Return to menu">
+                    <?php
+                    if (isset($_COOKIE['newUser'])) {
+                        echo $_COOKIE['newUser'];
+                        setcookie("newUser", '', time() - 3600, '/');
+                    }
+                    ?>
             </form>
         </fieldset>
     </main>

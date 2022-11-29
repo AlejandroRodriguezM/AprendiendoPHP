@@ -12,12 +12,13 @@
 	
 	<header>
 		<h1>Gestion Personal: Ingreso</h1>
-		<div id="nombre-usuario-cabecera">
+		<div id="name-user-header">
 			<i>Bienvenid@</i> <b><?php  ?></b>
 		</div>
 	</header>
 	<nav>
-		<span class="desplegable">
+		<span class="dropdown_menu
+">
 			<a href="./?<?php  ?>">Mi Cuenta</a>
 			<div>
 				<a href="movimientos.php?<?php  ?>">Ultimos Movimientos</a>

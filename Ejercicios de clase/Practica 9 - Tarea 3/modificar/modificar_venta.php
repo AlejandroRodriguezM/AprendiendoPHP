@@ -19,9 +19,11 @@
     if (isset($_POST['del'])) {
         $codComercial = $_POST['codComercial'];
         $refProducto = $_POST['refProducto'];
-        $cantidad = $_POST['cantidad'];
+        $budget
+ = $_POST['cantidad'];
         $fecha = $_POST['fecha'];
-        header("Location: formulario_modificar_venta.php?codComercial=$codComercial&refProducto=$refProducto&cantidad=$cantidad&fecha=$fecha");
+        header("Location: formulario_modificar_venta.php?codComercial=$codComercial&refProducto=$refProducto&cantidad=$budget
+&fecha=$fecha");
     }
 
     /**

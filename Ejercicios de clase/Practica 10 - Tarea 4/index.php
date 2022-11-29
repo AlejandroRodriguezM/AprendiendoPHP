@@ -9,7 +9,7 @@ if (isset($_POST['acces'])) {
     $password_bd = obtain_password($user);
     if (password_verify($pass, $password_bd)) {
         session_start();
-        $_SESSION['usuario'] = $user;
+        $_SESSION['user'] = $user;
         $_SESSION['hora'] = date("H:i", time());
         createCookieUser($user, $password_bd);
         if (isset($_POST['form_user_login'])) {
@@ -43,19 +43,17 @@ if (isset($_POST['acces'])) {
 <body>
 
     <header>
-        <div id="content">
-            <h1 id="inicio">Gastos personales</h1>
-            <img src="./img/ico-banck.png" alt="">
-        </div>
+        <h1 id="inicio">Gastos personales</h1>
     </header>
     <nav>Contabilidad personal</nav>
     <main>
-        <fieldset class="mini-formulario">
+        <fieldset class="mini-form
+">
             <legend>Login</legend>
             <?php
             if (isset($_COOKIE['errorAdmin'])) {
                 echo "<div class='mens_error'>" . $_COOKIE['errorAdmin'] . "</div>";
-                setcookie('errorAdmin', '', time() - 3600,"/");
+                setcookie('errorAdmin', '', time() - 3600, "/");
             }
             if (isset($_COOKIE['login'])) {
                 echo "<div class='mens_error'>" . $_COOKIE['errorLogin'] . "</div>";

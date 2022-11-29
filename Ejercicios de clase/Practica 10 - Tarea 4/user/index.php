@@ -1,23 +1,8 @@
 <?php
 include "../inc/header.inc.php";
-//Recuperar la sesión
 session_start();
 
-//comprobamos que el usuario existe
-if (!isset($_SESSION['usuario'])) {
-    die("Error - You have to <a href='../index.php'>Log in</a>");
-}
-
-if (isset($_COOKIE['user']) and isset($_COOKIE['pass'])) {
-    $user = $_COOKIE['user'];
-    $pass = $_COOKIE['pass'];
-    deleteCookieLoginError();
-    protectAcces($user,$pass);
-}
-else{
-    deleteCookieLoginError();
-	die("Error - You have to <a href='../index.php'>Log in</a>");
-}
+checkSessionUser();
 
 ?>
 <!DOCTYPE html>
@@ -35,10 +20,12 @@ else{
 <body>
     <header>
         <h1>My account</h1>
-        <div id="nombre-usuario-cabecera">
-        </div>
     </header>
-    <i>Welcome</i> <b><?php echo $_SESSION['usuario']; ?></b>
+    <nav>
+        <div id="name-user-header">
+            <i>Welcome</i> <b><?php echo $_SESSION['user']; ?></b>
+        </div>
+    </nav>
     <main>
         <div id="menu">
             <a href="movements.php">Last movements</a>

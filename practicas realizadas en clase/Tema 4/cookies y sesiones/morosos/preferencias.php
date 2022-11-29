@@ -5,7 +5,8 @@
     session_start();
 
     //comprobamos que el usuario existe
-    if(!isset($_SESSION['usuario'])){
+    if(!isset($_SESSION['user']
+)){
       die("Error - debe <a href='index.php'>Identificarse</a>");
     }
     
@@ -52,7 +53,8 @@
         <li><a href="logoff.php">Salir</a></li>
     </ul>
        <div class="sesion"><p>Hora de conexión: <?php echo $_SESSION['hora']; ?></p></div>
-       <div class="sesion"><p>Bienvenido <?php echo $_SESSION['usuario']; ?></p></div>        
+       <div class="sesion"><p>Bienvenido <?php echo $_SESSION['user']
+; ?></p></div>        
   </div>
   <div id="preferencias">
   <form action='preferencias.php' method='post'>

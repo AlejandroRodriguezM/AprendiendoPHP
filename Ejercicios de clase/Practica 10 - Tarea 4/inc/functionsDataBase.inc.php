@@ -73,7 +73,8 @@ function modifyBudgetUser($amount, $pago = false)
 	// Preparamos la consulta
 	global $conexion;
 	try {
-		$login = $_SESSION['usuario'];
+		$login = $_SESSION['user']
+;
 		// Si es un pago, convertimos la cantidad a negativo
 		if ($pago) {
 			$consulta = $conexion->prepare("UPDATE usuarios SET presupuesto = presupuesto - ? WHERE login = ?");
@@ -96,7 +97,8 @@ function modifyBudgetUser($amount, $pago = false)
 function returnBudget()
 {
 	global $conexion;
-	$login = $_SESSION['usuario'];
+	$login = $_SESSION['user']
+;
 	$consulta = $conexion->prepare("SELECT presupuesto FROM usuarios where login = ?");
 	$consulta->execute(array($login));
 	$budget = $consulta->fetch(PDO::FETCH_ASSOC)['presupuesto'];
@@ -115,9 +117,11 @@ function returnAmount($movCode)
 	global $conexion;
 	$consulta = $conexion->prepare("SELECT cantidad FROM movimientos WHERE codigoMov = ?");
 	$consulta->execute(array($movCode));
-	$cantidad = $consulta->fetch(PDO::FETCH_ASSOC)['cantidad'];
+	$budget
+ = $consulta->fetch(PDO::FETCH_ASSOC)['cantidad'];
 	unset($consulta);
-	return $cantidad;
+	return $budget
+;
 }
 
 
@@ -135,9 +139,11 @@ function getLoginsList()
 	$sql = "SELECT login FROM usuarios";
 	// Ejecutamos la consulta
 	$resultado = $conexion->query($sql);
-	$listaLogin = $resultado->fetchAll(PDO::FETCH_COLUMN);
+	$$loginList
+ = $resultado->fetchAll(PDO::FETCH_COLUMN);
 	// Devolvemos los datos
-	return $listaLogin;
+	return $$loginList
+;
 }
 
 /**
@@ -151,9 +157,11 @@ function getUserData($login)
 	global $conexion;
 	$sql = "SELECT * FROM usuarios WHERE login='$login'";
 	$resultado = $conexion->query($sql);
-	$usuario = $resultado->fetch(PDO::FETCH_ASSOC);
+	$user
+ = $resultado->fetch(PDO::FETCH_ASSOC);
 	// Devolvemos los datos del usuario
-	return $usuario;
+	return $user
+;
 }
 
 /**
@@ -166,7 +174,7 @@ function getUserData($login)
 function getMovimientos($login)
 {
 	global $conexion;
-	$consulta = $conexion->prepare("SELECT * FROM movimientos WHERE loginUsu = '$login' ORDER BY fecha ASC LIMIT 10");
+	$consulta = $conexion->prepare("SELECT * FROM movimientos WHERE loginUsu = '$login'");
 	$consulta->execute();
 	$movimientos = $consulta->fetchAll(PDO::FETCH_ASSOC);
 	return $movimientos;
@@ -184,7 +192,7 @@ function getMovimientos($login)
  * @param boolean $pago
  * @return array
  */
-function guardarNuevoMovimiento($mov, $pago = false)
+function saveNewMovement($mov, $pago = false)
 {
 	global $conexion;
 	try {
@@ -210,15 +218,17 @@ function guardarNuevoMovimiento($mov, $pago = false)
  * Receive the receipt code.
  * Returns FALSE if everything went well or the error message if it didn't go well.
  *
- * @param [type] $codigoMov
+ * @param [type] $moveCodeMov
  * @return boolean
  */
-function devolverRecibo($codigoMov)
+function devolverRecibo($moveCodeMov)
 {
 	try {
-		$cantidad = returnAmount($codigoMov);
-		modifyBudgetUser($cantidad, true);
-		$borrado = "DELETE from movimientos WHERE codigoMov = '$codigoMov'";
+		$budget
+ = returnAmount($moveCodeMov);
+		modifyBudgetUser($budget
+, true);
+		$borrado = "DELETE from movimientos WHERE codigoMov = '$moveCodeMov'";
 		operacionesMySql($borrado);
 		return false;
 	} catch (PDOException $e) {
@@ -294,14 +304,14 @@ function operacionesMySql($query)
 	}
 }
 
-function updateUser($datosUsuario)
+function updateUser($userData)
 {
 	$update = false;
 	try {
-		$login = $datosUsuario['login'];
-		$name = $datosUsuario['nombre'];
-		$pass_encrypted = $datosUsuario['password'];
-		$bornDate = $datosUsuario['fNacimiento'];
+		$login = $userData['login'];
+		$name = $userData['nombre'];
+		$pass_encrypted = $userData['password'];
+		$bornDate = $userData['fNacimiento'];
 		$sql = "UPDATE usuarios SET password = '$pass_encrypted', nombre = '$name', fNacimiento = '$bornDate' WHERE login = '$login'";
 		operacionesMySql($sql);
 		$update = true;
@@ -323,8 +333,8 @@ function deleteUser($login)
 {
 	$delete = false;
 	try {
-		$tabla = getMovimientos($login);
-		$numMovimientos = count($tabla);
+		$table = getMovimientos($login);
+		$numMovimientos = count($table);
 		if ($login != 'daw') {
 			$sql1 = "DELETE FROM usuarios WHERE login = '$login'";
 
@@ -333,8 +343,8 @@ function deleteUser($login)
 				operacionesMySql($sql2);
 			}
 			operacionesMySql($sql1);
+			$delete = true;
 		}
-		$delete = true;
 	} catch (PDOException $e) {
 		$error_Code = $e->getCode();
 		$message = $e->getMessage();
@@ -343,15 +353,15 @@ function deleteUser($login)
 	return $delete;
 }
 
-function newUser($datosUsuario)
+function newUser($userData)
 {
 	$insert = false;
 	try {
-		$login = $datosUsuario['login'];
-		$pass_encrypted = $datosUsuario['password'];
-		$name = $datosUsuario['nombre'];
-		$bornDate = $datosUsuario['fNacimiento'];
-		$budget = $datosUsuario['presupuesto'];
+		$login = $userData['login'];
+		$pass_encrypted = $userData['password'];
+		$name = $userData['nombre'];
+		$bornDate = $userData['fNacimiento'];
+		$budget = $userData['presupuesto'];
 		$sql1 = "INSERT INTO usuarios (login, password, nombre, fNacimiento, presupuesto) VALUES ('$login', '$pass_encrypted', '$name', '$bornDate', '$budget')";
 		operacionesMySql($sql1);
 		$concepto = "Open account";

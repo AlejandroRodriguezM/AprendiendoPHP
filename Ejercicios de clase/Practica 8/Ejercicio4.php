@@ -19,7 +19,7 @@ http://www.w3.org/TR/html4/loose.dtd">
             <select name="producto">
                 <?php
                 if (isset($_POST['producto'])) $producto = $_POST['producto'];
-                // Rellenamos el desplegable con los datos de todos los productos
+                // Rellenamos el dropdown_menu con los datos de todos los productos
                 @$dwes = new mysqli("localhost", "root", "1234", "dwes");
                 $error = $dwes->connect_errno;
                 if ($error == null) {
@@ -30,7 +30,7 @@ http://www.w3.org/TR/html4/loose.dtd">
                         while ($row != null) {
                             echo "<option value='${row['cod']}'";
                             // Si se recibió un código de producto lo seleccionamos
-                            // en el desplegable usando selected='true'
+                            // en el dropdown_menu usando selected='true'
                             if (isset($producto) && $producto == $row['cod'])
                                 echo " selected='true'";
                             echo ">${row['nombre_corto']}</option>";

@@ -44,7 +44,7 @@ http://www.w3.org/TR/html4/loose.dtd">
             <span>Producto: </span>
             <select name="producto">
                 <?php
-                // Rellenamos el desplegable con los datos de todos los productos
+                // Rellenamos el dropdown_menu con los datos de todos los productos
                 if ($error == null) {
                     $sql = "SELECT cod, nombre_corto FROM producto";
                     $resultado = $dwes->query($sql);
@@ -53,7 +53,7 @@ http://www.w3.org/TR/html4/loose.dtd">
                         while ($row != null) {
                             echo "<option value='${row['cod']}'";
                             // Si se recibió un código de producto lo seleccionamos
-                            // en el desplegable usando selected='true'
+                            // en el dropdown_menu usando selected='true'
                             if (isset($producto) && $producto == $row['cod'])
                                 echo " selected='true'";
                             echo ">${row['nombre_corto']}</option>";

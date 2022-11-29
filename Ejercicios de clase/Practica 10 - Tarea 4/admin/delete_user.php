@@ -1,19 +1,13 @@
 <?php
 include "../inc/header.inc.php";
 session_start();
-//comprobamos que el usuario existe
-if (!isset($_SESSION['usuario'])) {
+
+if (isset($_COOKIE['admin'])) {
+    checkSessionUser();
+} else {
     die("Error - You have to <a href='../index.php'>Log in</a>");
 }
 
-if (isset($_COOKIE['user']) && isset($_COOKIE['pass']) && isset($_COOKIE['admin'])) {
-    $user = $_COOKIE['user'];
-    $pass = $_COOKIE['pass'];
-    protectAcces($user,$pass);
-}
-else{
-	die("Error - You have to <a href='../index.php'>Log in</a>");
-}
 
 ?>
 <!DOCTYPE html>
@@ -48,42 +42,44 @@ if (isset($_POST['cancel'])) {
 <body>
     <header>
         <h1 id="inicio">Personal expenses</h1>
-        <div id="nombre-usuario-cabecera">
-            <i>Welcome</i> <b><?php echo $_SESSION['usuario']; ?></b>
-        </div>
     </header>
     <nav>
-
-        <span class="desplegable">
+        <span class="dropdown_menu">
             <a href="./?">Manage users</a>
             <div>
-                <a href="new_user.php?<?php  ?>">New user</a>
-                <a href="modify_user.php?<?php  ?>">Modify user</a>
-                <a href="delete_user.php?<?php  ?>">Delete user</a>
-                <a href="../logOut.php/<?php  ?>">Exit</a>
+                <a href="new_user.php">New user</a>
+                <a href="modify_user.php">Modify user</a>
+                <a href="delete_user.php">Delete user</a>
+                <a href="../logOut.php">Exit</a>
             </div>
         </span>
         &gt; Delete user
     </nav>
-    <div id="nombre-usuario-cabecera">
-        <i>Welcome</i> <b><?php echo $_SESSION['usuario']; ?></b>
+    <div id="name-user-header">
+        <i>Welcome</i> <b><?php echo $_SESSION['user']
+; ?></b>
     </div>
     <main>
-        <fieldset class="mini-formulario">
+        <fieldset class="mini-form
+">
             <legend>Delete User</legend>
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <label>Select User</label>
                 <select name='select_login' id='login_user'>
+
                     <?php
                     echo "<option name='select_login' value=''>User name</option>";
-                    $listaLogin = getLoginsList();
-                    foreach ($listaLogin as $login) {
+                    $$loginList
+                        = getLoginsList();
+                    foreach ($$loginList
+                        as $login) {
                         echo "<option name='select_login' value='$login'>$login</option>";
                     }
                     ?>
+
                 </select>
 
-                <input type='submit' name='del' id='del' onclick="return confirm('¿Estas seguro que quieres eliminar la venta?')" value='Delete'>
+                <input type='submit' name='del' id='del' onclick="return confirm('Are you sure you want to delete the user ?')" value='Delete'>
                 <input type="submit" name='cancel' id='cancel' value="Return to menu">
                 <?php
                 if (isset($_COOKIE['del_message'])) {

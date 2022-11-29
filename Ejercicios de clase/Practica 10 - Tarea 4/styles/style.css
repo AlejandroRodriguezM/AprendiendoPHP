@@ -134,13 +134,15 @@ table .primera_fila {
 }
 
 /* @@@@ ESTILOS PARA FORMULARIO VERTICAL DE TAMAÑO REDUCIDO @@@*/
-fieldset.mini-formulario {
+fieldset.mini-form
+ {
   width: 180px;
   margin: auto;
   background: rgba(200, 255, 243, 0.6);
 }
 
-fieldset.mini-formulario>legend {
+fieldset.mini-form
+>legend {
   background: rgb(0, 65, 102);
   color: white;
   font-weight: bold;
@@ -148,8 +150,10 @@ fieldset.mini-formulario>legend {
   border-radius: 10px;
 }
 
-fieldset.mini-formulario select,
-fieldset.mini-formulario input {
+fieldset.mini-form
+ select,
+fieldset.mini-form
+ input {
   display: block;
 
 }
@@ -198,30 +202,36 @@ fieldset.mini-formulario input {
   font-weight: bold;
 }
 
-/* @@@@ ESTILOS PARA HACER UN BOTON DESPLEGABLE @@@@ */
-.desplegable {
+/* @@@@ ESTILOS PARA HACER UN BOTON dropdown_menu
+ @@@@ */
+.dropdown_menu
+ {
   background: inherit;
   display: inline-block;
 }
 
-.desplegable>div {
+.dropdown_menu
+>div {
   display: none;
   background: inherit;
   margin: 0 -5px;
 }
 
-.desplegable:hover>div {
+.dropdown_menu
+:hover>div {
   display: block;
   position: absolute;
 }
 
-.desplegable>div>a {
+.dropdown_menu
+>div>a {
   display: block;
   padding: 5px;
   text-decoration: none;
 }
 
-.desplegable>div>a:hover {
+.dropdown_menu
+>div>a:hover {
   background: yellowgreen;
 }
 
@@ -238,16 +248,3 @@ div.input-labeled>label {
   padding-left: 5px;
 }
 
-content {
-  position: relative;
-}
-img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 30%;
-  height: 30%;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}

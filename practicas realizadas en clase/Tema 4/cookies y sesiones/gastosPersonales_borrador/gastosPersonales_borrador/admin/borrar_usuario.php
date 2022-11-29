@@ -11,7 +11,8 @@ include "../inc/header.inc.php";
 <body id="pagina-login">
 	<header><h1>Borrar Usuarios</h1></header>
 	<nav>
-		<span class="desplegable">
+		<span class="dropdown_menu
+">
 			<a href="./?<?php  ?>">Administrar Usuarios</a>
 			<div>
 				<a href="nuevo_usuario.php?<?php  ?>">Nuevo Usuario</a>
@@ -25,7 +26,8 @@ include "../inc/header.inc.php";
 		&gt; Borrar Usuario
 	</nav>
 	<main>
-		<fieldset class="mini-formulario"><legend>Borrar Usuario</legend>
+		<fieldset class="mini-form
+"><legend>Borrar Usuario</legend>
 			<?php
 			if (isset($correcto)) {echo "<div class='correcto'><b>!</b>$correcto</div>";}
 			
