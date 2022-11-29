@@ -139,10 +139,9 @@ function getLoginsList()
 	$sql = "SELECT login FROM usuarios";
 	// Ejecutamos la consulta
 	$resultado = $conexion->query($sql);
-	$$loginList
- = $resultado->fetchAll(PDO::FETCH_COLUMN);
+	$loginList = $resultado->fetchAll(PDO::FETCH_COLUMN);
 	// Devolvemos los datos
-	return $$loginList
+	return $loginList;
 ;
 }
 
