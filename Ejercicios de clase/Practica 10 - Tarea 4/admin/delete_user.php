@@ -5,7 +5,7 @@ session_start();
 if (isset($_COOKIE['admin'])) {
     checkSessionUser();
 } else {
-    die("Error - You have to <a href='../index.php'>Log in</a>");
+    die("Error. You are not the administrator. Talk to the administrator if you have more problems <a href='../index.php'>Log in</a>");
 }
 
 
