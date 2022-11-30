@@ -1,3 +1,8 @@
+<?php
+include "./inc/header.inc.php";
+deleteCookieLoginError();
+deleteCookieUser();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +12,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-
 
 <body>
     <center>
@@ -24,7 +28,6 @@
 
 <script>
     function toggleMute() {
-
         let cronometro = document.getElementById("cronometro");
         let segundos = 10;
         let decimas = 0;
@@ -34,17 +37,17 @@
         if (video.muted) {
             video.muted = false;
             intervalo = setInterval(function() {
-            decimas++;
-            if (decimas == 10) {
-                segundos--;
-                decimas = 0;
-            }
-            if(segundos == 0){
-                clearInterval(intervalo);
-                window.location.href = "index.php";
-            }
-            cronometro.innerHTML = "Segundos restantes:" + segundos;
-        }, 100);
+                decimas++;
+                if (decimas == 10) {
+                    segundos--;
+                    decimas = 0;
+                }
+                if (segundos == 0) {
+                    clearInterval(intervalo);
+                    window.location.href = "index.php";
+                }
+                cronometro.innerHTML = "Segundos restantes:" + segundos;
+            }, 100);
         } else {
             video.muted = true;
             clearInterval(intervalo);

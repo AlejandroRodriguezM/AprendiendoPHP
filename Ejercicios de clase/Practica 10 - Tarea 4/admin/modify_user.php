@@ -88,9 +88,9 @@ if (isset($_POST['return'])) {
     </nav>
     <div id="name-user-header">
         <i>Welcome</i> <b><?php echo $_SESSION['user']; ?></b>
+        <i><br>Login</i> <b><?php echo $_SESSION['hour']; ?></b>
     </div>
-    <fieldset class="mini-form
-">
+    <fieldset class="mini-form">
         <legend>Modify User Data</legend>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <label>Select User</label>
@@ -131,7 +131,9 @@ if (isset($_POST['return'])) {
                     <input type="date" name="born_date" placeholder="aaaa-mm-dd" min="1932-01-01" max="2006-01-01" maxlength="10" value="<?php echo $bornDate  ?>" required">
                 </div>
                 <input type="submit" name="mod" id="mod" value="Guardar">
-            <?php  } ?>
+            <?php
+            }
+            ?>
             <input type="submit" name='return' id='return' value="Return to menu">
             <?php
             if (isset($_COOKIE['mod_message'])) {

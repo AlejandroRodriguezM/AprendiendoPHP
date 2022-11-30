@@ -73,6 +73,7 @@ if (isset($_POST['cancel'])) {
 	</nav>
 	<div id="name-user-header">
 		<i>Welcome </i><b><?php echo $_SESSION['user']; ?></b>
+		<i><br>Login</i> <b><?php echo $_SESSION['hour']; ?></b>
 	</div>
 	<main>
 		<form method="post" class="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);  ?>">
@@ -93,7 +94,7 @@ if (isset($_POST['cancel'])) {
 					<tr>
 						<td><label>Date:</label></td>
 						<td>
-							<input type="date" name="date" style="float: left;" size="10" placeholder="aaaa-mm-dd" value="" min="<?php echo date("Y-m-d");  ?>" max="<?php echo $_SESSION['hora']; ?>" required>
+							<input type="date" name="date" style="float: left;" size="10" placeholder="aaaa-mm-dd" value="" min="<?php echo date("Y-m-d");  ?>" max="" required>
 
 						</td>
 					</tr>
@@ -118,5 +119,4 @@ if (isset($_POST['cancel'])) {
 		</form>
 	</main>
 </body>
-
 </html>

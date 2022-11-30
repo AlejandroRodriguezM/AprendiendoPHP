@@ -56,12 +56,11 @@ if (isset($_POST['cancel'])) {
         &gt; Delete user
     </nav>
     <div id="name-user-header">
-        <i>Welcome</i> <b><?php echo $_SESSION['user']
-; ?></b>
+        <i>Welcome</i> <b><?php echo $_SESSION['user']; ?></b>
+        <i><br>Login</i> <b><?php echo $_SESSION['hour']; ?></b>
     </div>
     <main>
-        <fieldset class="mini-form
-">
+        <fieldset class="mini-form">
             <legend>Delete User</legend>
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <label>Select User</label>

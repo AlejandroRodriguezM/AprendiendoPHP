@@ -56,11 +56,9 @@ if (isset($_POST['cancel'])) {
     </nav>
     <div id="name-user-header">
         <i>Welcome</i> <b><?php echo $_SESSION['user']; ?></b>
+        <i><br>Login</i> <b><?php echo $_SESSION['hour']; ?></b>
     </div>
     <main>
-        <?php
-
-        ?>
         <table class="tabla">
             <thead>
                 <tr>
@@ -80,11 +78,18 @@ if (isset($_POST['cancel'])) {
                     echo "<td>" . $row['concepto'] . "</td>";
                     if (in_array($row['concepto'], $reservedWords)) {
                         $tempBudget = $actualBudget;
-                    } else {
+                    }
+                     else {
                         $tempBudget += $row['cantidad'];
                     }
                     echo "<td>" . $row['cantidad'] . "</td>";
-                    echo "<td>" . $tempBudget . "</td>";
+                    if($row['concepto'] == "Open account" && $row['cantidad'] == 0){
+                        echo "<td>" . 0 . "</td>";
+                    }
+                    else{
+                        echo "<td>" . $tempBudget . "</td>";
+                    }
+                    
                     echo "</tr>";
                 }
                 ?>
@@ -101,7 +106,6 @@ if (isset($_POST['cancel'])) {
         <?php if (isset($_COOKIE['movement_mens'])) {
             echo $_COOKIE['movement_mens'];
             setcookie("movement_mens", "", time() - 3600, "/");
-            
         }
         ?>
         <form method="post" class="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">

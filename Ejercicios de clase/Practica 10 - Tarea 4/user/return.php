@@ -80,6 +80,7 @@ if (isset($_POST['cancel'])) {
     </nav>
     <div id="name-user-header">
         <i>Welcome</i> <b><?php echo $_SESSION['user']; ?></b>
+        <i><br>Login</i> <b><?php echo $_SESSION['hour']; ?></b>
     </div>
     <main>
         <form method='post' action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
@@ -110,15 +111,25 @@ if (isset($_POST['cancel'])) {
                     foreach ($tabla as $fila) {
                     ?>
                         <tr>
-                            <td><?php echo $fila['fecha'] ?></td>
-                            <td><?php
+                            <td>
+                                <?php
+                                echo $fila['fecha']
+                                ?>
+                            </td>
+                            <td>
+                                <?php
                                 if (in_array($fila['concepto'], $reservedWords)) {
                                     echo "<b style='color:red';>" . $fila['concepto'] . "</b>";
                                 } else {
                                     echo $fila['concepto'];
                                 }
-                                ?></td>
-                            <td><?php echo $fila['cantidad'] ?></td>
+                                ?>
+                            </td>
+                            <td>
+                                <?php
+                                echo $fila['cantidad']
+                                ?>
+                            </td>
 
                             <?php
                             if (in_array($fila['concepto'], $reservedWords) || $fila['cantidad'] == 0) {
@@ -132,23 +143,18 @@ if (isset($_POST['cancel'])) {
                             <?php
                             }
                             ?>
+
+                        <?php
+                    }
+                        ?>
         </form>
         </tr>
-    <?php
-                    }
-    ?>
-    </tbody>
-    <tfoot>
-    </tfoot>
-    </table>
-
-
-
+        </tbody>
+        </table>
     </main>
     <form method="post" class="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);  ?>">
         <input type="submit" name='cancel' id='cancel' value="Return to menu">
     </form>
-
 </body>
 
 </html>

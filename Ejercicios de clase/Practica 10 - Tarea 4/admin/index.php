@@ -5,6 +5,7 @@ session_start();
 
 if (isset($_COOKIE['admin'])) {
     checkSessionUser();
+    deleteCookieLoginError();
 } else {
     die("Error - You have to <a href='../index.php'>Log in</a>");
 }
@@ -30,6 +31,7 @@ if (isset($_COOKIE['admin'])) {
     <nav>Admin Panel</nav>
     <div id="name-user-header">
         <i>Welcome</i> <b><?php echo $_SESSION['user']; ?></b>
+        <i><br>Login</i> <b><?php echo $_SESSION['hour']; ?></b>
     </div>
     <main>
         <div id="menu">

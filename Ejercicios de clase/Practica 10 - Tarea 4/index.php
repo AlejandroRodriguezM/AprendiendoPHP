@@ -5,16 +5,18 @@ if (isset($_POST['acces'])) {
     $user = $_POST['user'];
     $pass = $_POST['password'];
     $_SESSION['hora'] = date("H:i", time());
-    //Obtenemos el password almacenado en la BD
     $password_bd = obtain_password($user);
+
     if (password_verify($pass, $password_bd)) {
         session_start();
         $_SESSION['user'] = $user;
-        $_SESSION['hora'] = date("H:i", time());
+        $_SESSION['hour'] = date("H:i", time());
         createCookieUser($user, $password_bd);
+
         if (isset($_POST['form_user_login'])) {
             header("Location: ./user/index.php");
         }
+
         if (isset($_POST['form_admin_login'])) {
             createCookieAdmin($user);
             if (checkUserAdmin($user, $password_bd)) {
@@ -47,8 +49,7 @@ if (isset($_POST['acces'])) {
     </header>
     <nav>Contabilidad personal</nav>
     <main>
-        <fieldset class="mini-form
-">
+        <fieldset class="mini-form">
             <legend>Login</legend>
             <?php
             if (isset($_COOKIE['errorAdmin'])) {
@@ -63,11 +64,11 @@ if (isset($_POST['acces'])) {
             <form method="post">
                 <div class="input-labeled">
                     <label>User:</label>
-                    <input type="text" name="user" required maxlength="10">
+                    <input type="text" name="user" required maxlength="10" placeholder="Enter your login">
                 </div>
                 <div class="input-labeled">
                     <label>Password:</label>
-                    <input type="password" name="password" required maxlength="20">
+                    <input type="password" name="password" required maxlength="20" placeholder="Enter your password">
                 </div>
                 <hr>
                 <div class="left">

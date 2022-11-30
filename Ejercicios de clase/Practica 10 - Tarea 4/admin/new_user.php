@@ -29,12 +29,10 @@ if (isset($_POST['create'])) {
     $budget = $_POST['budget'];
     if (!empty($login) && !empty($password) && !empty($rePassword) && !empty($name) && !empty($bornDate)) {
         if (strcmp($password, $rePassword) === 0) {
-
-            $selectUser = "SELECT login FROM usuarios WHERE login='$login'";
-            if (checkData($selectUser)) {
+            if (checkUserDB($login)) {
                 $pass_encrypted = password_hash($password, PASSWORD_DEFAULT);
 
-                if ($budget < 0 || $budget = "") {
+                if ($budget < 0) {
                     $budget = 0;
                 }
                 $datosUsuario = array(
@@ -57,8 +55,7 @@ if (isset($_POST['create'])) {
         }
         setcookie("newUser", $message, time() + 3600, '/');
         header("Location: new_user.php");
-    }
-    else{
+    } else {
         $message = "<div class='mens_error'><b>Fill in all the fields</b></div>";
         setcookie("newUser", $message, time() + 3600, '/');
         header("Location: new_user.php");
@@ -89,10 +86,10 @@ if (isset($_POST['return'])) {
     </nav>
     <div id="name-user-header">
         <i>Welcome</i> <b><?php echo $_SESSION['user']; ?></b>
+        <i><br>Login</i> <b><?php echo $_SESSION['hour']; ?></b>
     </div>
     <main>
-        <fieldset class="mini-form
-">
+        <fieldset class="mini-form">
             <legend>Data New User</legend>
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <div class="input-labeled">
@@ -119,14 +116,16 @@ if (isset($_POST['return'])) {
                     <label>Budget:</label>
                     <input type="number" name="budget" maxlength="30" min="0" max="999999999" ">
                 </div>
-                <input type="submit" name="create" id='create' onclick="return confirm('Are you sure you want to add a new user?')" value="Create user">
-                    <input type="submit" name='return' id='return' value="Return to menu">
-                    <?php
-                    if (isset($_COOKIE['newUser'])) {
-                        echo $_COOKIE['newUser'];
-                        setcookie("newUser", '', time() - 3600, '/');
-                    }
-                    ?>
+                <div class="submit">
+                    <input type="submit" name="create" id='create' onclick="return confirm('Are you sure you want to add a new user?')" value="Create user">
+                    <input type="submit" name="return" id='return' value="Return">
+                </div>
+                <?php
+                if (isset($_COOKIE['newUser'])) {
+                    echo $_COOKIE['newUser'];
+                    setcookie("newUser", '', time() - 3600, '/');
+                }
+                ?>
             </form>
         </fieldset>
     </main>

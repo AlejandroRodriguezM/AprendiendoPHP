@@ -30,15 +30,6 @@ function deleteCookieLoginError()
 	setcookie('login', '', time() - 3600, '/');
 }
 
-
-function errorSesionUser()
-{
-
-	$login = $_COOKIE['user'];
-	if (getUserData($login) != "") {
-	}
-}
-
 /**
  * Function that returns error messages when logging in
  *
@@ -47,36 +38,57 @@ function errorSesionUser()
  */
 function errorSesion($user)
 {
-	if (getUserData($user) != "") {
+	if (checkUserDB($user)) {
 		if (!isset($_COOKIE['login'])) {
-			$num_fallos = 1;
+			$error = "This user does not exist. 1º attemp.";
+			$num_errors = 1;
 			setcookie('login', $user, time() + 3600, '/');
-			setcookie('num_fallos', $num_fallos, time() + 3600, '/');
-			$error = "Contraseña incorrecta primer intento, al tercero se bloquea";
 			setcookie('errorLogin', $error, time() + 3600, '/');
-		} else if ($_COOKIE['num_fallos'] == 1) {
-			$num_fallos = 2;
+			setcookie('num_fallos', $num_errors, time() + 3600, '/');
+			header("Location: index.php");
+		} elseif ($_COOKIE['num_fallos'] == 1) {
+			$error = "This user does not exist. 2º attemp";
+			$num_errors = 2;
 			setcookie('login', $user, time() + 3600, '/');
-			setcookie('num_fallos', $num_fallos, time() + 3600, '/');
-			$error = "Contraseña incorrecta segundo intento, al tercero se bloquea";
 			setcookie('errorLogin', $error, time() + 3600, '/');
+			setcookie('num_fallos', $num_errors, time() + 3600, '/');
+			header("Location: index.php");
+		} elseif ($_COOKIE['num_fallos'] == 2) {
+			$error = "This user does not exist. 3º attemp.If you fail, you will have to wait 10 seconds";
+			$num_errors = 3;
+			setcookie('login', $user, time() + 3600, '/');
+			setcookie('errorLogin', $error, time() + 3600, '/');
+			setcookie('num_fallos', $num_errors, time() + 3600, '/');
+			header("Location: index.php");
+		} elseif ($_COOKIE['num_fallos'] == 3) {
+			header("Location: errorLog.php");
 		}
 	} else {
-		setcookie('num_fallos', 0, time() + 3600, '/');
-		if (!isset($_COOKIE['errorUser'])) {
-			$error = "This user dosen't exist. 1º attemp.";
+		if (!isset($_COOKIE['login'])) {
+			$error = "Incorrect password. 1º attemp.";
 			$num_errors = 1;
+			setcookie('login', $user, time() + 3600, '/');
 			setcookie('errorLogin', $error, time() + 3600, '/');
-			setcookie('errorUser', $num_errors, time() + 3600, '/');
-		} elseif ($_COOKIE['errorUser'] == 1) {
-			$error = "This user dosen't exist. 2º attemp";
+			setcookie('num_fallos', $num_errors, time() + 3600, '/');
+			header("Location: index.php");
+		} elseif ($_COOKIE['num_fallos'] == 1) {
+			$error = "Incorrect password. 2º attemp.";
 			$num_errors = 2;
+			setcookie('login', $user, time() + 3600, '/');
 			setcookie('errorLogin', $error, time() + 3600, '/');
-			setcookie('errorUser', $num_errors, time() + 3600, '/');
+			setcookie('num_fallos', $num_errors, time() + 3600, '/');
+			header("Location: index.php");
+		} elseif ($_COOKIE['num_fallos'] == 2) {
+			$error = "Incorrect password. 3º attemp.If you fail, you will have to wait 10 seconds";
+			$num_errors = 3;
+			setcookie('login', $user, time() + 3600, '/');
+			setcookie('errorLogin', $error, time() + 3600, '/');
+			setcookie('num_fallos', $num_errors, time() + 3600, '/');
+			header("Location: index.php");
+		} elseif ($_COOKIE['num_fallos'] == 3) {
+			header("Location: errorLog.php");
 		}
 	}
-	deleteCookieUser();
-	header("Location: errorLog.php");
 }
 
 /**
