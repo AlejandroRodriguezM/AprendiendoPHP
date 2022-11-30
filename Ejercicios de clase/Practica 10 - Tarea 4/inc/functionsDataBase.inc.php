@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Function that allows you to check if the user is inside the 
+ * database and if there are user and admin sessions, allows 
+ * you to continue on the php page if everything is correct
+ *
+ * @param [type] $user
+ * @param [type] $pass
+ * @return void
+ */
 function protectAcces($user, $pass)
 {
 	global $conexion;
@@ -12,6 +21,7 @@ function protectAcces($user, $pass)
 				$admin = $_COOKIE['admin'];
 				if ($admin != 'daw') {
 					deleteCookieUser();
+					deleteCookieLoginError();
 					die("Error - You are not an administrator,<a href='../index.php'>Log in as a user</a> ");
 				}
 			}
@@ -20,6 +30,7 @@ function protectAcces($user, $pass)
 		}
 	} else {
 		deleteCookieUser();
+		deleteCookieLoginError();
 		die("Error - You have to <a href='../index.php'>Log in</a>");
 	}
 }
@@ -167,16 +178,11 @@ function getMovimientos($login)
 {
 	global $conexion;
 	$consulta = $conexion->prepare("SELECT * FROM movimientos WHERE loginUsu = '$login' ORDER BY fecha ASC");
-	
+
 	$consulta->execute();
 	$movimientos = $consulta->fetchAll(PDO::FETCH_ASSOC);
 	return $movimientos;
 }
-
-
-
-
-
 
 
 /**
@@ -238,11 +244,12 @@ function devolverRecibo($moveCodeMov)
 	}
 }
 
-
-///////////////////////////////////////////
-///     Funciones creadas por ARM       ///
-///////////////////////////////////////////
-
+/**
+ * Function that creates a movement
+ *
+ * @param [type] $mov
+ * @return void
+ */
 function createReturnReceipt($mov)
 {
 	global $conexion;
@@ -294,6 +301,12 @@ function operacionesMySql($query)
 	}
 }
 
+/**
+ * Function that allows updating data of a user
+ *
+ * @param [type] $userData
+ * @return boolean
+ */
 function updateUser($userData)
 {
 	$update = false;
@@ -343,6 +356,12 @@ function deleteUser($login)
 	return $delete;
 }
 
+/**
+ * Function that creates a user and a movement according to the budget with which we create i
+ *
+ * @param [type] $userData
+ * @return boolean
+ */
 function newUser($userData)
 {
 	$creationUser = false;
@@ -369,6 +388,13 @@ function newUser($userData)
 	return $creationUser;
 }
 
+/**
+ * Function that checks if the username and password is administrator
+ *
+ * @param [type] $login
+ * @param [type] $pass
+ * @return boolean
+ */
 function checkUserAdmin($login, $pass)
 {
 	$admin = false;
@@ -386,8 +412,14 @@ function checkUserAdmin($login, $pass)
 	return $admin;
 }
 
-function checkUserDB($login){
-
+/**
+ * Function that returns a boolean if the user exists or not in the database
+ *
+ * @param [type] $login
+ * @return void
+ */
+function checkUserDB($login)
+{
 	$selectUser = "SELECT login FROM usuarios WHERE login='$login'";
 	if (!checkData($selectUser)) {
 		return false;

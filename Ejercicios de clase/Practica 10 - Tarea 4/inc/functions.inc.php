@@ -1,16 +1,34 @@
 <?php
 
+/**
+ * Function that creates a cookie for the user
+ *
+ * @param [type] $user
+ * @param [type] $pass
+ * @return void
+ */
 function createCookieUser($user, $pass)
 {
 	setcookie('user', $user, time() + 3600, '/');
 	setcookie('pass', $pass, time() + 3600, '/');
 }
 
+/**
+ * Function that creates a cookie for the administrator
+ *
+ * @param [type] $user
+ * @return void
+ */
 function createCookieAdmin($user)
 {
 	setcookie('admin', $user, time() + 3600, '/');
 }
 
+/**
+ * Log out and delete user and admin cookies
+ *
+ * @return void
+ */
 function deleteCookieUser()
 {
 	session_start();
@@ -20,9 +38,13 @@ function deleteCookieUser()
 	setcookie('admin', '', time() - 3500, '/');
 }
 
+/**
+ * Function that clears session error cookies
+ *
+ * @return void
+ */
 function deleteCookieLoginError()
 {
-
 	setcookie('errorLogin', '', time() - 3600, '/');
 	setcookie('errorAdmin', '', time() - 3600, '/');
 	setcookie('errorUser', '', time() - 3600, '/');
@@ -92,7 +114,9 @@ function errorSesion($user)
 }
 
 /**
+ * Function that allows you to create a 4-digit code randomly
  * 
+ * @return string
  */
 function createRandomCodMov()
 {
@@ -100,6 +124,11 @@ function createRandomCodMov()
 	return $codigo;
 }
 
+/**
+ * Function that is used to check that reserved words cannot be saved
+ *
+ * @return array
+ */
 function reservedWords()
 {
 	$palabras = array(
@@ -131,12 +160,14 @@ function reservedWords()
 	return $palabras;
 }
 
+/**
+ * Function that checks if there are session variables and check if these users are correct
+ *
+ * @return void
+ */
 function checkSessionUser()
 {
-	//comprobamos que el usuario existe
-	if (!isset(
-		$_SESSION['user']
-	)) {
+	if (!isset($_SESSION['user'])) {
 		die("Error - You have to <a href='../index.php'>Log in</a>");
 	}
 
