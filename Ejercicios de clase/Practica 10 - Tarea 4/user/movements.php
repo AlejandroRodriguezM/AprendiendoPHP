@@ -30,6 +30,7 @@ if ($table) {
 }
 
 $actualBudget = returnBudget();
+//This variable is used to count the money in the account according to the type of concept
 $tempBudget = 0;
 
 if (isset($_POST['cancel'])) {
@@ -75,21 +76,34 @@ if (isset($_POST['cancel'])) {
                     echo "<tr>";
                     echo "<td>" . $row['codigoMov'] . "</td>";
                     echo "<td>" . $row['fecha'] . "</td>";
-                    echo "<td>" . $row['concepto'] . "</td>";
+                    echo "<td>";
+                    if (in_array($row['concepto'], $reservedWords)) {
+                        echo "<b style='color:red';>" . $row['concepto'] . "</b>";
+                    } else {
+                        echo $row['concepto'];
+                    }
+                    echo "</td>";
                     if (in_array($row['concepto'], $reservedWords)) {
                         $tempBudget = $actualBudget;
-                    }
-                     else {
+                    } else {
                         $tempBudget += $row['cantidad'];
                     }
                     echo "<td>" . $row['cantidad'] . "</td>";
-                    if($row['concepto'] == "Open account" && $row['cantidad'] == 0){
-                        echo "<td>" . 0 . "</td>";
+                    echo "<td>";
+                    if ($row['concepto'] == "Open account" && $row['cantidad'] == 0) {
+                        echo 0;
+                    }elseif($row['concepto'] == "receipt return"){
+                        if(($row['cantidad'] - $tempBudget) <= 0){
+                            echo 0;
+                        }
+                        else{
+                            echo $row['cantidad'] - $tempBudget;
+                        }
+                    } 
+                    else {
+                        echo $tempBudget;
                     }
-                    else{
-                        echo "<td>" . $tempBudget . "</td>";
-                    }
-                    
+                    echo "</td>";
                     echo "</tr>";
                 }
                 ?>
