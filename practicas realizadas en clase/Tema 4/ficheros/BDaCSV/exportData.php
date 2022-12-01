@@ -1,6 +1,4 @@
 <?php
-require_once("./inc/header.inc.php");
-
 
 global $conexion;
 $query = "SELECT * FROM miembros";

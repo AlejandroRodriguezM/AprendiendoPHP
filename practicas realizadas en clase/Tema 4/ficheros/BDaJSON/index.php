@@ -28,20 +28,27 @@
                     <tbody>
                         <?php
                         include './inc/header.inc.php';
+                        include "inc/header.inc.php";
+
                         $tabla = seeTable();
+                        echo "<table class='table table-bordered table-striped'>";
+                        echo "<thead>";
+                        echo "<tr>";
+                        echo "<th>ID</th>";
+                        echo "<th>Aficion</th>";
+                        echo "</tr>";
+                        echo "</thead>";
+                        echo "<tbody>";
                         foreach ($tabla as $fila) {
                             echo "<tr>";
-                            echo "<td>" . $fila['nombre'] . "</td>";
-                            echo "<td>" . $fila['email'] . "</td>";
-                            echo "<td>" . $fila['telefono'] . "</td>";
-                            echo "<td>" . $fila['creado'] . "</td>";
-                            if ($fila['estado'] == 1) {
-                                echo "<td>Activo</td>";
-                            } else {
-                                echo "<td>Inactivo</td>";
-                            }
+                            echo "<td>" . $fila['idAficion'] . "</td>";
+                            echo "<td>" . $fila['nombreAficion'] . "</td>";
                             echo "</tr>";
                         }
+                        echo "</tbody>";
+                        echo "</table>";
+                        $_SESSION['nom_tabla'] = 'aficiones';
+
                         ?>
                     </tbody>
                 </table>

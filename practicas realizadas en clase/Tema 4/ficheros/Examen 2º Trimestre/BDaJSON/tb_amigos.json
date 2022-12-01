@@ -1,0 +1,18 @@
+[
+    {
+        "nombre": "Antonio Mart\u00ednez Olmo",
+        "email": "olmoAnto@gmail.com",
+        "url": "Hombre",
+        "sexo": "http:\/\/ant",
+        "conviviente": 3,
+        "favoritos": "Cine"
+    },
+    {
+        "nombre": "Mar\u00eda del Monte",
+        "email": "mariamonte@gmail.com",
+        "url": "Mujer",
+        "sexo": "http:\/\/mar",
+        "conviviente": 2,
+        "favoritos": "Canto"
+    }
+]
