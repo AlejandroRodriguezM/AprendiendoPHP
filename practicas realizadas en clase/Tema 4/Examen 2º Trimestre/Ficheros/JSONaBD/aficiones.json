@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "nombre": "tenis"
+    },
+    {
+        "id": 2,
+        "nombre": "futbol"
+    },
+    {
+        "id": 3,
+        "nombre": "baloncesto"
+    },
+    {
+        "id": 4,
+        "nombre": "Senderismo"
+    },
+    {
+        "id": 5,
+        "nombre": "Pesca"
+    },
+    {
+        "id": 6,
+        "nombre": "Nataci\u00f3n"
+    }
+]
