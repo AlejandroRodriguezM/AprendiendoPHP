@@ -10,7 +10,7 @@ else
 {
 	// Conectamos a la base de datos
 try {	
-	@$dwes=new mysqli("localhost","dwes","abc123.","dwes");
+	@$dwes=new mysqli("localhost","amigos","root","1234");
 	$error=$dwes->connect_errno;
 	}catch (Exception $ex)
         {
