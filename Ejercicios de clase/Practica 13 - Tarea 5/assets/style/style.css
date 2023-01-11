@@ -1,0 +1,29 @@
+form {
+    width: 350px;
+    margin: auto;
+}
+
+.container {
+    background-color: white;
+    border-radius: 10px;
+    width: 30%;
+    margin: auto;
+    margin-top: 2%;
+    padding: 20px;
+}
+
+fieldset {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: rgb(209, 207, 207);
+    height: 350px;
+}
+
+legend {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+    text-transform: uppercase;
+}
+
