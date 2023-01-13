@@ -68,10 +68,9 @@ if (isset($_POST['cancel'])) {
 
                     <?php
                     echo "<option name='select_login' value=''>User name</option>";
-                    $$loginList
+                    $loginList
                         = getLoginsList();
-                    foreach ($$loginList
-                        as $login) {
+                    foreach ($loginList as $login) {
                         echo "<option name='select_login' value='$login'>$login</option>";
                     }
                     ?>

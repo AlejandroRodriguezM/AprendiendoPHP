@@ -20,7 +20,7 @@ if(isset($_COOKIE['loginUser'])){
 <body>
     <div class="container">
         <form action="" method="post">
-            <fieldset>
+            <fieldset >
                 <legend class="float-none w-auto px-3">Login</legend>
                 <div class="mb-3">
                     <label for="nombre" style="font-weight:bold;">Nombre</label>

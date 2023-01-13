@@ -1,7 +1,7 @@
 <?php
-include_once 'ClaseDb.php';
+include 'ClaseDb.php';
 
-class Anunciantes{
+class Anuncio{
 
     private $id_anuncio;
     private $autor;

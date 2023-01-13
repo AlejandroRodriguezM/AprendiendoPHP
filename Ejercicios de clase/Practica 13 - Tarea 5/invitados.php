@@ -16,6 +16,9 @@ $_SESSION['hora'] = date("H:i:s");
     <title>Invitados</title>
 </head>
 <body>
+<header onclick="location.href='invitados.php';" style="cursor: pointer;">
+        <h1>Empresa Okupa</h1>
+    </header>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -25,8 +28,8 @@ $_SESSION['hora'] = date("H:i:s");
       <a class="nav-item nav-link active" href="#" style="margin-left: 10px;">Lista de anuncios</a>
       <a class="nav-item nav-link active" href="logOut.php" style="margin-left: 30px;">Salir</a>
 
-      <a class="nav-item nav-link active" href="logOut.php" style="margin-left: 1100px; color: black;"><?php echo "Bienvenido: ", $_SESSION['login'] ?></a>
-      <a class="nav-item nav-link active" href="logOut.php" style="margin-left: 15px; color: black;"><?php echo "Hora de conexion:", $_SESSION['hora'] ?></a>
+      <a class="nav-item nav-link active" style="margin-left: 1100px; color: black;"><?php echo "Bienvenido: ", $_SESSION['login'] ?></a>
+      <a class="nav-item nav-link active" style="margin-left: 15px; color: black;"><?php echo "Hora de conexion:", $_SESSION['hora'] ?></a>
     </div>
   </div>
 </nav>

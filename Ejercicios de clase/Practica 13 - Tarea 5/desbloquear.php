@@ -19,8 +19,20 @@ $db->check_cookies();
   <title>Inicio</title>
 </head>
 
-<body>
-  <h1>Empresa Okupa</h1>
+<?php
+
+
+if (isset($_COOKIE['color'])) {
+    echo '<body style="background-color:' . $_COOKIE['color'] . '">';
+}
+else{
+    echo '<body>';
+}
+
+?>
+  <header onclick="location.href='desbloquear.php';" style="cursor: pointer;">
+    <h1>Empresa Okupa</h1>
+  </header>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -32,10 +44,10 @@ $db->check_cookies();
 
         <a class="nav-item nav-link active" href="#">Listado de anuncios</a>
 
-        <a class="nav-item nav-link active" href="#">Preferencias</a>
+        <a class="nav-item nav-link active" href="preferencia.php">Preferencias</a>
         <?php
         if ($_SESSION['login'] == 'dwes') {
-          echo "<a class='nav-item nav-link active' href='#'>Desbloquear</a>";
+          echo "<a class='nav-item nav-link active' href='usuarios.php'>Desbloquear</a>";
         }
         ?>
         <a class="nav-item nav-link active" href="logOut.php" style="margin-left: 15px;">Salir</a>

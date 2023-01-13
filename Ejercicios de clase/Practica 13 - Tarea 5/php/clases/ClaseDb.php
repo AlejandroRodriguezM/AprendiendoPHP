@@ -71,18 +71,21 @@ class ClaseDb
     public function destroyCookiesUser()
     {
         setcookie('loginUser', '', time() - 3600, '/');
+        setcookie('color', '', time() - 3600, '/');
     }
 
-    public function check_cookies(){
-        if(!isset($_SESSION['login']) && !isset($_COOKIE['loginUser'])){
+    public function check_cookies()
+    {
+        if (!isset($_SESSION['login']) && !isset($_COOKIE['loginUser'])) {
             die("Error. You are not logged. Talk to the administrator if you have more problems <a href='logOut.php'>Log in</a>");
-          }
+        }
     }
 
-    public function check_cookies_admin(){
-        if(!isset($_SESSION['login']) && !isset($_COOKIE['loginUser']) && $_COOKIE['loginUser'] != "dwes"){
+    public function check_cookies_admin()
+    {
+        if (!isset($_SESSION['login']) && !isset($_COOKIE['loginUser']) && $_COOKIE['loginUser'] != "dwes") {
             die("Error. You are not the admin. Talk to the administrator if you have more problems <a href='logOut.php'>Log in</a>");
-          }
+        }
     }
 
     public function checkPassword($password, $repassword)
@@ -103,6 +106,10 @@ class ClaseDb
             $this->cookiesUser($login);
 
             if ($login == "dwes") {
+                if (!isset($_COOKIE['color'])) {
+                    $color = "white";
+                    setcookie('color', $color, time() + 3600, '/');
+                }
                 header("Location: desbloquear.php");
             } else {
                 // aqui pasa a la web inicio.php
@@ -136,7 +143,8 @@ class ClaseDb
         }
     }
 
-    public function listar_usuarios(){
+    public function listar_usuarios()
+    {
         $conexion = new ClaseDb();
         $sql = "SELECT * FROM anunciantes";
         $consulta = $conexion->conexion()->prepare($sql);

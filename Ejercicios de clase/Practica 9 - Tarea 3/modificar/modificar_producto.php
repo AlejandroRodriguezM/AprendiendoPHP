@@ -31,7 +31,7 @@
     if (isset($_POST['back'])) {
         header("Location:../modificacion.php");
     }
-    
+
     //Listado de datos
     $conexion = conectar("ventas_comerciales");
     $query = "select * from productos";
@@ -95,7 +95,7 @@
             $row = $registros->fetch();
             while ($row != null) {
             ?>
-            <!--Datos de productos -->
+                <!--Datos de productos -->
                 <tr>
                     <td><?php echo $row['referencia']; ?></td>
                     <td><?php echo $row['nombre']; ?></td>
@@ -109,7 +109,6 @@
                         <td class='bot'><input type='hidden' name='descripcion' id='descripcion' value='<?php echo $row['descripcion']; ?>'></td>
                         <td class='bot'><input type='hidden' name='precio' id='precio' value='<?php echo $row['precio']; ?>'></td>
                         <td class='bot'><input type='hidden' name='descuento' id='descuento' value='<?php echo $row['descuento']; ?>'></td>
-
                     </form>
 
                 </tr>
@@ -132,4 +131,5 @@
         </table>
     </form>
 </body>
+
 </html>

@@ -1,11 +1,11 @@
 <?php
 session_start();
-include_once "php/clases/Anuncio.php";
+include_once "php/clases/Anunciantes.php";
 include_once "php/clases/ClaseDb.php";
 
 $db = new ClaseDb();
-// $anunciantes = new Anunciantes();
 $db->check_cookies_admin();
+$usuario = new Anunciantes("", "", "", "");
 
 ?>
 <!DOCTYPE html>
@@ -20,48 +20,49 @@ $db->check_cookies_admin();
     <title>Usuarios</title>
 </head>
 
-<body>
+<?php
+
+if (isset($_COOKIE['color'])) {
+    echo '<body style="background-color:' . $_COOKIE['color'] . '">';
+} else {
+    echo '<body>';
+}
+
+?>
+<header onclick="location.href='index.php';" style="cursor: pointer;">
     <h1>Empresa Okupa</h1>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
+</header>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
 
-                <a class="nav-item nav-link active" href="#">Publicar anuncio</a>
+            <a class="nav-item nav-link active" href="#">Publicar anuncio</a>
 
-                <a class="nav-item nav-link active" href="#">Listado de anuncios</a>
+            <a class="nav-item nav-link active" href="#">Listado de anuncios</a>
 
-                <a class="nav-item nav-link active" href="#">Preferencias</a>
-                <?php
-                if ($_SESSION['login'] == 'dwes') {
-                    echo "<a class='nav-item nav-link active' href='#'>Desbloquear</a>";
-                }
-                ?>
-                <a class="nav-item nav-link active" href="logOut.php" style="margin-left: 15px;">Salir</a>
-                <a class="nav-item nav-link active" href="#" style="margin-left: 1350px; color: black; position: absolute"><?php echo "Bienvenido: ", $_SESSION['login'] ?></a>
-                <a class="nav-item nav-link active" href="#" style="margin-left: 1500px; color: black; position: absolute"><?php echo "Hora de conexion:", $_SESSION['hora'] ?></a>
-            </div>
-        </div>
-    </nav>
-
-    <div>
-    <table class="table table-striped table-hover">
-        <thead>
-            <tr>
-                <th scope="col">Login</th>
-                <th scope="col">email</th>
-                <th scope="col">bloqueado</th>
-            </tr>
-        </thead>
-        <tbody>
+            <a class="nav-item nav-link active" href="preferencia.php">Preferencias</a>
             <?php
-            $db->listar_usuarios();
+            if ($_SESSION['login'] == 'dwes') {
+                echo "<a class='nav-item nav-link active' href='#'>Desbloquear</a>";
+            }
             ?>
-        </tbody>
-</table>
+            <a class="nav-item nav-link active" href="logOut.php" style="margin-left: 15px;">Salir</a>
+            <a class="nav-item nav-link active" style="margin-left: 1350px; color: black; position: absolute"><?php echo "Bienvenido: ", $_SESSION['login'] ?></a>
+            <a class="nav-item nav-link active" style="margin-left: 1500px; color: black; position: absolute"><?php echo "Hora de conexion:", $_SESSION['hora'] ?></a>
+        </div>
     </div>
+</nav>
+
+<div class="tabla_users">
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <?php
+        $usuario->mostrar_usuarios();
+        ?>
+    </form>
+</div>
 </body>
 
 </html>
