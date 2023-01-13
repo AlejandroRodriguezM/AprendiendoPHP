@@ -16,35 +16,31 @@ $db->check_cookies();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="./assets/style/style.css">
-    <title>Preferencia</title>
+    <title>Modificar anuncio</title>
 </head>
 
 <?php
 
-if (!isset($_COOKIE['color'])) {
-    $color = "white";
-    setcookie('color', $color, time() + 3600, '/');
-    echo '<body style="background-color:' . $_COOKIE['color'] . '">';
-    header("Location: preferencia.php");
-}
 if (isset($_COOKIE['color'])) {
     echo '<body style="background-color:' . $_COOKIE['color'] . '">';
-}
-if (isset($_POST['enviar'])) {
-    if (isset($_POST['color_fondo'])) {
-        $color = $_POST['color_fondo'];
-        setcookie('color', $color, time() + 3600, '/');
-    }
-    echo '<body style="background-color:' . $_COOKIE['color'] . '">';
-    header("Location: preferencia.php");
-}
-if (isset($_POST['restablecer'])) {
-    $color = "white";
-    setcookie('color', $color, time() + 3600, '/');
-    echo '<body style="background-color:' . $_COOKIE['color'] . '">';
-    header("Location: preferencia.php");
+} else {
+    echo '<body>';
 }
 
+if(!isset($_POST['enviar'])){
+    $autor = $_GET['autor'];
+    $moroso = $_GET['moroso'];
+    $localidad = $_GET['localidad'];
+    $descripcion = $_GET['descripcion'];
+    $fecha = $_GET['fecha'];
+}
+else{
+    $autor = $_POST['autor'];
+    $moroso = $_POST['moroso'];
+    $localidad = $_POST['localidad'];
+    $descripcion = $_POST['anuncio'];
+    $fecha = $_POST['fecha'];
+}
 
 ?>
 <header onclick="location.href='inicio.php';" style="cursor: pointer;">
@@ -76,46 +72,42 @@ if (isset($_POST['restablecer'])) {
 
 <div style="margin-right: 78%;">
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-        <fieldset style="width: 1200px !important; margin-left: 5%;">
-            <legend class="float-none w-auto px-3">Cambiar preferencias</legend>
-            <label for="nombre" style="font-weight:bold;">Elige el color del fondo deseado</label>
-            <div class="form-check">
-                <input type="radio" name="color_fondo" value="white">
-                <label class="radio-inline">
-                    Blanco
-                </label>
-            </div>
-            <div class="form-check">
-                <input type="radio" name="color_fondo" value="green">
-                <label class="radio-inline">
-                    Verde
-                </label>
-            </div>
-            <div class="form-check">
-                <input type="radio" name="color_fondo" value="red">
-                <label class="radio-inline">
-                    Rojo
-                </label>
-            </div>
-            <div class="form-check">
-                <input type="radio" name="color_fondo" value="blue">
-                <label class="radio-inline">
-                    Azul
-                </label>
-            </div>
-            <div class="form-check">
-                <input type="radio" name="color_fondo" value="yellow">
-                <label class="radio-inline">
-                    Amarillo
-                </label>
+        <fieldset style="width: 1200px !important; margin-left: 5%; height: 600px">
+            <legend class="float-none w-auto px-3">Publicar anuncio</legend>
+            <div class="mb-3">
+                <label for="titulo">Introduzca un anuncio:</label>
+                <textarea class="form-control" id="anuncio" name="anuncio" rows="3" placeholder="Introduzca un anuncio" style="resize:none;width: 450px !important;height: 150px;"><?php echo $descripcion ?></textarea>
             </div>
             <div class="mb-3">
-                <input class="btn btn-primary form-control" type="submit" id="enviar" name="enviar" value="Cambiar" style="width: 15%;background-color: rgb(209, 207, 207); border-radius: 0; border-color: black; color: black; margin-right: 1%;">
-                <input class="btn btn-primary form-control" type="submit" id="restablecer" name="restablecer" value="Restablecer" style="width: 15%;background-color: rgb(209, 207, 207); border-radius: 0; border-color: black; color: black;">
+                <label for="titulo">Autor:</label>
+                <input type="text" class="form-control" id="autor" name="autor" value="<?php echo $autor ?>" placeholder="Nombre autor" style="width: 450px !important;" >
+            </div>
+            <div class="mb-3">
+                <label for="titulo">Moroso:</label>
+                <input type="text" class="form-control" id="moroso" name="moroso" value="<?php echo $moroso ?>" placeholder="Nombre moroso" style="width: 450px !important;" >
+            </div>
+            <div class="mb-3">
+                <label for="titulo">Localidad:</label>
+                <input type="text" class="form-control" id="localidad" name="localidad" value="<?php echo $localidad ?>" placeholder="Nombre de la localidad" style="width: 450px !important;">
+            </div>
+            <div class="mb-3">
+                <input type="date" class="form-control" id="fecha" name="fecha" value="<?php echo $fecha ?>" style="width: 450px !important;">
+            </div>
+            <div class="mb-3">
+                <input class="btn btn-primary form-control" type="submit" id="enviar" name="enviar" value="Publicar" style="width: 10%;background-color: rgb(209, 207, 207); border-radius: 0; border-color: black; color: black; margin-right: 28%;">
             </div>
         </fieldset>
     </form>
 </div>
+<?php
+
+if (isset($_POST['enviar'])) {
+    $fecha = date("Y-m-d");
+    $anuncio = new Anuncio("", $_SESSION['login'], $_POST['moroso'], $_POST['localidad'], $_POST['anuncio'], $_POST['fecha']);
+    $db->modificarAnuncio($anuncio);
+}
+
+?>
 </body>
 
 </html>

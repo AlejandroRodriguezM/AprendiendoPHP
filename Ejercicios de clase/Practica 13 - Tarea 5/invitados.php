@@ -25,7 +25,7 @@ $_SESSION['hora'] = date("H:i:s");
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-item nav-link active" href="#" style="margin-left: 10px;">Lista de anuncios</a>
+      <a class="nav-item nav-link active" href="invitados.php" style="margin-left: 10px;">Lista de anuncios</a>
       <a class="nav-item nav-link active" href="logOut.php" style="margin-left: 30px;">Salir</a>
 
       <a class="nav-item nav-link active" style="margin-left: 1100px; color: black;"><?php echo "Bienvenido: ", $_SESSION['login'] ?></a>

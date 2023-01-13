@@ -1,7 +1,8 @@
 <?php
 include 'ClaseDb.php';
 
-class Anuncio{
+class Anuncio
+{
 
     private $id_anuncio;
     private $autor;
@@ -10,7 +11,8 @@ class Anuncio{
     private $descripcion;
     private $fecha;
 
-    public function __construct($id_anuncio, $autor, $moroso, $direccion, $descripcion, $fecha){
+    public function __construct($id_anuncio, $autor, $moroso, $direccion, $descripcion, $fecha)
+    {
         $this->id_anuncio = $id_anuncio;
         $this->autor = $autor;
         $this->moroso = $moroso;
@@ -19,52 +21,63 @@ class Anuncio{
         $this->fecha = $fecha;
     }
 
-    public function getId_anuncio(){
+    public function getId_anuncio()
+    {
         return $this->id_anuncio;
     }
 
-    public function setId_anuncio($id_anuncio){
+    public function setId_anuncio($id_anuncio)
+    {
         $this->id_anuncio = $id_anuncio;
     }
 
-    public function getAutor(){
+    public function getAutor()
+    {
         return $this->autor;
     }
 
-    public function setAutor($autor){
+    public function setAutor($autor)
+    {
         $this->autor = $autor;
     }
 
-    public function getMoroso(){
+    public function getMoroso()
+    {
         return $this->moroso;
     }
 
-    public function setMoroso($moroso){
+    public function setMoroso($moroso)
+    {
         $this->moroso = $moroso;
     }
 
-    public function getDireccion(){
+    public function getDireccion()
+    {
         return $this->direccion;
     }
 
-    public function setDireccion($direccion){
+    public function setDireccion($direccion)
+    {
         $this->direccion = $direccion;
     }
 
-    public function getDescripcion(){
+    public function getDescripcion()
+    {
         return $this->descripcion;
     }
 
-    public function setDescripcion($descripcion){
+    public function setDescripcion($descripcion)
+    {
         $this->descripcion = $descripcion;
     }
 
-    public function getFecha(){
+    public function getFecha()
+    {
         return $this->fecha;
     }
 
-    public function setFecha($fecha){
+    public function setFecha($fecha)
+    {
         $this->fecha = $fecha;
     }
-
 }

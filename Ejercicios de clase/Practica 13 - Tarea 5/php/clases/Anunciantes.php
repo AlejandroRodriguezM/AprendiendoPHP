@@ -74,8 +74,6 @@ class Anunciantes
         $sql = "SELECT * FROM anunciantes";
         $resultado = $conexion->query($sql);
 
-        //make a table
-
         echo "<table class='table table-striped table-bordered table-hover' style='width: 100%; margin: 0 auto; !important'>
         <tr style='background-color: yellow'>
         <th>login</th>

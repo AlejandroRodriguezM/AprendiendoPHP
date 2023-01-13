@@ -33,13 +33,3 @@ legend {
     border-radius: 5px;
     background-color: rgb(209, 207, 207);
 }
-
-.preferencia{
-    width: 50%;
-    margin: auto;
-    margin-top: 2%;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: rgb(209, 207, 207);
-}
