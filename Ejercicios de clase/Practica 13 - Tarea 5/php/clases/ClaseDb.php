@@ -97,6 +97,17 @@ class ClaseDb
         return $existe;
     }
 
+    public function checkBloq($login){
+        $conexion = $this->conexion();
+        $sql = "SELECT bloqueado FROM anunciantes WHERE login = ?";
+        $consulta = $conexion->prepare($sql);
+        $consulta->bindParam(1, $login);
+        $consulta->execute();
+        $dataUser = $consulta->fetch(PDO::FETCH_ASSOC);
+        return $dataUser;
+
+    }
+
     public function login_user($login, $password)
     {
         if ($this->check_login($login, $password)) {
@@ -112,8 +123,13 @@ class ClaseDb
                 }
                 header("Location: inicio.php");
             } else {
-                // aqui pasa a la web inicio.php
-                header("Location: inicio.php");
+                $estado = $this->checkBloq($login);
+                if($estado['bloqueado'] == 0){
+                    echo "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>Estas bloqueado, debe esperar a que un admin te desbloque</p>";
+                }
+                else{
+                    header("Location: inicio.php");
+                }
             }
         }
     }
@@ -239,6 +255,15 @@ class ClaseDb
         catch(PDOException $e){
             die("Codigo: " . $e->getCode() . "<br>Error: " . $e->getMessage());
         }
+    }
+
+    public function num_anuncios(){
+        $conexion = new ClaseDb();
+        $sql = "SELECT COUNT(*) FROM anuncios";
+        $consulta = $conexion->conexion()->prepare($sql);
+        $consulta->execute();
+        $resultado = $consulta->fetchColumn();
+        return $resultado;
     }
 
 

@@ -4,7 +4,7 @@ include_once "php/clases/Anuncio.php";
 include_once "php/clases/ClaseDb.php";
 
 $db = new ClaseDb();
-$db->check_cookies();
+$db->check_cookies_admin();
 
 ?>
 <!DOCTYPE html>

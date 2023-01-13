@@ -93,14 +93,26 @@ class Anunciantes
             if ($row['bloqueado'] == 1) {
 ?>
                 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                    <td><input class='btn btn-primary' name='bloquear' id='bloquear' type='submit' value='Desbloquear' style='margin-left:50% !important'></td>
+                    <?php
+                    if ($login == 'dwes') {
+                        echo "<td><input class='btn btn-primary' name='bloquear' id='bloquear' type='submit' value='Bloquear' style='margin-left:50% !important' disabled></td>";
+                    } else {
+                        echo "<td><input class='btn btn-primary' name='bloquear' id='bloquear' type='submit' value='Bloquear' style='margin-left:50% !important'></td>";
+                    }
+                    ?>
                     <input name='login' id='login' type='hidden' value='<?php echo $login ?>'>
                 </form>
             <?php
             } else {
             ?>
                 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                    <td><input class='btn btn-primary' name='desbloquear' id='bloquear' type='submit' value='Bloquear' style='margin-left:50% !important'></td>
+                    <?php
+                    if ($login == 'dwes') {
+                        echo "<td><input class='btn btn-primary' name='desbloquear' id='desloquear' type='submit' value='Desbloquear' style='margin-left:50% !important' disabled></td>";
+                    } else {
+                        echo "<td><input class='btn btn-primary' name='desbloquear' id='desloquear' type='submit' value='Desbloquear' style='margin-left:50% !important'></td>";
+                    }
+                    ?>
                     <input name='login' id='login' type='hidden' value='<?php echo $login ?>'>
                 </form>
 <?php
@@ -133,7 +145,7 @@ class Anunciantes
         try {
             $resultado = $conexion->query($sql);
             if ($resultado) {
-                header("Location: usuarios.php");
+                header("Location: desbloquear.php");
             }
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -148,7 +160,7 @@ class Anunciantes
         try {
             $resultado = $conexion->query($sql);
             if ($resultado) {
-                header("Location: usuarios.php");
+                header("Location: desbloquear.php");
             }
         } catch (PDOException $e) {
             echo $e->getMessage();

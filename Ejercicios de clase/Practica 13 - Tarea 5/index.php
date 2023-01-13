@@ -1,8 +1,14 @@
 <?php
 
 include "./php/clases/ClaseDb.php";
-if(isset($_COOKIE['loginUser'])){
+if(isset($_COOKIE['loginUser']) && isset($_SESSION['login'])){
     header('Location: desbloquear.php');
+}
+else{
+    session_start();
+    session_destroy();
+    $db = new ClaseDb();
+    $db->destroyCookiesUser();
 }
 ?>
 <!DOCTYPE html>
