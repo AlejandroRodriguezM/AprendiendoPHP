@@ -1,7 +1,7 @@
 <?php
 
 include "./php/clases/ClaseDb.php";
-if(isset($_COOKIE['loginUser']) && isset($_SESSION['login'])){
+if(isset($_COOKIE['loginUser']) || isset($_COOKIE['adminUser'])){
     header('Location: desbloquear.php');
 }
 else{

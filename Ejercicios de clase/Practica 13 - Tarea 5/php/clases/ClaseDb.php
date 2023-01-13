@@ -68,23 +68,23 @@ class ClaseDb
         setcookie('loginUser', $login, time() + 3600, '/');
     }
 
+    public function cookiesAdmin($login)
+    {
+        setcookie('adminUser', $login, time() + 3600, '/');
+    }
+
     public function destroyCookiesUser()
     {
         setcookie('loginUser', '', time() - 3600, '/');
+        setcookie('adminUser', '', time() - 3600, '/');
         setcookie('color', '', time() - 3600, '/');
     }
 
     public function check_cookies()
     {
         if (!isset($_SESSION['login']) && !isset($_COOKIE['loginUser'])) {
+            session_destroy();
             die("Error. You are not logged. Talk to the administrator if you have more problems <a href='logOut.php'>Log in</a>");
-        }
-    }
-
-    public function check_cookies_admin()
-    {
-        if (!isset($_SESSION['login']) && !isset($_COOKIE['loginUser']) && $_COOKIE['loginUser'] != "dwes") {
-            die("Error. You are not the admin. Talk to the administrator if you have more problems <a href='logOut.php'>Log in</a>");
         }
     }
 
@@ -121,6 +121,7 @@ class ClaseDb
                     $color = "white";
                     setcookie('color', $color, time() + 3600, '/');
                 }
+                $this->cookiesAdmin($login);
                 header("Location: inicio.php");
             } else {
                 $estado = $this->checkBloq($login);

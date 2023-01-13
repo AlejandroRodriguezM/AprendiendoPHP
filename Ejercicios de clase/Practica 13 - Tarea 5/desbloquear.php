@@ -4,7 +4,9 @@ include_once "php/clases/Anunciantes.php";
 include_once "php/clases/ClaseDb.php";
 
 $db = new ClaseDb();
-$db->check_cookies_admin();
+if(!isset($_COOKIE['adminUser'])){
+    header("Location: inicio.php");
+}
 $usuario = new Anunciantes("", "", "", "");
 
 ?>

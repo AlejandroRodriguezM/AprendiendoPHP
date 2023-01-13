@@ -4,7 +4,9 @@ include_once "php/clases/Anuncio.php";
 include_once "php/clases/ClaseDb.php";
 
 $db = new ClaseDb();
-$db->check_cookies_admin();
+if(!isset($_COOKIE['adminUser'])){
+    header("Location: inicio.php");
+}
 
 ?>
 <!DOCTYPE html>
@@ -27,14 +29,13 @@ if (isset($_COOKIE['color'])) {
     echo '<body>';
 }
 
-if(!isset($_POST['enviar'])){
+if (!isset($_POST['enviar'])) {
     $autor = $_GET['autor'];
     $moroso = $_GET['moroso'];
     $localidad = $_GET['localidad'];
     $descripcion = $_GET['descripcion'];
     $fecha = $_GET['fecha'];
-}
-else{
+} else {
     $autor = $_POST['autor'];
     $moroso = $_POST['moroso'];
     $localidad = $_POST['localidad'];
@@ -80,11 +81,11 @@ else{
             </div>
             <div class="mb-3">
                 <label for="titulo">Autor:</label>
-                <input type="text" class="form-control" id="autor" name="autor" value="<?php echo $autor ?>" placeholder="Nombre autor" style="width: 450px !important;" >
+                <input type="text" class="form-control" id="autor" name="autor" value="<?php echo $autor ?>" placeholder="Nombre autor" style="width: 450px !important;">
             </div>
             <div class="mb-3">
                 <label for="titulo">Moroso:</label>
-                <input type="text" class="form-control" id="moroso" name="moroso" value="<?php echo $moroso ?>" placeholder="Nombre moroso" style="width: 450px !important;" >
+                <input type="text" class="form-control" id="moroso" name="moroso" value="<?php echo $moroso ?>" placeholder="Nombre moroso" style="width: 450px !important;">
             </div>
             <div class="mb-3">
                 <label for="titulo">Localidad:</label>
