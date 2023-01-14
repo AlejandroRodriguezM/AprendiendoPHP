@@ -1,4 +1,8 @@
 <?php
+include "./php/clases/ClaseDb.php";
+$db = new ClaseDb();
+$db->destroyCookiesUser();
+$db->deleteCookieLoginError();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +17,7 @@
 <body>
     <center>
         <video id="joke-video" controls width="500" autoplay muted controls loop>
-            <source src="img/test.mp4" type="video/mp4">
+            <source src="./assets/img/joke-video.mp4" type="video/mp4">
         </video>
     </center>
     <center>

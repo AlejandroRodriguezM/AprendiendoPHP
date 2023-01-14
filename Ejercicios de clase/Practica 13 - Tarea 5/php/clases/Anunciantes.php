@@ -1,9 +1,6 @@
 <?php
-include 'ClaseDb.php';
-
 class Anunciantes
 {
-
     private $login;
     private $password;
     private $estado;
@@ -73,68 +70,7 @@ class Anunciantes
         $conexion = $db->conexion();
         $sql = "SELECT * FROM anunciantes";
         $resultado = $conexion->query($sql);
-
-        echo "<table class='table table-striped table-bordered table-hover' style='width: 100%; margin: 0 auto; !important'>
-        <tr style='background-color: yellow'>
-        <th>login</th>
-        <th>email</th>
-        <th>estado</th>
-        <th></th>
-        </tr>";
-        while ($row = $resultado->fetch(PDO::FETCH_ASSOC)) {
-            //form
-            $login = $row['login'];
-            $email = $row['email'];
-            $estado = $row['bloqueado'];
-            echo "<tr style='background-color: white'>";
-            echo "<td>" . $login . "</td>";
-            echo "<td>" . $email . "</td>";
-            echo "<td>" .  $estado . "</td>";
-            if ($row['bloqueado'] == 1) {
-?>
-                <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                    <?php
-                    if ($login == 'dwes') {
-                        echo "<td><input class='btn btn-primary' name='bloquear' id='bloquear' type='submit' value='Bloquear' style='margin-left:50% !important' disabled></td>";
-                    } else {
-                        echo "<td><input class='btn btn-primary' name='bloquear' id='bloquear' type='submit' value='Bloquear' style='margin-left:50% !important'></td>";
-                    }
-                    ?>
-                    <input name='login' id='login' type='hidden' value='<?php echo $login ?>'>
-                </form>
-            <?php
-            } else {
-            ?>
-                <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                    <?php
-                    if ($login == 'dwes') {
-                        echo "<td><input class='btn btn-primary' name='desbloquear' id='desloquear' type='submit' value='Desbloquear' style='margin-left:50% !important' disabled></td>";
-                    } else {
-                        echo "<td><input class='btn btn-primary' name='desbloquear' id='desloquear' type='submit' value='Desbloquear' style='margin-left:50% !important'></td>";
-                    }
-                    ?>
-                    <input name='login' id='login' type='hidden' value='<?php echo $login ?>'>
-                </form>
-<?php
-            }
-            echo "</tr>";
-        }
-        if (isset($_POST['desbloquear'])) {
-            $login = $_POST['login'];
-            $this->bloquear_usuario($login);
-        }
-
-        if (isset($_POST['bloquear'])) {
-            $login = $_POST['login'];
-            $this->desbloquear_usuario($login);
-        }
-        echo "<tr style='background-color: orange'>
-        <td colspan='4' >";
-        $numero_usuarios = $this->num_anunciantes();
-        echo "<p>Total: $numero_usuarios</p>";
-        echo "</td>";
-        echo "</tr>";
-        echo "</table>";
+        return $resultado;
     }
 
     public function desbloquear_usuario($login)
@@ -164,6 +100,184 @@ class Anunciantes
             }
         } catch (PDOException $e) {
             echo $e->getMessage();
+        }
+    }
+
+    public function checkUser($login)
+    {
+        $db = new ClaseDb();
+        $conexion = $db->conexion();
+        $existe = false;
+        $sql = "SELECT * FROM anunciantes WHERE login = ?";
+        $consulta = $conexion->prepare($sql);
+        $consulta->bindParam(1, $login);
+        $consulta->execute();
+        if ($consulta->rowCount() > 0) {
+            $existe = true;
+        }
+        return $existe;
+    }
+
+    public function check_login($login, $password)
+    {
+        $this->errorSesion($login);
+        if ($this->checkUser($login)) {
+            $db = new ClaseDb();
+            $pass_encrypted = $db->obtain_password($login);
+            if (password_verify($password, $pass_encrypted)) {
+                $this->login_user($login);
+            }
+        }
+    }
+
+    public function checkBloq($login)
+    {
+        $db = new ClaseDb();
+        $conexion = $db->conexion();
+        $sql = "SELECT bloqueado FROM anunciantes WHERE login = ?";
+        $consulta = $conexion->prepare($sql);
+        $consulta->bindParam(1, $login);
+        $consulta->execute();
+        $data = $consulta->fetch(PDO::FETCH_ASSOC);
+        return $data;
+    }
+
+    public function checkEmail($email)
+    {
+        $db = new ClaseDb();
+        $conexion = $db->conexion();
+        $existe = false;
+        $sql = "SELECT * FROM anunciantes WHERE email = ?";
+        $consulta = $conexion->prepare($sql);
+        $consulta->bindParam(1, $email);
+        $consulta->execute();
+        if ($consulta->rowCount() > 0) {
+            $existe = true;
+        }
+        return $existe;
+    }
+
+    public function login_user($login)
+    {
+        $db = new ClaseDb();
+        session_start();
+        $_SESSION['login'] = $login;
+        $_SESSION['hora'] = date("H:i:s");
+        $db->cookiesUser($login);
+
+        if ($login == "dwes") {
+            if (!isset($_COOKIE['color'])) {
+                $color = "white";
+                setcookie('color', $color, time() + 3600, '/');
+            }
+            $db->cookiesAdmin($login);
+            header("Location: inicio.php");
+        } else {
+            $estado = $this->checkBloq($login);
+            if ($estado['bloqueado'] == 0) {
+                echo "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>Estas bloqueado, debe esperar a que un admin te desbloque</p>";
+            } else {
+                header("Location: inicio.php");
+            }
+        }
+    }
+
+    public function create_user($login, $password, $email)
+    {
+        if (!$this->checkUser($login)) {
+            if (!$this->checkEmail($email)) {
+                try {
+                    $db = new ClaseDb();
+                    $conexion = $db->conexion();
+                    $sql = "INSERT INTO anunciantes (login, password, bloqueado, email) VALUES (?, ?, ?, ?)";
+                    $consulta = $conexion->prepare($sql);
+                    $password_hash = password_hash($password, PASSWORD_DEFAULT);
+                    $resultado = $consulta->execute(array($login, $password_hash, 1, $email));
+                    if (!$resultado) {
+                        echo "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>Error al crear el usuario</p>";
+                    } else {
+                        header("Location: index.php");
+                    }
+                } catch (PDOException $e) {
+                    die("Codigo: " . $e->getCode() . "<br>Error: " . $e->getMessage());
+                }
+            } else {
+                echo "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>El email ya existe</p>";
+            }
+        } else {
+            echo "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>El usuario ya existe</p>";
+        }
+    }
+
+    public function listar_usuarios()
+    {
+        $db = new ClaseDb();
+        $conexion = $db->conexion();
+        $sql = "SELECT * FROM anunciantes";
+        $consulta = $conexion->prepare($sql);
+        $consulta->execute();
+        $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        return $resultado;
+    }
+
+    /**
+     * Function that returns error messages when logging in
+     *
+     * @param [type] $user
+     * @return string
+     */
+    function errorSesion($user)
+    {
+        if (!$this->checkUser($user)) {
+            if (!isset($_COOKIE['login'])) {
+                $error = "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>El usuario no existe 1º Intento</p>";
+                $num_errors = 1;
+                setcookie('login', $user, time() + 3600, '/');
+                setcookie('errorLogin', $error, time() + 3600, '/');
+                setcookie('num_fallos', $num_errors, time() + 3600, '/');
+                header("Location: index.php");
+            } elseif ($_COOKIE['num_fallos'] == 1) {
+                $error = "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>El usuario no existe 2º Intento</p>";
+                $num_errors = 2;
+                setcookie('login', $user, time() + 3600, '/');
+                setcookie('errorLogin', $error, time() + 3600, '/');
+                setcookie('num_fallos', $num_errors, time() + 3600, '/');
+                header("Location: index.php");
+            } elseif ($_COOKIE['num_fallos'] == 2) {
+                $error = "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>El usuario no existe 3º Intento.If you fail, you will have to wait 10 seconds</p>";
+                $num_errors = 3;
+                setcookie('login', $user, time() + 3600, '/');
+                setcookie('errorLogin', $error, time() + 3600, '/');
+                setcookie('num_fallos', $num_errors, time() + 3600, '/');
+                header("Location: index.php");
+            } elseif ($_COOKIE['num_fallos'] == 3) {
+                header("Location: errorLog.php");
+            }
+        } else {
+            if (!isset($_COOKIE['login'])) {
+                $error = "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>Contraseña incorrecta 1º Intento.</p>";
+                $num_errors = 1;
+                setcookie('login', $user, time() + 3600, '/');
+                setcookie('errorLogin', $error, time() + 3600, '/');
+                setcookie('num_fallos', $num_errors, time() + 3600, '/');
+                header("Location: index.php");
+            } elseif ($_COOKIE['num_fallos'] == 1) {
+                $error = "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>Contraseña incorrecta 2º Intento.</p>";
+                $num_errors = 2;
+                setcookie('login', $user, time() + 3600, '/');
+                setcookie('errorLogin', $error, time() + 3600, '/');
+                setcookie('num_fallos', $num_errors, time() + 3600, '/');
+                header("Location: index.php");
+            } elseif ($_COOKIE['num_fallos'] == 2) {
+                $error = "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>Contraseña incorrecta 3º Intento .If you fail, you will have to wait 10 seconds</p>";
+                $num_errors = 3;
+                setcookie('login', $user, time() + 3600, '/');
+                setcookie('errorLogin', $error, time() + 3600, '/');
+                setcookie('num_fallos', $num_errors, time() + 3600, '/');
+                header("Location: index.php");
+            } elseif ($_COOKIE['num_fallos'] == 3) {
+                header("Location: errorLog.php");
+            }
         }
     }
 }

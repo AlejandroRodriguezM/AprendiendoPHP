@@ -1,9 +1,6 @@
 <?php
-include 'ClaseDb.php';
-
 class Anuncio
 {
-
     private $id_anuncio;
     private $autor;
     private $moroso;
@@ -80,11 +77,5 @@ class Anuncio
     {
         $this->fecha = $fecha;
     }
-
-
-
-
-
-
 
 }

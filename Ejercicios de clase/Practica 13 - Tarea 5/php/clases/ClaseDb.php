@@ -16,53 +16,6 @@ class ClaseDb
         }
     }
 
-    public function checkUser($login)
-    {
-        $conexion = $this->conexion();
-        $existe = false;
-        $sql = "SELECT * FROM anunciantes WHERE login = ?";
-        $consulta = $conexion->prepare($sql);
-        $consulta->bindParam(1, $login);
-        $consulta->execute();
-        if ($consulta->rowCount() > 0) {
-            $existe = true;
-        }
-        return $existe;
-    }
-
-    function check_login($login, $password)
-    {
-        $conexion = $this->conexion();
-        $existe = false;
-        $sql = "SELECT * FROM anunciantes WHERE login = ? AND password = ?";
-        $consulta = $conexion->prepare($sql);
-        $consulta->bindParam(1, $login);
-        $pass_encrypted = $this->obtain_password($login);
-        $consulta->bindParam(2, $pass_encrypted);
-        $consulta->execute();
-        if ($consulta->rowCount() > 0) {
-            $existe = true;
-        }
-        return $existe;
-    }
-
-    /**
-     * Return the password from a user using loggin
-     *
-     * @param [type] $login
-     * @param [type] $con
-     * @return string
-     */
-    function obtain_password($login)
-    {
-        $conexion = $this->conexion();
-        $consulta = $conexion->prepare("SELECT password from anunciantes where login=?");
-        $consulta->execute(array($login));
-        $password = $consulta->fetch(PDO::FETCH_ASSOC)['password'];
-        unset($consulta);
-        return $password;
-    }
-
     public function cookiesUser($login)
     {
         setcookie('loginUser', $login, time() + 3600, '/');
@@ -78,6 +31,38 @@ class ClaseDb
         setcookie('loginUser', '', time() - 3600, '/');
         setcookie('adminUser', '', time() - 3600, '/');
         setcookie('color', '', time() - 3600, '/');
+    }
+
+    /**
+     * Function that clears session error cookies
+     *
+     * @return void
+     */
+    public function deleteCookieLoginError()
+    {
+        setcookie('errorLogin', '', time() - 3600, '/');
+        setcookie('errorAdmin', '', time() - 3600, '/');
+        setcookie('errorUser', '', time() - 3600, '/');
+        setcookie('num_fallos', '', time() - 3600, '/');
+        setcookie('login', '', time() - 3600, '/');
+    }
+
+
+    /**
+     * Return the password from a user using loggin
+     *
+     * @param [type] $login
+     * @param [type] $con
+     * @return string
+     */
+    public function obtain_password($login)
+    {
+        $conexion = $this->conexion();
+        $consulta = $conexion->prepare("SELECT password from anunciantes where login=?");
+        $consulta->bindParam(1, $login);
+        $consulta->execute();
+        $data = $consulta->fetch(PDO::FETCH_ASSOC);
+        return $data['password'];
     }
 
     public function check_cookies()
@@ -97,82 +82,8 @@ class ClaseDb
         return $existe;
     }
 
-    public function checkBloq($login){
-        $conexion = $this->conexion();
-        $sql = "SELECT bloqueado FROM anunciantes WHERE login = ?";
-        $consulta = $conexion->prepare($sql);
-        $consulta->bindParam(1, $login);
-        $consulta->execute();
-        $dataUser = $consulta->fetch(PDO::FETCH_ASSOC);
-        return $dataUser;
-
-    }
-
-    public function login_user($login, $password)
-    {
-        if ($this->check_login($login, $password)) {
-            session_start();
-            $_SESSION['login'] = $login;
-            $_SESSION['hora'] = date("H:i:s");
-            $this->cookiesUser($login);
-
-            if ($login == "dwes") {
-                if (!isset($_COOKIE['color'])) {
-                    $color = "white";
-                    setcookie('color', $color, time() + 3600, '/');
-                }
-                $this->cookiesAdmin($login);
-                header("Location: inicio.php");
-            } else {
-                $estado = $this->checkBloq($login);
-                if($estado['bloqueado'] == 0){
-                    echo "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>Estas bloqueado, debe esperar a que un admin te desbloque</p>";
-                }
-                else{
-                    header("Location: inicio.php");
-                }
-            }
-        }
-    }
-
-    public function create_user($login, $password, $email)
-    {
-        if (!$this->checkUser($login)) {
-            try {
-                $conexion = $this->conexion();
-                $sql = "INSERT INTO anunciantes (login, password, bloqueado, email) VALUES (?, ?, 1, ?)";
-                $consulta = $conexion->prepare($sql);
-                $consulta->bindParam(1, $login);
-                $password = password_hash($password, PASSWORD_DEFAULT);
-                $consulta->bindParam(2, $password);
-                $consulta->bindParam(3, $email);
-                $resultado = $consulta->execute();
-                if (!$resultado) {
-                    echo "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>Error al crear el usuario</p>";
-                } else {
-                    header("Location: index.php");
-                }
-            } catch (PDOException $e) {
-                die("Codigo: " . $e->getCode() . "<br>Error: " . $e->getMessage());
-            }
-        } else {
-            echo "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>El usuario ya existe</p>";
-        }
-    }
-
-    public function listar_usuarios()
-    {
-        $conexion = new ClaseDb();
-        $sql = "SELECT * FROM anunciantes";
-        $consulta = $conexion->conexion()->prepare($sql);
-        $consulta->execute();
-        $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
-        return $resultado;
-    }
-
     public function insertarAnuncio($anuncio)
     {
-
         $sql = "INSERT INTO anuncios (autor, moroso, localidad, descripcion, fecha) VALUES (?, ?, ?, ?, ?)";
         $autor = $anuncio->getAutor();
         $moroso = $anuncio->getMoroso();
@@ -198,7 +109,7 @@ class ClaseDb
         }
     }
 
-    public function listarAnuncio()
+    public function obtenerAnuncios()
     {
         $conexion = new ClaseDb();
         $sql = "SELECT * FROM anuncios";
@@ -208,7 +119,8 @@ class ClaseDb
         return $consulta;
     }
 
-    public function borrarAnuncio($anuncio){
+    public function borrarAnuncio($anuncio)
+    {
         $conexion = new ClaseDb();
         $autor = $anuncio->getAutor();
         $moroso = $anuncio->getMoroso();
@@ -216,7 +128,7 @@ class ClaseDb
         $descripcion = $anuncio->getDescripcion();
         $fecha = $anuncio->getFecha();
         $sql = "DELETE FROM anuncios WHERE autor = ? AND moroso = ? AND localidad = ? AND descripcion = ? AND fecha = ?";
-        try{
+        try {
             $consulta = $conexion->conexion()->prepare($sql);
             $consulta->bindParam(1, $autor);
             $consulta->bindParam(2, $moroso);
@@ -234,7 +146,8 @@ class ClaseDb
         }
     }
 
-    public function modificarAnuncio($anuncio){
+    public function modificarAnuncio($anuncio)
+    {
         $conexion = new ClaseDb();
         $autor = $anuncio->getAutor();
         $moroso = $anuncio->getMoroso();
@@ -242,7 +155,7 @@ class ClaseDb
         $descripcion = $anuncio->getDescripcion();
         $fecha = $anuncio->getFecha();
         $sql = "UPDATE anuncios SET autor = ?, moroso = ?, localidad = ?, descripcion = ?, fecha = ? WHERE autor = ?";
-        try{
+        try {
             $consulta = $conexion->conexion()->prepare($sql);
             $consulta->bindParam(1, $autor);
             $consulta->bindParam(2, $moroso);
@@ -252,13 +165,13 @@ class ClaseDb
             $consulta->bindParam(6, $autor);
             $consulta->execute();
             header("Location: inicio.php");
-        }
-        catch(PDOException $e){
+        } catch (PDOException $e) {
             die("Codigo: " . $e->getCode() . "<br>Error: " . $e->getMessage());
         }
     }
 
-    public function num_anuncios(){
+    public function num_anuncios()
+    {
         $conexion = new ClaseDb();
         $sql = "SELECT COUNT(*) FROM anuncios";
         $consulta = $conexion->conexion()->prepare($sql);
@@ -266,6 +179,4 @@ class ClaseDb
         $resultado = $consulta->fetchColumn();
         return $resultado;
     }
-
-
 }

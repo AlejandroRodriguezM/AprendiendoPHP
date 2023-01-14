@@ -1,10 +1,10 @@
 <?php
 
 include "./php/clases/ClaseDb.php";
-if(isset($_COOKIE['loginUser']) || isset($_COOKIE['adminUser'])){
+include "./php/clases/Anunciantes.php";
+if (isset($_COOKIE['loginUser']) || isset($_COOKIE['adminUser'])) {
     header('Location: desbloquear.php');
-}
-else{
+} else {
     session_start();
     session_destroy();
     $db = new ClaseDb();
@@ -25,16 +25,16 @@ else{
 
 <body>
     <div class="container">
-        <form action="" method="post">
-            <fieldset >
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            <fieldset>
                 <legend class="float-none w-auto px-3">Login</legend>
                 <div class="mb-3">
                     <label for="nombre" style="font-weight:bold;">Nombre</label>
-                    <input type="text" name="nombre" id="nombre" class="form-control">
+                    <input type="text" name="nombre" id="nombre" class="form-control" required>
                 </div>
                 <div class="mb-3">
                     <label for="password" style="font-weight:bold;">Password</label>
-                    <input type="password" name="password" id="password" class="form-control">
+                    <input type="password" name="password" id="password" class="form-control" required>
                 </div>
 
                 <div class="mb-3">
@@ -43,20 +43,25 @@ else{
                 <a href="registros.php">Registrarse</a>
                 <br>
                 <a href="invitados.php">Entrar como invitado</a>
-            </fieldset>
-            <?php
-            if (isset($_POST['enviar'])) {
-
-                $login = $_POST['nombre'];
-                $password = $_POST['password'];
-                if (!empty($login) && !empty($password)) {
-                    $db = new ClaseDb();
-                    $db->login_user($login, $password);
-                } else {
-                    echo "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>Usuario o contraseña incorrectos</p>";
+                <?php
+                if (isset($_POST['enviar'])) {
+                    $login = $_POST['nombre'];
+                    $password = $_POST['password'];
+                    if (!empty($login) && !empty($password)) {
+                        $usuario = new Anunciantes("", "", "", "");
+                        $usuario->check_login($login, $password);
+                    }
                 }
-            }
-            ?>
+                if (isset($_COOKIE['errorAdmin'])) {
+                    echo $_COOKIE['errorAdmin'];
+                    setcookie('errorAdmin', '', time() - 3600, "/");
+                }
+                if (isset($_COOKIE['login'])) {
+                    echo $_COOKIE['errorLogin'];
+                }
+                ?>
+            </fieldset>
+
         </form>
     </div>
 </body>

@@ -58,10 +58,11 @@ if (isset($_COOKIE['color'])) {
                 $password = $_POST['password'];
                 $repassword = $_POST['repassword'];
                 $email = $_POST['email'];
-                if (!empty($login) && !empty($password) && !empty($email)) {
+                if (!empty($login) && !empty($password) && !empty($repassword) && !empty($email)) {
                     $db = new ClaseDb();
                     if ($db->checkPassword($password, $repassword)) {
-                        $db->create_user($login, $password, $email);
+                        $usuario = new Anunciantes("", "", "", "");
+                        $usuario->create_user($login, $password, $email);
                     } else {
                         echo "<p class='error' style='font-weight:bold;color:red;font-size:15px;'>Las contraseñas no coinciden</p>";
                     }

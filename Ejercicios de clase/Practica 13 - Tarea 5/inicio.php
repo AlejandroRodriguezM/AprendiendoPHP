@@ -5,6 +5,7 @@ include_once "php/clases/ClaseDb.php";
 
 $db = new ClaseDb();
 $db->check_cookies();
+$db->deleteCookieLoginError();
 
 ?>
 <!DOCTYPE html>
@@ -17,27 +18,21 @@ $db->check_cookies();
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   <link rel="stylesheet" href="./assets/style/style.css">
   <link rel="stylesheet" href="./assets/style/voluntario.css" type="text/css">
-
   <title>Inicio</title>
 </head>
 
 <?php
-
-
 if (isset($_COOKIE['color'])) {
   echo '<body style="background-color:' . $_COOKIE['color'] . '">';
 } else {
   echo '<body>';
 }
-
 ?>
+
 <header onclick="location.href='inicio.php';" style="cursor: pointer;">
   <h1>Empresa Okupa</h1>
 </header>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
 
@@ -59,7 +54,7 @@ if (isset($_COOKIE['color'])) {
 </nav>
 <div id="anuncios">
   <?php
-  $anuncios = $db->listarAnuncio();
+  $anuncios = $db->obtenerAnuncios();
   $num_anuncios = $db->num_anuncios();
   if ($num_anuncios != 0) {
     foreach ($anuncios as $anuncios) {
@@ -97,7 +92,7 @@ if (isset($_COOKIE['color'])) {
           $localidad = $_POST['localidad'];
           $descripcion = $_POST['descripcion'];
           $fecha = $_POST['fecha'];
-          header("Location: modificar.php?autor=$autor&moroso=$moroso&localidad=$localidad&descripcion=$descripcion&fecha=$fecha");
+          header("Location: modificar_anuncio.php?autor=$autor&moroso=$moroso&localidad=$localidad&descripcion=$descripcion&fecha=$fecha");
         }
 
         if (isset($_POST['borrar'])) {

@@ -4,7 +4,7 @@ include_once "php/clases/Anunciantes.php";
 include_once "php/clases/ClaseDb.php";
 
 $db = new ClaseDb();
-if(!isset($_COOKIE['adminUser'])){
+if (!isset($_COOKIE['adminUser'])) {
     header("Location: inicio.php");
 }
 $usuario = new Anunciantes("", "", "", "");
@@ -32,7 +32,7 @@ if (isset($_COOKIE['color'])) {
 
 ?>
 <header onclick="location.href='inicio.php';" style="cursor: pointer;">
-  <h1>Empresa Okupa</h1>
+    <h1>Empresa Okupa</h1>
 </header>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,68 @@ if (isset($_COOKIE['color'])) {
 <div class="tabla_users">
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <?php
-        $usuario->mostrar_usuarios();
+        $resultado = $usuario->mostrar_usuarios();
+        echo "<table class='table table-striped table-bordered table-hover' style='width: 100%; margin: 0 auto; !important'>
+                <tr style='background-color: yellow'>
+                <th>login</th>
+                <th>email</th>
+                <th>estado</th>
+                <th></th>
+                </tr>";
+        while ($row = $resultado->fetch(PDO::FETCH_ASSOC)) {
+            //form
+            $login = $row['login'];
+            $email = $row['email'];
+            $estado = $row['bloqueado'];
+            echo "<tr style='background-color: white'>";
+            echo "<td>" . $login . "</td>";
+            echo "<td>" . $email . "</td>";
+            echo "<td>" .  $estado . "</td>";
+            if ($row['bloqueado'] == 1) {
+        ?>
+                <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                    <?php
+                    if ($login == 'dwes') {
+                        echo "<td><input class='btn btn-primary' name='bloquear' id='bloquear' type='submit' value='Bloquear' style='margin-left:50% !important' disabled></td>";
+                    } else {
+                        echo "<td><input class='btn btn-primary' name='bloquear' id='bloquear' type='submit' value='Bloquear' style='margin-left:50% !important'></td>";
+                    }
+                    ?>
+                    <input name='login' id='login' type='hidden' value='<?php echo $login ?>'>
+                </form>
+            <?php
+            } else {
+            ?>
+                <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                    <?php
+                    if ($login == 'dwes') {
+                        echo "<td><input class='btn btn-primary' name='desbloquear' id='desloquear' type='submit' value='Desbloquear' style='margin-left:50% !important' disabled></td>";
+                    } else {
+                        echo "<td><input class='btn btn-primary' name='desbloquear' id='desloquear' type='submit' value='Desbloquear' style='margin-left:50% !important'></td>";
+                    }
+                    ?>
+                    <input name='login' id='login' type='hidden' value='<?php echo $login ?>'>
+                </form>
+        <?php
+            }
+            echo "</tr>";
+        }
+        if (isset($_POST['desbloquear'])) {
+            $login = $_POST['login'];
+            $usuario->bloquear_usuario($login);
+        }
+
+        if (isset($_POST['bloquear'])) {
+            $login = $_POST['login'];
+            $usuario->desbloquear_usuario($login);
+        }
+        echo "<tr style='background-color: orange'>
+                <td colspan='4' >";
+        $numero_usuarios = $usuario->num_anunciantes();
+        echo "<p>Total: $numero_usuarios</p>";
+        echo "</td>";
+        echo "</tr>";
+        echo "</table>";
         ?>
     </form>
 </div>
