@@ -1,5 +1,6 @@
 <?php
 include "./php/clases/ClaseDb.php";
+include "./php/clases/Anunciantes.php";
 if (isset($_COOKIE['loginUser'])) {
     header('Location: desbloquear.php');
 }

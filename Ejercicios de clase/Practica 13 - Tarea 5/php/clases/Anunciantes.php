@@ -124,7 +124,8 @@ class Anunciantes
         if ($this->checkUser($login)) {
             $db = new ClaseDb();
             $pass_encrypted = $db->obtain_password($login);
-            if (password_verify($password, $pass_encrypted)) {
+            $password = md5($password);
+            if ($pass_encrypted == $password) {
                 $this->login_user($login);
             }
         }
@@ -191,7 +192,7 @@ class Anunciantes
                     $conexion = $db->conexion();
                     $sql = "INSERT INTO anunciantes (login, password, bloqueado, email) VALUES (?, ?, ?, ?)";
                     $consulta = $conexion->prepare($sql);
-                    $password_hash = password_hash($password, PASSWORD_DEFAULT);
+                    $password_hash = md5($password);
                     $resultado = $consulta->execute(array($login, $password_hash, 1, $email));
                     if (!$resultado) {
                         echo "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>Error al crear el usuario</p>";
