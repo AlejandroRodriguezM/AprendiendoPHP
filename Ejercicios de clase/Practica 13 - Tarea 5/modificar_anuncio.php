@@ -8,6 +8,10 @@ if(!isset($_COOKIE['adminUser'])){
     header("Location: inicio.php");
 }
 
+if(!isset($_SESSION['login'])){
+    header("Location: logOut.php");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

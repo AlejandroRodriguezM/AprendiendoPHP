@@ -1,7 +1,6 @@
 <?php
 
 include "datosBD.php";
-
 class ClaseDb
 {
     public function conexion()
@@ -16,71 +15,7 @@ class ClaseDb
         }
     }
 
-    public function cookiesUser($login)
-    {
-        setcookie('loginUser', $login, time() + 3600, '/');
-    }
 
-    public function cookiesAdmin($login)
-    {
-        setcookie('adminUser', $login, time() + 3600, '/');
-    }
-
-    public function destroyCookiesUser()
-    {
-        setcookie('loginUser', '', time() - 3600, '/');
-        setcookie('adminUser', '', time() - 3600, '/');
-        setcookie('color', '', time() - 3600, '/');
-    }
-
-    /**
-     * Function that clears session error cookies
-     *
-     * @return void
-     */
-    public function deleteCookieLoginError()
-    {
-        setcookie('errorLogin', '', time() - 3600, '/');
-        setcookie('errorAdmin', '', time() - 3600, '/');
-        setcookie('errorUser', '', time() - 3600, '/');
-        setcookie('num_fallos', '', time() - 3600, '/');
-        setcookie('login', '', time() - 3600, '/');
-    }
-
-
-    /**
-     * Return the password from a user using loggin
-     *
-     * @param [type] $login
-     * @param [type] $con
-     * @return string
-     */
-    public function obtain_password($login)
-    {
-        $conexion = $this->conexion();
-        $consulta = $conexion->prepare("SELECT password from anunciantes where login=?");
-        $consulta->bindParam(1, $login);
-        $consulta->execute();
-        $data = $consulta->fetch(PDO::FETCH_ASSOC);
-        return $data['password'];
-    }
-
-    public function check_cookies()
-    {
-        if (!isset($_SESSION['login']) && !isset($_COOKIE['loginUser'])) {
-            session_destroy();
-            die("Error. You are not logged. Talk to the administrator if you have more problems <a href='logOut.php'>Log in</a>");
-        }
-    }
-
-    public function checkPassword($password, $repassword)
-    {
-        $existe = false;
-        if ($password == $repassword) {
-            $existe = true;
-        }
-        return $existe;
-    }
 
     public function insertarAnuncio($anuncio)
     {

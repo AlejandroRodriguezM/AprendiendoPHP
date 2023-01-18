@@ -2,10 +2,15 @@
 session_start();
 include_once "php/clases/Anuncio.php";
 include_once "php/clases/ClaseDb.php";
+include_once "php/clases/funciones.inc.php";
 
 $db = new ClaseDb();
-$db->check_cookies();
-$db->deleteCookieLoginError();
+check_cookies();
+deleteCookieLoginError();
+
+if(!isset($_SESSION['login'])){
+    header("Location: logOut.php");
+}
 
 ?>
 <!DOCTYPE html>

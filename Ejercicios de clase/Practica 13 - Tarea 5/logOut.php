@@ -1,8 +1,7 @@
 <?php
-require_once "php/clases/ClaseDb.php";
+include_once "php/clases/funciones.inc.php";
 //destroy cookies and session
 session_start();
 session_destroy();
-$db = new ClaseDb();
-$db->destroyCookiesUser();
+destroyCookiesUser();
 header('Location: index.php');

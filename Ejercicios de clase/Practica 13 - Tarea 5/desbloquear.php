@@ -7,7 +7,11 @@ $db = new ClaseDb();
 if (!isset($_COOKIE['adminUser'])) {
     header("Location: inicio.php");
 }
-$usuario = new Anunciantes("", "", "", "");
+
+
+if(!isset($_SESSION['login'])){
+    header("Location: logOut.php");
+}
 
 ?>
 <!DOCTYPE html>
@@ -61,6 +65,7 @@ if (isset($_COOKIE['color'])) {
 <div class="tabla_users">
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <?php
+        $usuario = new Anunciantes("", "", "", "");
         $resultado = $usuario->mostrar_usuarios();
         echo "<table class='table table-striped table-bordered table-hover' style='width: 100%; margin: 0 auto; !important'>
                 <tr style='background-color: yellow'>

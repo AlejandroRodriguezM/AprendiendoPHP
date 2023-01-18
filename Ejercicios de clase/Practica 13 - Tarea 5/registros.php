@@ -1,6 +1,7 @@
 <?php
 include "./php/clases/ClaseDb.php";
 include "./php/clases/Anunciantes.php";
+
 if (isset($_COOKIE['loginUser'])) {
     header('Location: desbloquear.php');
 }
@@ -60,8 +61,7 @@ if (isset($_COOKIE['color'])) {
                 $repassword = $_POST['repassword'];
                 $email = $_POST['email'];
                 if (!empty($login) && !empty($password) && !empty($repassword) && !empty($email)) {
-                    $db = new ClaseDb();
-                    if ($db->checkPassword($password, $repassword)) {
+                    if (checkPassword($password, $repassword)) {
                         $usuario = new Anunciantes("", "", "", "");
                         $usuario->create_user($login, $password, $email);
                     } else {
@@ -70,6 +70,10 @@ if (isset($_COOKIE['color'])) {
                 } else {
                     echo "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>No se ha podido crear al usuario</p>";
                 }
+            }
+
+            if (isset($_POST['volver'])) {
+                header('Location: index.php');
             }
             ?>
         </fieldset>

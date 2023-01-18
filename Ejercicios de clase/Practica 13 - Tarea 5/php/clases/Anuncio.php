@@ -77,5 +77,6 @@ class Anuncio
     {
         $this->fecha = $fecha;
     }
+    
 
 }

@@ -3,12 +3,12 @@
 include "./php/clases/ClaseDb.php";
 include "./php/clases/Anunciantes.php";
 if (isset($_COOKIE['loginUser']) || isset($_COOKIE['adminUser'])) {
-    header('Location: desbloquear.php');
+    header('Location: inicio.php');
 } else {
     session_start();
     session_destroy();
     $db = new ClaseDb();
-    $db->destroyCookiesUser();
+    destroyCookiesUser();
 }
 ?>
 <!DOCTYPE html>
@@ -48,8 +48,8 @@ if (isset($_COOKIE['loginUser']) || isset($_COOKIE['adminUser'])) {
                     $login = $_POST['nombre'];
                     $password = $_POST['password'];
                     if (!empty($login) && !empty($password)) {
-                        $usuario = new Anunciantes("", "", "", "");
-                        $usuario->check_login($login, $password);
+                        $usuario = new Anunciantes($login, $password, "", "");
+                        $usuario->login_user($login, $password);
                     }
                 }
                 if (isset($_COOKIE['errorAdmin'])) {

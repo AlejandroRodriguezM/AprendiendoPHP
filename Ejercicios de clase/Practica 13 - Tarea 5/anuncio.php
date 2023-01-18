@@ -2,9 +2,14 @@
 session_start();
 include_once "php/clases/Anuncio.php";
 include_once "php/clases/ClaseDb.php";
+include_once "php/clases/funciones.inc.php";
 
 $db = new ClaseDb();
-$db->check_cookies();
+check_cookies();
+
+if (!isset($_SESSION['login'])) {
+  header("Location: logOut.php");
+}
 
 
 ?>
@@ -83,7 +88,7 @@ if (isset($_COOKIE['color'])) {
 
 if (isset($_POST['enviar'])) {
   $fecha = date("Y-m-d");
-  $anuncio = new Anuncio("",$_SESSION['login'], $_POST['moroso'], $_POST['localidad'], $_POST['anuncio'], $fecha);
+  $anuncio = new Anuncio("", $_SESSION['login'], $_POST['moroso'], $_POST['localidad'], $_POST['anuncio'], $fecha);
   $db->insertarAnuncio($anuncio);
 }
 

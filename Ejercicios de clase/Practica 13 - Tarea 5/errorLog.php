@@ -1,8 +1,12 @@
 <?php
-include "./php/clases/ClaseDb.php";
-$db = new ClaseDb();
-$db->destroyCookiesUser();
-$db->deleteCookieLoginError();
+include_once "php/clases/funciones.inc.php";
+
+destroyCookiesUser();
+deleteCookieLoginError();
+
+if($_COOKIE['num_fallos'] != 3){
+    header("Location: index.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

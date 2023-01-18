@@ -1,4 +1,6 @@
 <?php
+
+include "funciones.inc.php";
 class Anunciantes
 {
     private $login;
@@ -81,7 +83,7 @@ class Anunciantes
         try {
             $resultado = $conexion->query($sql);
             if ($resultado) {
-                header("Location: desbloquear.php");
+                echo "<script>window.location.href='./desbloquear.php';</script>";
             }
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -96,14 +98,14 @@ class Anunciantes
         try {
             $resultado = $conexion->query($sql);
             if ($resultado) {
-                header("Location: desbloquear.php");
+                echo "<script>window.location.href='./desbloquear.php';</script>";
             }
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
     }
 
-    public function checkUser($login)
+    public function check_user($login)
     {
         $db = new ClaseDb();
         $conexion = $db->conexion();
@@ -118,20 +120,21 @@ class Anunciantes
         return $existe;
     }
 
-    public function check_login($login, $password)
+    public function check_pass($login, $password)
     {
+        $exist = false;
         $this->errorSesion($login);
-        if ($this->checkUser($login)) {
-            $db = new ClaseDb();
-            $pass_encrypted = $db->obtain_password($login);
+        if ($this->check_user($login)) {
+            $pass_encrypted = $this->obtain_password($login);
             $password = md5($password);
             if ($pass_encrypted == $password) {
-                $this->login_user($login);
+                $exist = true;
             }
         }
+        return $exist;
     }
 
-    public function checkBloq($login)
+    public function check_bloqueado($login)
     {
         $db = new ClaseDb();
         $conexion = $db->conexion();
@@ -139,8 +142,8 @@ class Anunciantes
         $consulta = $conexion->prepare($sql);
         $consulta->bindParam(1, $login);
         $consulta->execute();
-        $data = $consulta->fetch(PDO::FETCH_ASSOC);
-        return $data;
+        $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+        return $resultado['bloqueado'];
     }
 
     public function checkEmail($email)
@@ -158,34 +161,40 @@ class Anunciantes
         return $existe;
     }
 
-    public function login_user($login)
+    public function login_user($login, $password)
     {
-        $db = new ClaseDb();
         session_start();
-        $_SESSION['login'] = $login;
-        $_SESSION['hora'] = date("H:i:s");
-        $db->cookiesUser($login);
+        
+        if ($this->check_pass($login, $password)) {
+            $_SESSION['login'] = $login;
+            $_SESSION['hora'] = date("H:i:s");
+            cookiesUser($login);
 
-        if ($login == "dwes") {
-            if (!isset($_COOKIE['color'])) {
-                $color = "white";
-                setcookie('color', $color, time() + 3600, '/');
-            }
-            $db->cookiesAdmin($login);
-            header("Location: inicio.php");
-        } else {
-            $estado = $this->checkBloq($login);
-            if ($estado['bloqueado'] == 0) {
-                echo "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>Estas bloqueado, debe esperar a que un admin te desbloque</p>";
-            } else {
+            if ($login == "dwes") {
+                if (!isset($_COOKIE['color'])) {
+                    $color = "white";
+                    setcookie('color', $color, time() + 3600, '/');
+                }
+                cookiesAdmin($login);
+                header('HTTP/1.1 302 Found');
                 header("Location: inicio.php");
+                exit;
+            } else {
+                $estado = $this->check_bloqueado($login);
+                if ($estado == 1) {
+                    echo "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>Estas bloqueado, debe esperar a que un admin te desbloque</p>";
+                } else {
+                    header('HTTP/1.1 302 Found');
+                    header("Location: inicio.php");
+                    exit;
+                }
             }
         }
     }
 
     public function create_user($login, $password, $email)
     {
-        if (!$this->checkUser($login)) {
+        if (!$this->check_user($login)) {
             if (!$this->checkEmail($email)) {
                 try {
                     $db = new ClaseDb();
@@ -229,7 +238,7 @@ class Anunciantes
      */
     function errorSesion($user)
     {
-        if (!$this->checkUser($user)) {
+        if (!$this->check_user($user)) {
             if (!isset($_COOKIE['login'])) {
                 $error = "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>El usuario no existe 1º Intento</p>";
                 $num_errors = 1;
@@ -280,5 +289,23 @@ class Anunciantes
                 header("Location: errorLog.php");
             }
         }
+    }
+
+    /**
+     * Return the password from a user using loggin
+     *
+     * @param [type] $login
+     * @param [type] $con
+     * @return string
+     */
+    function obtain_password($login)
+    {
+        $db = new ClaseDb();
+        $conexion = $db->conexion();
+        $consulta = $conexion->prepare("SELECT password from anunciantes where login=?");
+        $consulta->bindParam(1, $login);
+        $consulta->execute();
+        $data = $consulta->fetch(PDO::FETCH_ASSOC);
+        return $data['password'];
     }
 }
