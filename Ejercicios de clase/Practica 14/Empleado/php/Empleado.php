@@ -62,7 +62,7 @@ class Empleado extends Persona
             $html .= "<td style='color:green'>No debe de pagar impuestos</td>";
         }
         $html .= "<td>";
-        $html .= "<form action='index.php' method='post'>";
+        $html .= "<form action='formulario.php' method='post'>";
         $html .= "<input type='submit' name='back' value='Back'>";
         $html .= "</form>";
         $html .= "</td>

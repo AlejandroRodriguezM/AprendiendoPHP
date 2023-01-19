@@ -1,6 +1,12 @@
+<?php
+
+require_once "php/Persona.php";
+require_once "php/Empleado.php";
+session_start();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
-
 
 <head>
     <meta charset="UTF-8">
@@ -11,15 +17,14 @@
 
 <body>
     <?php
-    require_once "php/Persona.php";
-    require_once "php/Empleado.php";
-    session_start();
+    if ($_POST) {
+        //retrieve empleado object from session
+        $empleado = $_SESSION['empleado'];
+        //display empleado object
+        echo $empleado->toHtml($empleado);
+        session_destroy();
+    }
 
-    //retrieve empleado object from session
-    $empleado = $_SESSION['empleado'];
-    //display empleado object
-    echo $empleado->toHtml($empleado);
-    session_destroy();
     ?>
 
 </body>
