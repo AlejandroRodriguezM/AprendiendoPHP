@@ -9,7 +9,7 @@ if (!isset($_COOKIE['adminUser'])) {
 }
 
 
-if(!isset($_SESSION['login'])){
+if (!isset($_SESSION['login'])) {
     header("Location: logOut.php");
 }
 
@@ -45,7 +45,7 @@ if (isset($_COOKIE['color'])) {
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
 
-            <a class="nav-item nav-link active" href="#">Publicar anuncio</a>
+            <a class="nav-item nav-link active" href="anuncio.php">Publicar anuncio</a>
 
             <a class="nav-item nav-link active" href="inicio.php">Listado de anuncios</a>
 
@@ -56,8 +56,8 @@ if (isset($_COOKIE['color'])) {
             }
             ?>
             <a class="nav-item nav-link active" href="logOut.php" style="margin-left: 15px;">Salir</a>
-            <a class="nav-item nav-link active" style="margin-left: 1350px; color: black; position: absolute"><?php echo "Bienvenido: ", $_SESSION['login'] ?></a>
-            <a class="nav-item nav-link active" style="margin-left: 1500px; color: black; position: absolute"><?php echo "Hora de conexion:", $_SESSION['hora'] ?></a>
+            <a class="nav-item nav-link active" href="#" style="margin-left: 1150px; color: black; position: absolute;"><?php echo "Bienvenido: ", $_SESSION['login'] ?></a>
+            <a class="nav-item nav-link active" href="#" style="margin-left: 1300px; color: black; position: absolute"><?php echo "Hora de conexion:", $_SESSION['hora'] ?></a>
         </div>
     </div>
 </nav>

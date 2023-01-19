@@ -6,7 +6,7 @@ include_once "php/clases/funciones.inc.php";
 
 check_cookies();
 
-if(!isset($_SESSION['login'])){
+if (!isset($_SESSION['login'])) {
     header("Location: logOut.php");
 }
 
@@ -72,8 +72,8 @@ if (isset($_POST['restablecer'])) {
             }
             ?>
             <a class="nav-item nav-link active" href="logOut.php" style="margin-left: 15px;">Salir</a>
-            <a class="nav-item nav-link active" href="#" style="margin-left: 1350px; color: black; position: absolute"><?php echo "Bienvenido: ", $_SESSION['login'] ?></a>
-            <a class="nav-item nav-link active" href="#" style="margin-left: 1500px; color: black; position: absolute"><?php echo "Hora de conexion:", $_SESSION['hora'] ?></a>
+            <a class="nav-item nav-link active" href="#" style="margin-left: 1150px; color: black; position: absolute;"><?php echo "Bienvenido: ", $_SESSION['login'] ?></a>
+            <a class="nav-item nav-link active" href="#" style="margin-left: 1300px; color: black; position: absolute"><?php echo "Hora de conexion:", $_SESSION['hora'] ?></a>
         </div>
     </div>
 </nav>

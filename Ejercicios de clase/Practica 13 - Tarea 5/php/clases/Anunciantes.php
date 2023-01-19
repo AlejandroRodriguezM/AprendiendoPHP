@@ -126,7 +126,7 @@ class Anunciantes
         $this->errorSesion($login);
         if ($this->check_user($login)) {
             $pass_encrypted = $this->obtain_password($login);
-            $password = md5($password);
+            $password = crypt($password,'XC');
             if ($pass_encrypted == $password) {
                 $exist = true;
             }
@@ -201,7 +201,7 @@ class Anunciantes
                     $conexion = $db->conexion();
                     $sql = "INSERT INTO anunciantes (login, password, bloqueado, email) VALUES (?, ?, ?, ?)";
                     $consulta = $conexion->prepare($sql);
-                    $password_hash = md5($password);
+                    $password_hash = crypt($password, 'XC');
                     $resultado = $consulta->execute(array($login, $password_hash, 1, $email));
                     if (!$resultado) {
                         echo "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>Error al crear el usuario</p>";

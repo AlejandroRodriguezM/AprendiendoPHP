@@ -31,9 +31,8 @@ $_SESSION['hora'] = date("H:i:s");
       <div class="navbar-nav">
         <a class="nav-item nav-link active" href="invitados.php" style="margin-left: 10px;">Lista de anuncios</a>
         <a class="nav-item nav-link active" href="logOut.php" style="margin-left: 30px;">Salir</a>
-
-        <a class="nav-item nav-link active" style="margin-left: 1100px; color: black;"><?php echo "Bienvenido: ", $_SESSION['login'] ?></a>
-        <a class="nav-item nav-link active" style="margin-left: 15px; color: black;"><?php echo "Hora de conexion:", $_SESSION['hora'] ?></a>
+        <a class="nav-item nav-link active" href="#"style="margin-left: 1100px; color: black;"><?php echo "Bienvenido: ", $_SESSION['login'] ?></a>
+      <a class="nav-item nav-link active" href="#" style="margin-left: 15px; color: black;"><?php echo "Hora de conexion:", $_SESSION['hora'] ?></a>
       </div>
     </div>
   </nav>

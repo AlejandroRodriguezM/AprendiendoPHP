@@ -35,7 +35,7 @@ class ClaseDb
             $consulta->bindParam(5, $fecha);
             $resultado = $consulta->execute();
             if (!$resultado) {
-                echo "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>Error al crear el usuario</p>";
+                echo "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>Error al crear el anuncio</p>";
             } else {
                 header("Location: anuncio.php");
             }

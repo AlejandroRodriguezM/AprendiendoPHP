@@ -52,12 +52,12 @@ if (isset($_COOKIE['color'])) {
       <a class="nav-item nav-link active" href="preferencia.php">Preferencias</a>
       <?php
       if ($_SESSION['login'] == 'dwes') {
-        echo "<a class='nav-item nav-link active' href='usuarios.php'>Desbloquear</a>";
+        echo "<a class='nav-item nav-link active' href='desbloquear.php'>Desbloquear</a>";
       }
       ?>
       <a class="nav-item nav-link active" href="logOut.php" style="margin-left: 15px;">Salir</a>
-      <a class="nav-item nav-link active" href="#" style="margin-left: 1350px; color: black; position: absolute"><?php echo "Bienvenido: ", $_SESSION['login'] ?></a>
-      <a class="nav-item nav-link active" href="#" style="margin-left: 1500px; color: black; position: absolute"><?php echo "Hora de conexion:", $_SESSION['hora'] ?></a>
+      <a class="nav-item nav-link active" href="#" style="margin-left: 1150px; color: black; position: absolute;"><?php echo "Bienvenido: ", $_SESSION['login'] ?></a>
+      <a class="nav-item nav-link active" href="#" style="margin-left: 1300px; color: black; position: absolute"><?php echo "Hora de conexion:", $_SESSION['hora'] ?></a>
     </div>
   </div>
 </nav>
