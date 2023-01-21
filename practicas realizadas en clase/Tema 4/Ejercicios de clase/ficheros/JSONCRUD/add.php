@@ -8,7 +8,7 @@
 <body>
 <?php
 
-}
+
 ?>
 <div class="container">
     <div class="panel panel-default">

@@ -6,7 +6,7 @@ class ClaseDb
     /**
      * Establece una conexión a la base de datos
      *
-     * @return objeto de conexión PDO
+     * @return $conexion
      */
     public function establecerConexion()
     {
@@ -23,7 +23,7 @@ class ClaseDb
     /**
      * Inserta un nuevo anuncio en la base de datos
      *
-     * @param objeto $anuncio
+     * @param @param object $anuncio
      *
      */
     public function insertarAnuncio($anuncio)
@@ -70,7 +70,7 @@ class ClaseDb
     /**
      * Elimina un anuncio de la base de datos
      *
-     * @param objeto $anuncio
+     * @param object $anuncio
      *
      */
     public function borrarAnuncio($anuncio)
@@ -102,7 +102,7 @@ class ClaseDb
     /**
      * Modifica un anuncio de la base de datos
      *
-     * @param objeto $anuncio
+     * @param object $anuncio
      *
      */
     public function modificarAnuncio($anuncio)

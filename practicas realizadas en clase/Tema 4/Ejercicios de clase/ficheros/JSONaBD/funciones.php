@@ -17,7 +17,6 @@ function visualizarTablaCSV(){
 function visualizarTablaJSON(){
 	
 	}
-}
 //Escribir CSV en BD Controlador
 function insertarCSV_BD($id,$nombre,$email,$telefono,$creado,$estado){
 	
@@ -34,4 +33,3 @@ function insertarJSON_BD($id,$nombre,$email,$telefono,$creado,$estado){
 function escribirJSONBD($fichero){
 	
 }
-?>

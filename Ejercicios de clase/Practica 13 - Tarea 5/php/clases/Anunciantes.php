@@ -134,7 +134,7 @@ class Anunciantes
      * Comprueba si existe el usuario en la base de datos
      *
      * @param [type] $login
-     * @return void
+     * @return boolean
      */
     public function check_user($login)
     {
@@ -155,7 +155,7 @@ class Anunciantes
      * Comprueba si la contraseña de un usuario introducida coincide con la contraseña guardada en la base de datos
      *
      * @param [type] $email
-     * @return void
+     * @return boolean
      */
     public function check_pass($login, $password)
     {
@@ -166,6 +166,8 @@ class Anunciantes
             $password = crypt($password, 'XC');
             if ($pass_encrypted == $password) {
                 $exist = true;
+            } else {
+                $this->errorSesion($login);
             }
         } else {
             $this->errorSesion($login);
@@ -294,9 +296,9 @@ class Anunciantes
      * Función que devuelve mensajes de error al iniciar sesión
      *
      * @param [type] $user
-     * @return string
+     * @return void
      */
-    function errorSesion($user)
+    public function errorSesion($user)
     {
         if (!$this->check_user($user)) {
             if (!isset($_COOKIE['login'])) {
