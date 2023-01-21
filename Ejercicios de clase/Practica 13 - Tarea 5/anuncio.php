@@ -5,8 +5,9 @@ include_once "php/clases/ClaseDb.php";
 include_once "php/clases/funciones.inc.php";
 
 $db = new ClaseDb();
-check_cookies();
+check_cookies(); //Comprueba si existen cookies en el inicio de sesion
 
+//En caso de no existir session, lo lleva borrar las cookies y volver a index
 if (!isset($_SESSION['login'])) {
   header("Location: logOut.php");
 }

@@ -1,5 +1,6 @@
 <?php
 
+//El usuario admin es dwes y la contraseña es dwes
 include "./php/clases/ClaseDb.php";
 include "./php/clases/Anunciantes.php";
 if (isset($_COOKIE['loginUser']) || isset($_COOKIE['adminUser'])) {
@@ -7,7 +8,6 @@ if (isset($_COOKIE['loginUser']) || isset($_COOKIE['adminUser'])) {
 } else {
     session_start();
     session_destroy();
-    $db = new ClaseDb();
     destroyCookiesUser();
 }
 ?>
@@ -48,7 +48,7 @@ if (isset($_COOKIE['loginUser']) || isset($_COOKIE['adminUser'])) {
                     $login = $_POST['nombre'];
                     $password = $_POST['password'];
                     if (!empty($login) && !empty($password)) {
-                        $usuario = new Anunciantes($login, $password, "", "");
+                        $usuario = new Anunciantes("", "", "", "");
                         $usuario->login_user($login, $password);
                     }
                 }
@@ -61,7 +61,6 @@ if (isset($_COOKIE['loginUser']) || isset($_COOKIE['adminUser'])) {
                 }
                 ?>
             </fieldset>
-
         </form>
     </div>
 </body>

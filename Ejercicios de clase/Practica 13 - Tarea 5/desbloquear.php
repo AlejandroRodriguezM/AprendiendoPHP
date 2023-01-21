@@ -83,7 +83,7 @@ if (isset($_COOKIE['color'])) {
             echo "<td>" . $login . "</td>";
             echo "<td>" . $email . "</td>";
             echo "<td>" .  $estado . "</td>";
-            if ($row['bloqueado'] == 1) {
+            if ($row['bloqueado'] == 0) {
         ?>
                 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                     <?php
@@ -112,12 +112,12 @@ if (isset($_COOKIE['color'])) {
             }
             echo "</tr>";
         }
-        if (isset($_POST['desbloquear'])) {
+        if (isset($_POST['bloquear'])) {
             $login = $_POST['login'];
             $usuario->bloquear_usuario($login);
         }
 
-        if (isset($_POST['bloquear'])) {
+        if (isset($_POST['desbloquear'])) {
             $login = $_POST['login'];
             $usuario->desbloquear_usuario($login);
         }

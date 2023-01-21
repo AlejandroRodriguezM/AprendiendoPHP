@@ -18,6 +18,7 @@ class Anuncio
         $this->fecha = $fecha;
     }
 
+    //Getters y setters
     public function getId_anuncio()
     {
         return $this->id_anuncio;
