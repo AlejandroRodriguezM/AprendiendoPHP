@@ -2,9 +2,9 @@
 
 const DNS = "mysql:host=localhost;dbname=morosos";
 
-const user = "root";
+const USER = "root";
 
-const password = "1234";
+const PASSWORD = "1234";
 
 
 ?>

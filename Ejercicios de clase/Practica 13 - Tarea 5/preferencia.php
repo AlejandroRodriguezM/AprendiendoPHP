@@ -22,35 +22,32 @@ if (!isset($_SESSION['login'])) {
     <link rel="stylesheet" href="./assets/style/style.css">
     <title>Preferencia</title>
 </head>
-
+<style>
+  body {
+    background-color: <?php if (isset($_COOKIE['color'])) echo $_COOKIE['color']; ?>;
+  }
+</style>
 <?php
 
 if (!isset($_COOKIE['color'])) {
     $color = "white";
     setcookie('color', $color, time() + 3600, '/');
-    echo '<body style="background-color:' . $_COOKIE['color'] . '">';
     header("Location: preferencia.php");
-}
-if (isset($_COOKIE['color'])) {
-    echo '<body style="background-color:' . $_COOKIE['color'] . '">';
 }
 if (isset($_POST['enviar'])) {
     if (isset($_POST['color_fondo'])) {
         $color = $_POST['color_fondo'];
         setcookie('color', $color, time() + 3600, '/');
     }
-    echo '<body style="background-color:' . $_COOKIE['color'] . '">';
     header("Location: preferencia.php");
 }
 if (isset($_POST['restablecer'])) {
     $color = "white";
     setcookie('color', $color, time() + 3600, '/');
-    echo '<body style="background-color:' . $_COOKIE['color'] . '">';
     header("Location: preferencia.php");
 }
-
-
 ?>
+<body>
 <header onclick="location.href='inicio.php';" style="cursor: pointer;">
     <h1>Empresa Okupa</h1>
 </header>

@@ -24,14 +24,12 @@ if (!isset($_SESSION['login'])) {
     <link rel="stylesheet" href="./assets/style/style.css">
     <title>Modificar anuncio</title>
 </head>
-
+<style>
+  body {
+    background-color: <?php if (isset($_COOKIE['color'])) echo $_COOKIE['color']; ?>;
+  }
+</style>
 <?php
-
-if (isset($_COOKIE['color'])) {
-    echo '<body style="background-color:' . $_COOKIE['color'] . '">';
-} else {
-    echo '<body>';
-}
 
 if (!isset($_POST['enviar'])) {
     $autor = $_GET['autor'];
@@ -48,6 +46,7 @@ if (!isset($_POST['enviar'])) {
 }
 
 ?>
+<body>
 <header onclick="location.href='inicio.php';" style="cursor: pointer;">
     <h1>Empresa Okupa</h1>
 </header>
@@ -57,11 +56,8 @@ if (!isset($_POST['enviar'])) {
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-
             <a class="nav-item nav-link active" href="anuncio.php">Publicar anuncio</a>
-
             <a class="nav-item nav-link active" href="inicio.php">Listado de anuncios</a>
-
             <a class="nav-item nav-link active" href="preferencia.php">Preferencias</a>
             <?php
             if ($_SESSION['login'] == 'dwes') {
@@ -108,6 +104,7 @@ if (!isset($_POST['enviar'])) {
 
 if (isset($_POST['enviar'])) {
     $fecha = date("Y-m-d");
+    //El ID no tiene uso en la base de datos, por lo cual no le doy valor.
     $anuncio = new Anuncio("", $_SESSION['login'], $_POST['moroso'], $_POST['localidad'], $_POST['anuncio'], $_POST['fecha']);
     $db->modificarAnuncio($anuncio);
 }

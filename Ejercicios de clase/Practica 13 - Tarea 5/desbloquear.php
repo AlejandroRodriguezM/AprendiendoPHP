@@ -25,16 +25,14 @@ if (!isset($_SESSION['login'])) {
     <link rel="stylesheet" href="./assets/style/style.css">
     <title>Usuarios</title>
 </head>
+<style>
+  body {
+    background-color: <?php if (isset($_COOKIE['color'])) echo $_COOKIE['color']; ?>;
+  }
+</style>
 
-<?php
 
-if (isset($_COOKIE['color'])) {
-    echo '<body style="background-color:' . $_COOKIE['color'] . '">';
-} else {
-    echo '<body>';
-}
-
-?>
+<body>
 <header onclick="location.href='inicio.php';" style="cursor: pointer;">
     <h1>Empresa Okupa</h1>
 </header>
@@ -65,8 +63,7 @@ if (isset($_COOKIE['color'])) {
 <div class="tabla_users">
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <?php
-        $usuario = new Anunciantes("", "", "", "");
-        $resultado = $usuario->mostrar_usuarios();
+        $resultado = $db->mostrar_usuarios();
         echo "<table class='table table-striped table-bordered table-hover' style='width: 100%; margin: 0 auto; !important'>
                 <tr style='background-color: yellow'>
                 <th>login</th>
@@ -114,16 +111,16 @@ if (isset($_COOKIE['color'])) {
         }
         if (isset($_POST['bloquear'])) {
             $login = $_POST['login'];
-            $usuario->bloquear_usuario($login);
+            $db->bloquear_usuario($login);
         }
 
         if (isset($_POST['desbloquear'])) {
             $login = $_POST['login'];
-            $usuario->desbloquear_usuario($login);
+            $db->desbloquear_usuario($login);
         }
         echo "<tr style='background-color: orange'>
                 <td colspan='4' >";
-        $numero_usuarios = $usuario->num_anunciantes();
+        $numero_usuarios = $db->num_anunciantes();
         echo "<p>Total: $numero_usuarios</p>";
         echo "</td>";
         echo "</tr>";

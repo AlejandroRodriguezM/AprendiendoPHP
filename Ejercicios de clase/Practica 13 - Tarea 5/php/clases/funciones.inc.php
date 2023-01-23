@@ -73,3 +73,65 @@ function checkPassword($password, $repassword)
     }
     return $existe;
 }
+
+/**
+ * Función que devuelve mensajes de error al iniciar sesión
+ *
+ * @param [type] $user
+ * @return void
+ */
+function errorSesion($user)
+{
+    $db = new ClaseDb();
+    if (!$db->check_nombreUser($user)) {
+        if (!isset($_COOKIE['login'])) {
+            $error = "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>El usuario no existe 1º Intento</p>";
+            $num_errors = 1;
+            setcookie('login', $user, time() + 3600, '/');
+            setcookie('errorLogin', $error, time() + 3600, '/');
+            setcookie('num_fallos', $num_errors, time() + 3600, '/');
+            header("Location: index.php");
+        } elseif ($_COOKIE['num_fallos'] == 1) {
+            $error = "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>El usuario no existe 2º Intento</p>";
+            $num_errors = 2;
+            setcookie('login', $user, time() + 3600, '/');
+            setcookie('errorLogin', $error, time() + 3600, '/');
+            setcookie('num_fallos', $num_errors, time() + 3600, '/');
+            header("Location: index.php");
+        } elseif ($_COOKIE['num_fallos'] == 2) {
+            $error = "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>El usuario no existe 3º Intento.If you fail, you will have to wait 10 seconds</p>";
+            $num_errors = 3;
+            setcookie('login', $user, time() + 3600, '/');
+            setcookie('errorLogin', $error, time() + 3600, '/');
+            setcookie('num_fallos', $num_errors, time() + 3600, '/');
+            header("Location: index.php");
+        } elseif ($_COOKIE['num_fallos'] == 3) {
+            header("Location: errorLog.php");
+        }
+    } else {
+        if (!isset($_COOKIE['login'])) {
+            $error = "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>Contraseña incorrecta 1º Intento.</p>";
+            $num_errors = 1;
+            setcookie('login', $user, time() + 3600, '/');
+            setcookie('errorLogin', $error, time() + 3600, '/');
+            setcookie('num_fallos', $num_errors, time() + 3600, '/');
+            header("Location: index.php");
+        } elseif ($_COOKIE['num_fallos'] == 1) {
+            $error = "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>Contraseña incorrecta 2º Intento.</p>";
+            $num_errors = 2;
+            setcookie('login', $user, time() + 3600, '/');
+            setcookie('errorLogin', $error, time() + 3600, '/');
+            setcookie('num_fallos', $num_errors, time() + 3600, '/');
+            header("Location: index.php");
+        } elseif ($_COOKIE['num_fallos'] == 2) {
+            $error = "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>Contraseña incorrecta 3º Intento .If you fail, you will have to wait 10 seconds</p>";
+            $num_errors = 3;
+            setcookie('login', $user, time() + 3600, '/');
+            setcookie('errorLogin', $error, time() + 3600, '/');
+            setcookie('num_fallos', $num_errors, time() + 3600, '/');
+            header("Location: index.php");
+        } elseif ($_COOKIE['num_fallos'] == 3) {
+            header("Location: errorLog.php");
+        }
+    }
+}

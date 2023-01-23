@@ -3,6 +3,7 @@
 //El usuario admin es dwes y la contraseña es dwes
 include "./php/clases/ClaseDb.php";
 include "./php/clases/Anunciantes.php";
+$db = new ClaseDb();
 if (isset($_COOKIE['loginUser']) || isset($_COOKIE['adminUser'])) {
     header('Location: inicio.php');
 } else {
@@ -48,8 +49,7 @@ if (isset($_COOKIE['loginUser']) || isset($_COOKIE['adminUser'])) {
                     $login = $_POST['nombre'];
                     $password = $_POST['password'];
                     if (!empty($login) && !empty($password)) {
-                        $usuario = new Anunciantes("", "", "", "");
-                        $usuario->login_user($login, $password);
+                        $db->login_user($login, $password);
                     }
                 }
                 if (isset($_COOKIE['errorAdmin'])) {

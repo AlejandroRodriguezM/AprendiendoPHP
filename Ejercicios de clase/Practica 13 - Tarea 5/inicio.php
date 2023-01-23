@@ -8,8 +8,8 @@ $db = new ClaseDb();
 check_cookies();
 deleteCookieLoginError();
 
-if(!isset($_SESSION['login'])){
-    header("Location: logOut.php");
+if (!isset($_SESSION['login'])) {
+  header("Location: logOut.php");
 }
 
 ?>
@@ -26,103 +26,102 @@ if(!isset($_SESSION['login'])){
   <title>Inicio</title>
 </head>
 
-<?php
-if (isset($_COOKIE['color'])) {
-  echo '<body style="background-color:' . $_COOKIE['color'] . '">';
-} else {
-  echo '<body>';
-}
-?>
+<style>
+  body {
+    background-color: <?php if (isset($_COOKIE['color'])) echo $_COOKIE['color']; ?>;
+  }
+</style>
 
-<header onclick="location.href='inicio.php';" style="cursor: pointer;">
-  <h1>Empresa Okupa</h1>
-</header>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
+<body>
+  <header onclick="location.href='inicio.php';" style="cursor: pointer;">
+    <h1>Empresa Okupa</h1>
+  </header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
 
-      <a class="nav-item nav-link active" href="anuncio.php">Publicar anuncio</a>
+        <a class="nav-item nav-link active" href="anuncio.php">Publicar anuncio</a>
 
-      <a class="nav-item nav-link active" href="inicio.php">Listado de anuncios</a>
+        <a class="nav-item nav-link active" href="inicio.php">Listado de anuncios</a>
 
-      <a class="nav-item nav-link active" href="preferencia.php">Preferencias</a>
-      <?php
-      if ($_SESSION['login'] == 'dwes') {
-        echo "<a class='nav-item nav-link active' href='desbloquear.php'>Desbloquear</a>";
-      }
-      ?>
-      <a class="nav-item nav-link active" href="logOut.php" style="margin-left: 15px;">Salir</a>
-      <a class="nav-item nav-link active" href="#" style="margin-left: 1150px; color: black; position: absolute;"><?php echo "Bienvenido: ", $_SESSION['login'] ?></a>
-      <a class="nav-item nav-link active" href="#" style="margin-left: 1300px; color: black; position: absolute"><?php echo "Hora de conexion:", $_SESSION['hora'] ?></a>
-    </div>
-  </div>
-</nav>
-<div id="anuncios">
-  <?php
-  $anuncios = $db->obtenerAnuncios();
-  $num_anuncios = $db->num_anuncios();
-  if ($num_anuncios != 0) {
-    foreach ($anuncios as $anuncios) {
-
-      $autor = $anuncios['autor'];
-      $moroso = $anuncios['moroso'];
-      $fecha = $anuncios['fecha'];
-      $descripcion = $anuncios['descripcion'];
-      $localidad = $anuncios['localidad'];
-
-      echo "<div class='anuncio_publico'>";
-      echo "<div class='anuncio'>";
-      echo "<div class='autoryfecha'><span style='color:#528FD5'>$autor</span>&nbsp;&nbsp;&nbsp;publicó el&nbsp;&nbsp;&nbsp;<span style='color:#528FD5'>$fecha</span></div>";
-      echo "<br />";
-      echo "<div class='contenido'>$descripcion</div>";
-      echo "<br>Moroso:$moroso&nbsp;&nbsp;Localidad:$localidad";
-      echo "</div>";
-      if ($_SESSION['login'] == 'dwes') {
-        echo "<div class='botones'>";
-  ?>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-          <input class="btn btn-primary form-control" type="submit" id="editar" name="editar" value="Editar" style="width: 5%;background-color: rgb(209, 207, 207); border-radius: 0; border-color: black; color: black; margin-right: 2%;">
-          <input class="btn btn-primary form-control" type="submit" id="borrar" name="borrar" value="Borrar" style="width: 5%;background-color: rgb(209, 207, 207); border-radius: 0; border-color: black; color: black;">
-          <input type="hidden" name="autor" value="<?php echo $autor ?>">
-          <input type="hidden" name="moroso" value="<?php echo $moroso ?>">
-          <input type="hidden" name="localidad" value="<?php echo $localidad ?>">
-          <input type="hidden" name="descripcion" value="<?php echo $descripcion ?>">
-          <input type="hidden" name="fecha" value="<?php echo $fecha ?>">
-        </form>
-
-  <?php
-        if (isset($_POST['editar'])) {
-          $autor = $_POST['autor'];
-          $moroso = $_POST['moroso'];
-          $localidad = $_POST['localidad'];
-          $descripcion = $_POST['descripcion'];
-          $fecha = $_POST['fecha'];
-          header("Location: modificar_anuncio.php?autor=$autor&moroso=$moroso&localidad=$localidad&descripcion=$descripcion&fecha=$fecha");
+        <a class="nav-item nav-link active" href="preferencia.php">Preferencias</a>
+        <?php
+        if ($_SESSION['login'] == 'dwes') {
+          echo "<a class='nav-item nav-link active' href='desbloquear.php'>Desbloquear</a>";
         }
+        ?>
+        <a class="nav-item nav-link active" href="logOut.php" style="margin-left: 15px;">Salir</a>
+        <a class="nav-item nav-link active" href="#" style="margin-left: 1150px; color: black; position: absolute;"><?php echo "Bienvenido: ", $_SESSION['login'] ?></a>
+        <a class="nav-item nav-link active" href="#" style="margin-left: 1300px; color: black; position: absolute"><?php echo "Hora de conexion:", $_SESSION['hora'] ?></a>
+      </div>
+    </div>
+  </nav>
+  <div id="anuncios">
+    <?php
+    $anuncios = $db->obtenerAnuncios();
+    $num_anuncios = $db->num_anuncios();
+    if ($num_anuncios != 0) {
+      foreach ($anuncios as $anuncios) {
 
-        if (isset($_POST['borrar'])) {
-          $autor = $_POST['autor'];
-          $moroso = $_POST['moroso'];
-          $localidad = $_POST['localidad'];
-          $descripcion = $_POST['descripcion'];
-          $fecha = $_POST['fecha'];
-          $anuncio = new Anuncio("", $autor, $moroso, $localidad, $descripcion, $fecha);
-          $db->borrarAnuncio($anuncio);
+        $autor = $anuncios['autor'];
+        $moroso = $anuncios['moroso'];
+        $fecha = $anuncios['fecha'];
+        $descripcion = $anuncios['descripcion'];
+        $localidad = $anuncios['localidad'];
+
+        echo "<div class='anuncio_publico'>";
+        echo "<div class='anuncio'>";
+        echo "<div class='autoryfecha'><span style='color:#528FD5'>$autor</span>&nbsp;&nbsp;&nbsp;publicó el&nbsp;&nbsp;&nbsp;<span style='color:#528FD5'>$fecha</span></div>";
+        echo "<br />";
+        echo "<div class='contenido'>$descripcion</div>";
+        echo "<br>Moroso:$moroso&nbsp;&nbsp;Localidad:$localidad";
+        echo "</div>";
+        if ($_SESSION['login'] == 'dwes') {
+          echo "<div class='botones'>";
+    ?>
+          <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            <input class="btn btn-primary form-control" type="submit" id="editar" name="editar" value="Editar" style="width: 5%;background-color: rgb(209, 207, 207); border-radius: 0; border-color: black; color: black; margin-right: 2%;">
+            <input class="btn btn-primary form-control" type="submit" id="borrar" name="borrar" value="Borrar" style="width: 5%;background-color: rgb(209, 207, 207); border-radius: 0; border-color: black; color: black;">
+            <input type="hidden" name="autor" value="<?php echo $autor ?>">
+            <input type="hidden" name="moroso" value="<?php echo $moroso ?>">
+            <input type="hidden" name="localidad" value="<?php echo $localidad ?>">
+            <input type="hidden" name="descripcion" value="<?php echo $descripcion ?>">
+            <input type="hidden" name="fecha" value="<?php echo $fecha ?>">
+          </form>
+
+    <?php
+          if (isset($_POST['editar'])) {
+            $autor = $_POST['autor'];
+            $moroso = $_POST['moroso'];
+            $localidad = $_POST['localidad'];
+            $descripcion = $_POST['descripcion'];
+            $fecha = $_POST['fecha'];
+            header("Location: modificar_anuncio.php?autor=$autor&moroso=$moroso&localidad=$localidad&descripcion=$descripcion&fecha=$fecha");
+          }
+
+          if (isset($_POST['borrar'])) {
+            $autor = $_POST['autor'];
+            $moroso = $_POST['moroso'];
+            $localidad = $_POST['localidad'];
+            $descripcion = $_POST['descripcion'];
+            $fecha = $_POST['fecha'];
+            $anuncio = new Anuncio("", $autor, $moroso, $localidad, $descripcion, $fecha);
+            $db->borrarAnuncio($anuncio);
+          }
+          echo "</div>";
         }
         echo "</div>";
       }
+    } else {
+      echo "<div class='anuncio_publico'>";
+      echo "<div class='anuncio'>";
+      echo "<div class='autoryfecha'><span style='color:#528FD5'>No hay anuncios</span></div>";
+      echo "</div>";
       echo "</div>";
     }
-  } else {
-    echo "<div class='anuncio_publico'>";
-    echo "<div class='anuncio'>";
-    echo "<div class='autoryfecha'><span style='color:#528FD5'>No hay anuncios</span></div>";
-    echo "</div>";
-    echo "</div>";
-  }
 
-  ?>
-</div>
+    ?>
+  </div>
 </body>
 
 </html>
