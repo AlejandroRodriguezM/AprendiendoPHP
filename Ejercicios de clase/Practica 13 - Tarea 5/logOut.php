@@ -4,4 +4,5 @@ include_once "php/clases/funciones.inc.php";
 session_start();
 session_destroy();
 destroyCookiesUser();
+deleteCookieLoginError();
 header('Location: index.php');

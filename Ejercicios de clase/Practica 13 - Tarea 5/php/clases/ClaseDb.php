@@ -209,13 +209,13 @@ class ClaseDb
     public function check_user($login, $password)
     {
         $conexion = $this->establecerConexion();
-        $exist = false;
+        $existe = false;
         $consulta = $conexion->prepare("SELECT * from anunciantes WHERE login = ? and password = ?");
         $consulta->execute(array($login, $password));
         if ($consulta->fetchColumn()) {
-            $exist = true;
+            $existe = true;
         }
-        return $exist;
+        return $existe;
     }
 
     /**
@@ -232,9 +232,9 @@ class ClaseDb
         $consulta = $conexion->prepare($sql);
         $consulta->execute(array($login));
         if ($consulta->fetchColumn()) {
-            $exist = true;
+            $existe = true;
         }
-        return $exist;
+        return $existe;
     }
 
     /**
@@ -364,8 +364,7 @@ class ClaseDb
         if (!$this->check_nombreUser($login)) {
             if (!$this->check_email($email)) {
                 try {
-                    $db = new ClaseDb();
-                    $conexion = $db->establecerConexion();
+                    $conexion = $this->establecerConexion();
                     $sql = "INSERT INTO anunciantes (login, password, bloqueado, email) VALUES (?, ?, ?, ?)";
                     $consulta = $conexion->prepare($sql);
                     $password_hash = crypt($password, 'XC');
@@ -373,7 +372,8 @@ class ClaseDb
                     if (!$resultado) {
                         echo "<p class='error' style='font-weight:bold;color:red;font-size: 15px;'>Error al crear el usuario</p>";
                     } else {
-                        header("Location: index.php");
+                        echo "<p class='error' style='font-weight:bold;color:green;font-size: 15px;'>Usuario creado correctamente</p>";
+                        deleteCookieLoginError(); //En caso de existir alguna cookie de inicio de sesion incorrecto, la elimina
                     }
                 } catch (PDOException $e) {
                     die("Codigo: " . $e->getCode() . "<br>Error: " . $e->getMessage());
@@ -425,8 +425,7 @@ class ClaseDb
      */
     public function num_anunciantes()
     {
-        $db = new ClaseDb();
-        $conexion = $db->establecerConexion();
+        $conexion = $this->establecerConexion();
         $sql = "SELECT COUNT(*) FROM anunciantes";
         $resultado = $conexion->query($sql);
         $num = $resultado->fetchColumn();
