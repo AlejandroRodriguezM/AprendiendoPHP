@@ -8,8 +8,8 @@ class DB {
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES => false,
         ];
-        $dsn = "mysql:host=localhost;dbname=nombre_de_la_base_de_datos;charset=utf8mb4";
-        $this->pdo = new PDO($dsn, "usuario", "contraseña", $opciones);
+        $dsn = "mysql:host=localhost;dbname=test;charset=utf8mb4";
+        $this->pdo = new PDO($dsn, "root", "1234", $opciones);
     }
 
     public function borraTodo() {
@@ -17,9 +17,9 @@ class DB {
         $this->pdo->query("CREATE TABLE datos_usuarios (id INT PRIMARY KEY AUTO_INCREMENT, nombre VARCHAR(255), apellidos VARCHAR(255))");
     }
 
-    public function insertaRegistro($nombre, $apellidos) {
-        $stmt = $this->pdo->prepare("INSERT INTO datos_usuarios (nombre, apellidos) VALUES (?, ?)");
-        $stmt->execute([$nombre, $apellidos]);
+    public function insertaRegistro($id,$nombre, $apellidos) {
+        $stmt = $this->pdo->prepare("INSERT INTO datos_usuarios (id,nombre, apellidos) VALUES (?,?, ?)");
+        $stmt->execute([$id,$nombre, $apellidos]);
     }
 
     public function cuentaRegistros() {
