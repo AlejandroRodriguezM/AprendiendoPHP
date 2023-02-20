@@ -1,0 +1,59 @@
+h1 {
+    color: chocolate;
+    text-align: center;
+    background-color: darkgrey;
+    width: 70%;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+li {
+    display: inline-block;
+    background-color: rgb(226, 194, 255);
+    list-style: none;
+    width: 100px;
+    padding: 20px;
+    margin-left: 20px;
+    border: 2px groove blue;
+    border-radius: 5px;
+    margin: 10px;
+
+}
+
+li:hover {
+    background-color: cyan;
+}
+
+a {
+    text-decoration: none;
+}
+
+p {
+    background-color: aqua;
+    width: 70%;
+    text-align: center;
+    padding: 10px;
+    margin: 0 auto;
+    font-size: 1.5em;
+}
+
+table,
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+
+}
+
+table {
+    margin: 0 auto;
+    font-size: 1.5em;
+}
+
+td {
+    padding: 10px;
+}
+
+td:nth-child(1) {
+    background-color: greenyellow;
+    font-weight: bold;
+}
