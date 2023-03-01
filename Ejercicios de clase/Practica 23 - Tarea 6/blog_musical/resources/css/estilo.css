@@ -1,0 +1,62 @@
+/*-- HEADER --*/
+
+.navbar {
+	margin-bottom: 0;
+}
+
+.jumbotron {
+	background-image: url(http://www.motorenlinea.es/admin/upload/272-elvis-harley-davidson-portada.jpg);
+	background-attachment: fixed;
+	color: #ffffff;
+
+}
+
+/*-- Post --*/
+.main {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.post {
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+	border-bottom: 1px solid #999;
+}
+
+.post .post-title a {
+	color: #333333;
+}
+
+.post .thumb {
+	margin-right: 10px;
+	width: 40%;
+}
+
+.post .thumb img {
+	width: 100%;
+}
+
+.post .contenedor-botones {
+	width: 100%;
+}
+
+.acceso {
+	background-image: url(http://static1.squarespace.com/static/55759f5ee4b017c5045c593e/5576e2aae4b0219b1537bed5/5576e2d2e4b09e05ac6ec767/1434616990119/Elvis+Home+logo+%281%29.jpg);
+	padding: 150px 0;
+}
+
+.administracion {
+	background-image: url(https://www.udemorelia.edu.mx/wp-content/uploads/2013/01/adm1.jpg);
+
+	text-align: right;
+}
+
+/*--Mediaquery--*/
+@media screen and (max-width: 768px) {
+	.post .thumb {
+		width: 100%;
+		margin-bottom: 20px;
+		margin-right: 0;
+	}
+
+}
